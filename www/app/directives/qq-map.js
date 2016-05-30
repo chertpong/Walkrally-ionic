@@ -1,52 +1,51 @@
 (function(){
   'use strict';
   angular.module('app')
-    .directive("bingMap", function () {
+    .directive("qqMap", function ($cordovaGeolocation) {
       return {
         restrict: "E",
         replace: true,
-        template: "<div id='bingMap'></div>",
+        template: "<div id='qqMap'></div>",
         scope: {
           centerLatitude: "=",		// Latitude of center point on the map
           centerLongitude: "=", //Longitude of center point on the map
           markers: "=",	   // Array of map markers (e.g. <code>[{ lat: 10, lon: 10, name: "hello" }]</code>).
-          width: "@",		 // Map width in pixels.
-          height: "@",		// Map height in pixels.
           zoom: "=",		  // Zoom level (one is totally zoomed out, 25 is very much zoomed in).
           zoomControl: "@",   // Whether to show a zoom control on the map.
           scaleControl: "@",   // Whether to show scale control on the map.
-          address:"@"
+          address:"@",
+          draggable: "="
         },
         link: function (scope, element, attrs) {
-          var map;
-          map = new Microsoft.Maps.Map(
-            document.getElementById('bingMap'),
-            {
-              credentials: 'xxEqPBbX2DizyMgVDKqk~862rZ5LpDH9l-lHeXClraQ~At5GRZNCemLpwzFmOlJJYHe8EvjhV8nWS6mEYSqvn9mfKHnTj1cI8CKdDbsb3ta8',
-              width: scope.width,
-              height: scope.height,
-              zoom: scope.zoom
-            }
-          );
+          var mapContainer = document.getElementById('qqMap');
 
+          var map;
+          map = new qq.maps.Map(mapContainer,{
+            center: new qq.maps.LatLng(39.914850, 116.403765),
+            zoom: 13,
+            draggable: scope.draggable,
+            scrollwheel: true,
+            disableDoubleClickZoom: false
+          });
+          map.zoomTo(scope.zoom);
+          var center;
           // Get the user's current location
           navigator.geolocation.getCurrentPosition(
             function displayCenter(position){
-              var center;
               // If scope.centerLatitude && scope.centerLongitude) are set, then just set location
               if(scope.centerLatitude && scope.centerLongitude) {
-                center = new Microsoft.Maps.Location(parseFloat(scope.centerLatitude),parseFloat(scope.centerLongitude));
-                map.setView({
-                  center : center
-                });
+                center = new qq.maps.LatLng(parseFloat(scope.centerLatitude),parseFloat(scope.centerLongitude));
               }
               else {
                 // There is no location set
-                center = new Microsoft.Maps.Location(position.coords.latitude,position.coords.longitude);
-                map.setView({
-                  center : center
+                center = new qq.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                var marker = new qq.maps.Marker({
+                  position: center,
+                  map: map
                 });
               }
+
+              map.panTo(center);
             },
             function failCallback(err){
               console.error(err);
