@@ -1,0 +1,29 @@
+<ion-view title="Login">
+  <div>
+    <form ng-submit="fn.login(data.credentials)" class="col col-100">
+      <div class="list padding">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Login</span>
+          <input type="text" placeholder="Login" ng-model="data.credentials.login">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="data.credentials.password">
+        </label>
+      </div>
+      <div class="padding">
+        <button type="submit" class="button button-block button-positive" ng-disabled="!data.credentials.login">Login</button>
+      </div>
+    </form>
+    <div class="col col-100">
+      <bing-map
+        zoom="11"
+        width="300"
+        height="300"
+      >
+      </bing-map>
+    </div>
+  </div>
+  </ion-content>
+</ion-view>
+
