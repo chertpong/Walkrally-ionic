@@ -1,4 +1,4 @@
-# Specifies intentionally untracked files to ignore when using Git
+git remote add origin https://github.com/chertpong/Walkrally-ionic.git# Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
 # Editor files
@@ -7,8 +7,8 @@
 
 # Cordova folders
 node_modules/
-platforms/
-plugins/
+#platforms/
+#plugins/
 
 # when use sass, do not commit css files
 /www/css/
