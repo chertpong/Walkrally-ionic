@@ -1,3 +1,53 @@
 /*
  *  Your app styles
  */
+
+/*- - - - - - - - - - - - - - - - - - */
+
+/*
+ *  Button
+ */
+
+  $btn-color : #b12f2f;
+
+  .button {
+    color : #FFF;
+    background-color: $btn-color;
+    &:hover {
+      color : #FFF;
+      background-color: darken($btn-color, 6%);
+    }
+    &:active {
+      background-color: darken($btn-color, 6%);
+    }
+  }
+
+/*
+ *  List
+ */
+
+  .list {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 1px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+
+  }
+
+
+/*
+ *  Bar
+ */
+  $bar-color : #543a3d;
+
+  .bar .title {
+    color: #FFF;}
+
+  .bar-red {
+    color: #FFF;
+    border-color: transparent;
+    background-color: $bar-color; }
+
+
+
