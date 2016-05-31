@@ -1,6 +1,24 @@
+<ion-header-bar class="bar-red ">
+  <h1 class="title">Walk Rally Application</h1>
+  <div class="buttons">
+    <button class="button-head icon ion-home"></button>
+  </div>
+</ion-header-bar>
+
 <ion-view title="Login">
-  <ion-content>
-  <div>
+
+  <div class="list">
+    <div class="text-center" >
+      <img src="/resources/test_logo.jpg" width="68" height="68" alt="LOGO" >
+    </div>
+
+    <div class="auth-welcome">
+      <h2>Welcome!</h2>
+      <h5>Sign in with your Walk Rally to continue.</h5>
+    </div>
+  </div>
+
+
     <form ng-submit="fn.login(data.credentials)" class="col col-100">
       <div class="list padding">
         <label class="item item-input item-floating-label">
@@ -13,7 +31,11 @@
         </label>
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block button-positive" ng-disabled="!data.credentials.email">Login</button>
+        <button type="submit" class="button button-block" ng-disabled="!data.credentials.login">L O G I N</button>
+      </div>
+      <div class="pull-center">
+            Don't have an WalkRally id?
+        <a class="btn btn-link btn-flush" href="/signup">Get Start!</a>
       </div>
     </form>
     <div class="col col-100">
