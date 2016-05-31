@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   angular.module('app')
-    .directive("qqMap", function ($cordovaGeolocation) {
+    .directive("qqMap", function () {
       return {
         restrict: "E",
         replace: true,
