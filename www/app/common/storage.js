@@ -8,10 +8,14 @@
   function Storage(_StorageUtils){
     var keys = {
       user: 'user',
+      token: 'token',
       userSettings: 'user-settings',
       twitts: 'twitts'
     };
     return {
+      //usertoken
+      getUserToken: getUserToken,
+      setUserToken: setUserToken,
       // user
       getUser: getUser,
       setUser: setUser,
@@ -24,6 +28,14 @@
       // global
       clear: clear
     };
+
+    function getUserToken(){
+      return _StorageUtils.get(keys.token);
+    }
+
+    function setUserToken(token){
+      return _StorageUtils.set(keys.token, token);
+    }
 
     function getUser(){
       return _StorageUtils.get(keys.user);

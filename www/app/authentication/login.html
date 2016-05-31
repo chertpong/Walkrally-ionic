@@ -1,10 +1,11 @@
 <ion-view title="Login">
+  <ion-content>
   <div>
     <form ng-submit="fn.login(data.credentials)" class="col col-100">
       <div class="list padding">
         <label class="item item-input item-floating-label">
-          <span class="input-label">Login</span>
-          <input type="text" placeholder="Login" ng-model="data.credentials.login">
+          <span class="input-label">Email</span>
+          <input type="text" placeholder="Login" ng-model="data.credentials.email">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
@@ -12,7 +13,7 @@
         </label>
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block button-positive" ng-disabled="!data.credentials.login">Login</button>
+        <button type="submit" class="button button-block button-positive" ng-disabled="!data.credentials.email">Login</button>
       </div>
     </form>
     <div class="col col-100">
