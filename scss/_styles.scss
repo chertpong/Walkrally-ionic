@@ -8,7 +8,7 @@
  *  Button
  */
 
-  $btn-color : #b12f2f;
+  $btn-color : #c23838;
 
   .button {
     color : #FFF;
@@ -22,17 +22,37 @@
     }
   }
 
+  .button-head {
+    color : #FFF;
+    border-radius: 4px;
+    border-color: transparent;
+    background-color: #543a3d;
+
+    font-size: 10%;
+
+
+    &:active {
+      color : #FFF;
+      background-color: darken($btn-color, 6%);
+    }
+
+  }
+
 /*
  *  List
  */
 
   .list {
     position: relative;
-    padding-top: 60px;
+    padding-top: 190px;
     padding-bottom: 1px;
     padding-left: 10px;
     margin-bottom: 10px;
 
+  }
+
+  .input-label{
+    font-size: small;
   }
 
 
@@ -48,6 +68,5 @@
     color: #FFF;
     border-color: transparent;
     background-color: $bar-color; }
-
 
 

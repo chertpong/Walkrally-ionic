@@ -1,26 +1,28 @@
 <ion-view title="Login">
-  <div class="body">
+  <div>
     <form ng-submit="fn.login(data.credentials)" class="col col-100">
       <div class="list padding">
-        <div class="bar bar-header bar-red">
-          <h1 class="title">bar-red</h1>
-        </div>
-
-
-            <label class="item item-input item-floating-label">
-              <span class="input-label">Login</span>
-              <input type="text" placeholder="Login" ng-model="data.credentials.login">
-            </label>
-            <label class="item item-input item-floating-label">
-              <span class="input-label">Password</span>
-              <input type="password" placeholder="Password" ng-model="data.credentials.password">
-            </label>
-
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Login</span>
+          <input type="text" placeholder="Login" ng-model="data.credentials.login">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="data.credentials.password">
+        </label>
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block" ng-disabled="!data.credentials.login">Login</button>
+        <button type="submit" class="button button-block button-positive" ng-disabled="!data.credentials.login">Login</button>
       </div>
     </form>
+    <div class="col col-100">
+      <qq-map
+        zoom="11"
+        draggable="true"
+        style="height: 300px; width: 300px;"
+      >
+      </qq-map>
+    </div>
   </div>
   </ion-content>
 </ion-view>
