@@ -8,17 +8,13 @@
     $scope.data = data;
     $scope.fn = fn;
 
-    var token = '';
-    Storage.getUserToken().then(function(t){
-      token = t;
+
 
       var server= "http://52.163.91.205";
       var path = "/api/teams";
 
-      // var data ={ email: credentials.email, password: credentials.password}
-      //console.log(data);
 
-      $http.get(server+path,{})
+      $http.get(server+path)
         .then(function (response) {
           console.log(response.data);
           $scope.teams= response.data
@@ -27,7 +23,6 @@
         console.log(err);
         $scope.error = true;
 
-      });
 
 
     });

@@ -23,14 +23,14 @@
           var path = "/auth/local";
 
         var data ={ email: credentials.email, password: credentials.password}
-        console.log(data);
-
 
         $http.post(server+path,data)
           .then(function (response) {
             console.log(response.data.token);
             Storage.setUserToken(response.data.token).then(function(){
               $state.go('app.twitts');
+
+
             });
           }).catch(function (err) {
           console.log(err);
