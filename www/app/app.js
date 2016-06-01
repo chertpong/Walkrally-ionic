@@ -22,7 +22,7 @@
       templateUrl: 'app/layout/layout.html',
       controller: 'LayoutCtrl'
     })
-    .state('app.twitts', {
+    .state('twitts', {
       url: '/twitts',
       views: {
         'menuContent': {
@@ -31,7 +31,7 @@
         }
       }
     })
-      .state('app.listteam', {
+      .state('listteam', {
         url: '/listteam',
         views: {
           'menuContent': {
@@ -40,16 +40,11 @@
           }
         }
       })
-
-
-    .state('app.twitt', {
+    .state('twitt', {
       url: '/twitt',
-      views: {
-        'menuContent': {
-          templateUrl: 'app/twitts/twitt.html',
-          controller: 'TwittCtrl'
-        }
-      }
+      templateUrl: 'app/twitts/twitt.html',
+      controller: 'TwittCtrl'
+
     })
     .state('app.settings', {
       url: '/settings',
