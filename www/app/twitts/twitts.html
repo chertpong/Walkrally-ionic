@@ -18,10 +18,20 @@
     </div> -->
 
 
-    <div class="list card">
+      <div class="auth-welcome">
+        <h3>Let's join!</h3>
+      </div>
+
+    <div class="padding-Button">
+      <button class="button button-block">
+        <i class="icon ion-ios-people" >  C R E A T E  &nbsp; T E A M</i>
+      </button>
+    </div>
+
+    <div class="card">
       <div class="item item-text-wrap" ng-repeat="team in teams" >
-        <a href="#" class="item item-icon-left">
-          <i class="icon ion-person-stalker"></i>
+        <a href="#" class="item item-icon-left custom-text">
+          <i class="icon ion-person-stalker custom-icon"></i>
           TEAM  {{team.name}}
           <button class="button button-outline button-positive pull-right">Join</button>
         </a>
@@ -29,9 +39,6 @@
 
     </div>
 
-    <a href="#/app/twitt" class="item item-icon-left">
-    <i class="icon ion-home" >Create team</i>
-    </a>
 
 
   </ion-content>
