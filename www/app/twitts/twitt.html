@@ -1,10 +1,18 @@
 <ion-view title="Twitt">
   <ion-content>
-    <div class="list card">
+    <div class="list">
       <div class="item item-avatar">
-        <img ng-src="{{data.twitt.avatar}}">
-        <h2>{{data.twitt.user}}</h2>
-        <p>{{data.twitt.content}}</p>
+
+        <label class="item item-input">
+          <span class="input-label" >Team name:</span>
+          <input type="text" ng-model="teamname">
+
+
+        </label>
+
+        <div class="padding">
+          <button type="submit" class="button button-block" ng-click="createTeam()">Create team</button>
+        </div>
       </div>
     </div>
   </ion-content>

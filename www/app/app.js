@@ -31,8 +31,19 @@
         }
       }
     })
+      .state('app.listteam', {
+        url: '/listteam',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/team/create.html',
+            controller: 'TwittsCtrl'
+          }
+        }
+      })
+
+
     .state('app.twitt', {
-      url: '/twitts/:id',
+      url: '/twitt',
       views: {
         'menuContent': {
           templateUrl: 'app/twitts/twitt.html',

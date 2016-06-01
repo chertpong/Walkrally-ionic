@@ -25,11 +25,6 @@
         var data ={ email: credentials.email, password: credentials.password}
         console.log(data);
 
-        //var config = {
-        //  headers: {
-        //    'Content-Type': 'application/json; charset=utf-8;'
-        //  }
-        //}
 
         $http.post(server+path,data)
           .then(function (response) {
@@ -45,10 +40,6 @@
 
       }
 
-
-        Storage.setUserToken({token: data}).then(function(){
-          $state.go('app.twitts');
-        });
 
       }
     };

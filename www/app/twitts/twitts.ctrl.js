@@ -3,18 +3,58 @@
   angular.module('app')
     .controller('TwittsCtrl', TwittsCtrl);
 
-  function TwittsCtrl($scope, Storage, Backend){
+  function TwittsCtrl($scope,$http, Storage, Backend){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
 
-    $scope.$on('$ionicView.enter', function(){
-      Storage.getTwitts().then(function(twitts){
-        data.twitts = twitts;
-        Backend.getTwitts().then(function(twitts){
-          data.twitts = twitts;
-        });
-      });
+    var server= "http://52.163.91.205";
+    var path = "/api/teams";
+
+   // var data ={ email: credentials.email, password: credentials.password}
+    //console.log(data);
+
+    $http.get(server+path)
+      .then(function (response) {
+        console.log(response.data);
+        $scope.teams= response.data
+
+      }).catch(function (err) {
+      console.log(err);
+      $scope.error = true;
+
     });
+
+    //var socket = io.connect('http://52.163.91.205/teams');
+    //socket.on('created', function (response) {
+    //  console.log(response);
+    //
+    //});
+
+    // $http get team list
+
+    // create ->  socket on
+                    // update team list   ->  list (get + create)
+
+    // join ->
+        // get team , response data
+                    //"currentMemeber": Number, ++
+                    // post data with new currentmember
+                    //    update team list
+
+    // quit ->
+       // get team
+                     //"currentMemeber": Number, --
+                     // post data with new currentmember
+                     //    update team list
+    //delete team
+                      // get team , delete
+                      //    update team list
+
+
   }
+
+
+
+
 })();
