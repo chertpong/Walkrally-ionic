@@ -1,17 +1,30 @@
-<ion-view title="Twitt">
+<ion-header-bar class="bar-red ">
+  <h1 class="title">Walk Rally Application</h1>
+  <div class="buttons">
+    <button class="button-head icon ion-home"></button>
+  </div>
+</ion-header-bar>
+
+<ion-view title="Create Team" >
   <ion-content>
-    <div class="list">
-      <div class="item item-avatar">
+    <div class="list-createTeam col col-70">
 
-        <label class="item item-input">
-          <span class="input-label" >Team name:</span>
-          <input type="text" ng-model="teamname">
+      <div class="auth-welcome">
+      <h2>Create Your Team!</h2>
+      <h5>Input your team name to continue.</h5>
+      </div>
 
+      <div class="item item-avatar item-borderless">
+        <div class="text-center padding">
+          <label class="item item-input">
+            <span class="input-label" >Input Team Name :</span>
+            <input type="text" ng-model="teamname">
 
-        </label>
+          </label>
 
-        <div class="padding">
-          <button type="submit" class="button button-block" ng-click="createTeam()">Create team</button>
+          <div class="padding">
+            <button type="submit" class="button button-block " ng-click="createTeam()">Create team</button>
+          </div>
         </div>
       </div>
     </div>
