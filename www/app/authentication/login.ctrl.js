@@ -29,7 +29,7 @@
         $http.post(server+path,data)
           .then(function (response) {
             console.log(response.data.token);
-            Storage.setUserToken({token: response.data.token}).then(function(){
+            Storage.setUserToken(response.data.token).then(function(){
               $state.go('app.twitts');
             });
           }).catch(function (err) {

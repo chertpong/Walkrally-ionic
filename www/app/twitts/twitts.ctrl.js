@@ -8,22 +8,30 @@
     $scope.data = data;
     $scope.fn = fn;
 
-    var server= "http://52.163.91.205";
-    var path = "/api/teams";
+    var token = '';
+    Storage.getUserToken().then(function(t){
+      token = t;
 
-   // var data ={ email: credentials.email, password: credentials.password}
-    //console.log(data);
+      var server= "http://52.163.91.205";
+      var path = "/api/teams";
 
-    $http.get(server+path)
-      .then(function (response) {
-        console.log(response.data);
-        $scope.teams= response.data
+      // var data ={ email: credentials.email, password: credentials.password}
+      //console.log(data);
 
-      }).catch(function (err) {
-      console.log(err);
-      $scope.error = true;
+      $http.get(server+path,{})
+        .then(function (response) {
+          console.log(response.data);
+          $scope.teams= response.data
+
+        }).catch(function (err) {
+        console.log(err);
+        $scope.error = true;
+
+      });
+
 
     });
+
 
     //var socket = io.connect('http://52.163.91.205/teams');
     //socket.on('created', function (response) {
@@ -35,6 +43,8 @@
 
     // create ->  socket on
                     // update team list   ->  list (get + create)
+    // เช้คcurrent team , ถ้ามีอยู๋เเล้ว สร้างเพิม่ไม่ได้
+
 
     // join ->
         // get team , response data

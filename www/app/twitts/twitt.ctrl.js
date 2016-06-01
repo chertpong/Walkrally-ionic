@@ -15,18 +15,19 @@
 $scope.createTeam = function() {
   var server = "http://52.163.91.205";
   var path = "/api/teams";
+  var token = '';
+  Storage.getUserToken().then(function(t){
+    token = t;
+  });
 
-  var data = {name: $scope.teamname, token: Storage.getUserToken()}
-
-  console.log(data);
-
-
-  $http.post(server + path, data)
+  $http.post(server + path, {name: $scope.data.teamName, token: token })
     .then(function (response) {
       console.log(response.data);
 
     }).catch(function (err) {
     console.log(err);
+    console.log($scope.data.teamName);
+    console.log(token);
     $scope.error = true;
 
   });

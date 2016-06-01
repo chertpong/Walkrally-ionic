@@ -1,10 +1,38 @@
 (function(){
   'use strict';
-  angular.module('app', ['ionic'])
-    .config(configBlock)
+  angular.module('app', ['ionic']).factory('httpRequestInterceptor',
+    ['Storage', function(Storage)
+    {
+      return {
+        request: function($config) {
+          $config.headers = $config.headers ||{};
+          Storage
+            .getUserToken()
+            .then(function(t){
+              console.log(t)
+              $config.headers['X-ACCESS-TOKEN'] = t || '';
+              return $config;
+            })
+            .catch(function (err){
+              console.log(err);
+              return $config;
+            });
+
+
+
+        }
+      };
+    }])
+
+  .config(configBlock)
     .run(runBlock);
 
-  function configBlock($stateProvider, $urlRouterProvider, $provide){
+
+
+  function configBlock($stateProvider, $urlRouterProvider, $provide,$httpProvider){
+
+    $httpProvider.interceptors.push('httpRequestInterceptor');
+
     $stateProvider
     .state('loading', {
       url: '/loading',
@@ -31,15 +59,15 @@
         }
       }
     })
-      .state('app.listteam', {
-        url: '/listteam',
-        views: {
-          'menuContent': {
-            templateUrl: 'app/team/create.html',
-            controller: 'TwittsCtrl'
-          }
-        }
-      })
+      //.state('app.listteam', {
+      //  url: '/listteam',
+      //  views: {
+      //    'menuContent': {
+      //      templateUrl: 'app/team/create.html',
+      //      controller: 'TwittsCtrl'
+      //    }
+      //  }
+      //})
 
 
     .state('app.twitt', {
@@ -51,6 +79,7 @@
         }
       }
     })
+
     .state('app.settings', {
       url: '/settings',
       views: {

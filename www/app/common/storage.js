@@ -13,6 +13,9 @@
       twitts: 'twitts'
     };
     return {
+      //
+      getExistTeam: getExistTeam,
+      setExistTeam: setExistTeam,
       //usertoken
       getUserToken: getUserToken,
       setUserToken: setUserToken,
@@ -28,6 +31,15 @@
       // global
       clear: clear
     };
+
+    function getExistTeam(){
+      return _StorageUtils.get(keys.token);
+    }
+
+    function setExistTeam(token){
+      return _StorageUtils.set(keys.token, token);
+    }
+
 
     function getUserToken(){
       return _StorageUtils.get(keys.token);
