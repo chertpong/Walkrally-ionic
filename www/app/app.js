@@ -1,10 +1,14 @@
 (function(){
   'use strict';
-  angular.module('app', ['ionic'])
+  angular
+    .module('app', ['ionic'])
     .config(configBlock)
     .run(runBlock);
 
-  function configBlock($stateProvider, $urlRouterProvider, $provide){
+  function configBlock($stateProvider, $urlRouterProvider, $provide, $httpProvider){
+
+    $httpProvider.interceptors.push('tokenInterceptor');
+
     $stateProvider
     .state('loading', {
       url: '/loading',
@@ -39,9 +43,12 @@
       })
     .state('twitt', {
       url: '/twitt',
-      templateUrl: 'app/twitts/twitt.html',
-      controller: 'TwittCtrl'
-
+      views: {
+        'menuContent': {
+          templateUrl: 'app/twitts/twitt.html',
+          controller: 'TwittCtrl'
+        }
+      }
     })
     .state('app.settings', {
       url: '/settings',
