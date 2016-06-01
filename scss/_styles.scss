@@ -8,65 +8,66 @@
  *  Button
  */
 
-  $btn-color : #c23838;
+$btn-color : #c23838;
 
-  .button {
+.button {
+  color : #FFF;
+  background-color: $btn-color;
+  &:hover {
     color : #FFF;
-    background-color: $btn-color;
-    &:hover {
-      color : #FFF;
-      background-color: darken($btn-color, 6%);
-    }
-    &:active {
-      background-color: darken($btn-color, 6%);
-    }
+    background-color: darken($btn-color, 6%);
+  }
+  &:active {
+    background-color: darken($btn-color, 6%);
+  }
+}
+
+.button-head {
+  color : #FFF;
+  border-radius: 4px;
+  border-color: transparent;
+  background-color: #543a3d;
+
+  font-size: 10%;
+
+
+  &:active {
+    color : #FFF;
+    background-color: darken($btn-color, 6%);
   }
 
-  .button-head {
-    color : #FFF;
-    border-radius: 4px;
-    border-color: transparent;
-    background-color: #543a3d;
-
-    font-size: 10%;
-
-
-    &:active {
-      color : #FFF;
-      background-color: darken($btn-color, 6%);
-    }
-
-  }
+}
 
 /*
  *  List
  */
 
-  .list {
-    position: relative;
-    padding-top: 190px;
-    padding-bottom: 1px;
-    padding-left: 10px;
-    margin-bottom: 10px;
+.list {
+  position: relative;
+  padding-top: 120px;
+  padding-bottom: 1px;
+  padding-left: 10px;
+  margin-bottom: 10px;
 
-  }
+}
 
-  .input-label{
-    font-size: small;
-  }
+.input-label{
+  font-size: small;
+}
 
 
 /*
  *  Bar
  */
-  $bar-color : #543a3d;
+$bar-color : #543a3d;
 
-  .bar .title {
-    color: #FFF;}
+.bar .title {
+  color: #FFF;}
 
-  .bar-red {
-    color: #FFF;
-    border-color: transparent;
-    background-color: $bar-color; }
+.bar-red {
+  color: #FFF;
+  border-color: transparent;
+  background-color: $bar-color; }
+
 
 
