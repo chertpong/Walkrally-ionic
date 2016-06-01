@@ -26,27 +26,22 @@
       templateUrl: 'app/layout/layout.html',
       controller: 'LayoutCtrl'
     })
-    .state('app.twitts', {
+    .state('twitts', {
       url: '/twitts',
-      views: {
-        'menuContent': {
           templateUrl: 'app/twitts/twitts.html',
           controller: 'TwittsCtrl'
-        }
-      }
+      
     })
-      //.state('app.listteam', {
-      //  url: '/listteam',
-      //  views: {
-      //    'menuContent': {
-      //      templateUrl: 'app/team/create.html',
-      //      controller: 'TwittsCtrl'
-      //    }
-      //  }
-      //})
-
-
-    .state('app.twitt', {
+      .state('listteam', {
+        url: '/listteam',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/team/create.html',
+            controller: 'TwittsCtrl'
+          }
+        }
+      })
+    .state('twitt', {
       url: '/twitt',
       views: {
         'menuContent': {
@@ -55,7 +50,6 @@
         }
       }
     })
-
     .state('app.settings', {
       url: '/settings',
       views: {

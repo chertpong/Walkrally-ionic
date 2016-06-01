@@ -28,7 +28,7 @@
           .then(function (response) {
             console.log(response.data.token);
             Storage.setUserToken(response.data.token).then(function(){
-              $state.go('app.twitts');
+              $state.go('twitts');
 
 
             });
