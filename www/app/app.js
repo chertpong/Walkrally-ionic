@@ -24,12 +24,9 @@
     })
     .state('twitts', {
       url: '/twitts',
-      views: {
-        'menuContent': {
           templateUrl: 'app/twitts/twitts.html',
           controller: 'TwittsCtrl'
-        }
-      }
+      
     })
       .state('listteam', {
         url: '/listteam',
