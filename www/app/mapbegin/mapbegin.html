@@ -1,32 +1,23 @@
 
-<ion-header-bar class="bar-red ">
-  <h1 class="title">Walk Rally Application</h1>
-  <div class="buttons">
-    <button class="button-head icon ion-home" ng-click="linkToBeginMap()"></button>
-  </div>
-  <div class="buttons">
-    <button class="button-head icon ion-person-stalker" ng-click="linkToLogin()">login</button>
-  </div>
-
-</ion-header-bar>
-
-
-
+  <ion-header-bar class="bar-red ">
+    <h1 class="title">Walk Rally Application</h1>
+    <div class="buttons">
+      <button class="button-head icon ion-home" ng-click="linkToBeginMap()"></button>
+    </div>
+    <div class="buttons">
+      <button class="button-head icon ion-person-stalker" ng-click="linkToLogin()">login</button>
+    </div>
+  </ion-header-bar>
 
   <ion-view title="Map">
-    <div class="col col-100">
-
-      <br> <br> <br> <br> <br> <br> <br>
-
-      <qq-map
-        zoom="11"
-        draggable="true"
-        style="height: 500px; width: 500px;"
-      >
-      </qq-map>
-    </div>
-  </ion-view>
-
-
+      <div class="col col-100 paddingMap">
+        <qq-map
+          zoom="11"
+          draggable="true"
+          style="height: 610px; width: 100%"
+        >
+        </qq-map>
+      </div>
+    </ion-view>
 
 

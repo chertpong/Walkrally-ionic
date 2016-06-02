@@ -26,8 +26,6 @@
       templateUrl: 'app/layout/layout.html',
       controller: 'LayoutCtrl'
     })
-
-
     .state('twitts', {
       url: '/twitts',
           templateUrl: 'app/twitts/twitts.html',
