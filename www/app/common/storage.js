@@ -10,12 +10,13 @@
       user: 'user',
       token: 'token',
       userSettings: 'user-settings',
+      teamId: 'teamId',
       twitts: 'twitts'
     };
     return {
       //
-      getExistTeam: getExistTeam,
-      setExistTeam: setExistTeam,
+      getTeamId: getTeamId,
+      setTeamId: setTeamId,
       //usertoken
       getUserToken: getUserToken,
       setUserToken: setUserToken,
@@ -32,12 +33,12 @@
       clear: clear
     };
 
-    function getExistTeam(){
-      return _StorageUtils.get(keys.token);
+    function getTeamId(){
+      return _StorageUtils.get(keys.teamId);
     }
 
-    function setExistTeam(token){
-      return _StorageUtils.set(keys.token, token);
+    function setTeamId(teamId){
+      return _StorageUtils.set(keys.teamId, teamId);
     }
 
 

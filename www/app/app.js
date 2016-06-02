@@ -20,26 +20,6 @@
       templateUrl: 'app/authentication/login.html',
       controller: 'LoginCtrl'
     })
-
-    .state('rank', {
-      url: '/rank',
-      templateUrl: 'app/rank/rank.html',
-      controller: 'LoginCtrl'
-    })
-
-    .state('mapbegin', {
-        url: '/mapbegin',
-        templateUrl: 'app/mapbegin/mapbegin.html',
-        controller: 'LoginCtrl'
-    })
-
-    .state('mapgame', {
-        url: '/mapgame',
-        templateUrl: 'app/mapgame/mapgame.html',
-        controller: 'LoginCtrl'
-    })
-      
-      
     .state('app', {
       url: '/app',
       abstract: true,
@@ -49,27 +29,45 @@
     .state('twitts', {
       url: '/twitts',
           templateUrl: 'app/twitts/twitts.html',
-          controller: 'TwittsCtrl'
+          controller: 'TeamListCtrl',
+      params:{quitTeamId:null
+        }
 
     })
-      .state('listteam', {
-        url: '/listteam',
-        views: {
-          'menuContent': {
-            templateUrl: 'app/team/create.html',
-            controller: 'TwittsCtrl'
-          }
-        }
-      })
+
     .state('twitt', {
       url: '/twitt',
-      views: {
-        'menuContent': {
           templateUrl: 'app/twitts/twitt.html',
-          controller: 'TwittCtrl'
-        }
-      }
+          controller: 'CreateTeamCtrl'
     })
+      .state('teamDetail', {
+        url: '/teamDetail',
+            templateUrl: 'app/twitts/teamDetail.html',
+            controller: 'TeamDetailCtrl',
+            params:{name: null,
+              currentMember:null,
+              maximumMember:null,
+              teamId:null}
+      })
+
+      .state('rank', {
+        url: '/rank',
+        templateUrl: 'app/rank/rank.html',
+        controller: 'LoginCtrl'
+      })
+
+      .state('mapbegin', {
+        url: '/mapbegin',
+        templateUrl: 'app/mapbegin/mapbegin.html',
+        controller: 'mapBeginCtrl'
+      })
+
+      .state('mapgame', {
+        url: '/mapgame',
+        templateUrl: 'app/mapgame/mapgame.html',
+        controller: 'LoginCtrl'
+      })
+
     .state('app.settings', {
       url: '/settings',
       views: {

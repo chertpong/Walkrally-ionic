@@ -1,10 +1,14 @@
 
-  <ion-header-bar class="bar-red ">
-    <h1 class="title">Walk Rally Application</h1>
-    <div class="buttons">
-      <button class="button-head icon ion-home"></button>
-    </div>
-  </ion-header-bar>
+<ion-header-bar class="bar-red ">
+  <h1 class="title">Walk Rally Application</h1>
+  <div class="buttons">
+    <button class="button-head icon ion-home" ng-click="linkToBeginMap()"></button>
+  </div>
+  <div class="buttons">
+    <button class="button-head icon ion-person-stalker" ng-click="linkToLogin()">login</button>
+  </div>
+
+</ion-header-bar>
 
     <ion-view title="Map">
       <div class="col col-100 paddingMap">
@@ -18,14 +22,5 @@
     </ion-view>
 
 
-  <div class="tabs tabs-icon-top tabs-color">
-    <a class="tab-item col-50">
-      <i class="icon ion-map"></i>
-      MAP
-    </a >
-    <a class="tab-item col-50">
-      <i class="icon ion-ribbon-b"></i>
-      RANK
-    </a >
 
-  </div>
+
