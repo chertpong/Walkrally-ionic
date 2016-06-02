@@ -29,9 +29,8 @@
             console.log(response.data.token);
             Storage.setUserToken(response.data.token).then(function(){
               $state.go('twitts');
-
-
             });
+
           }).catch(function (err) {
           console.log(err);
           $scope.error = true;
@@ -42,6 +41,12 @@
 
 
       }
+
+    $scope.linkToBeginMap = function(){
+
+      $state.go('mapbegin');
+    }
+
     };
 
 })();

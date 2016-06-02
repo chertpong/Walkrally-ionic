@@ -10,9 +10,9 @@
     });
     Storage.getUser().then(function(user){
       if(user){
-        $state.go('app.twitts');
+        $state.go('twitts');
       } else {
-        $state.go('login');
+        $state.go('mapbegin');
       }
     });
   }

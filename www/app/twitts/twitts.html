@@ -23,21 +23,24 @@
       </div>
 
     <div class="padding-Button">
-      <button class="button button-block">
+      <button class="button button-block" ng-click="linktoCreateTeam()">
         <i class="icon ion-ios-people" >  C R E A T E  &nbsp; T E A M</i>
       </button>
     </div>
 
     <div class="card">
       <div class="item item-text-wrap" ng-repeat="team in teams" >
-        <a href="#" class="item item-icon-left custom-text">
+        <a class="item item-icon-left custom-text">
           <i class="icon ion-person-stalker custom-icon"></i>
           TEAM  {{team.name}}
-          <button class="button button-outline button-positive pull-right">Join</button>
+          <br>
+          {{team.memberIds.length}}/3
+          <button class="button button-outline button-positive pull-right" ng-disabled="team.memberIds.length ==3 ||team.memberIds.length >3" ng-click="joinTeam(team._id)">Join</button>
         </a>
       </div>
 
     </div>
+
 
 
 

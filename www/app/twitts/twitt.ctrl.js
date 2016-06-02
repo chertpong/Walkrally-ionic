@@ -1,9 +1,9 @@
 (function(){
   'use strict';
   angular.module('app')
-    .controller('TwittCtrl', TwittCtrl);
+    .controller('CreateTeamCtrl', CreateTeamCtrl);
 
-  function TwittCtrl($scope, $stateParams, Storage, $http, $state){
+  function CreateTeamCtrl($scope, $stateParams, Storage, $http, $state){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
@@ -15,21 +15,12 @@
 $scope.createTeam = function() {
   var server = "http://52.163.91.205";
   var path = "/api/teams";
-  var token = '';
-  Storage.getUserToken().then(function(t){
-    token = t;
-  });
 
-  $http.post(server + path, {name: $scope.data.teamName, token: token })
+  $http.post(server + path, {name: $scope.data.teamName })
     .then(function (response) {
       console.log(response.data);
-      $state.go('app.twitts');
+      $state.go('teamDetail',{teamId:response.data._id});
 
-      var socket = io.connect('http://52.163.91.205/teams');
-      socket.on('created', function (response) {
-        console.log(response);
-
-      });
 
 
 
