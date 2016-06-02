@@ -1,7 +1,3 @@
-<ion-view title="Map">
-  <ion-header-bar class="bar-positive">
-    <h1 class="title">Time Count 15:00 </h1>
-  </ion-header-bar>
 
   <ion-header-bar class="bar-red ">
     <h1 class="title">Time Count 15:00</h1>
@@ -12,21 +8,21 @@
 
   <ion-view title="Map">
 
-    <div class="col col-100">
+    <div class="col col-100 paddingMap">
       <qq-map
         zoom="11"
         draggable="true"
-        style="height: 350px; width: 350px;"
+        style="height: 350px; width: 100%"
       >
       </qq-map>
     </div>
 
-    <div class="tabs tabs-icon-top">
-      <a class="tab-item">
+    <div class="tabs tabs-icon-top tabs-color">
+      <a class="tab-item col-50">
         <i class="icon ion-map"></i>
         MAP
       </a >
-      <a class="tab-item">
+      <a class="tab-item col-50">
         <i class="icon ion-ribbon-b"></i>
         RANK
       </a >

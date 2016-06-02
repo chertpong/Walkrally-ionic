@@ -20,6 +20,26 @@
       templateUrl: 'app/authentication/login.html',
       controller: 'LoginCtrl'
     })
+
+    .state('rank', {
+      url: '/rank',
+      templateUrl: 'app/rank/rank.html',
+      controller: 'LoginCtrl'
+    })
+
+    .state('mapbegin', {
+        url: '/mapbegin',
+        templateUrl: 'app/mapbegin/mapbegin.html',
+        controller: 'LoginCtrl'
+    })
+
+    .state('mapgame', {
+        url: '/mapgame',
+        templateUrl: 'app/mapgame/mapgame.html',
+        controller: 'LoginCtrl'
+    })
+      
+      
     .state('app', {
       url: '/app',
       abstract: true,
@@ -30,7 +50,7 @@
       url: '/twitts',
           templateUrl: 'app/twitts/twitts.html',
           controller: 'TwittsCtrl'
-      
+
     })
       .state('listteam', {
         url: '/listteam',
