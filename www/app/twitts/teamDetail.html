@@ -17,7 +17,7 @@
           <a href="#" class="item item-icon-left">
             <i class="icon ion-person-stalker"></i>
             <h2>{{team.name}}</h2>
-{{team.memberIds.length}}/3
+{{team.members.length}}/3
 
             <button class="button button-outline button-positive pull-right" ng-click="startgame()">START</button>
             <button class="button button-outline button-positive pull-right" ng-click="quitTeam(teamId)">Quit</button>
@@ -27,7 +27,7 @@
 
       <ul class="list">
 
-        <li class="item"  ng-repeat="member in team.memberIds"> {{member}}</li>
+        <li class="item"  ng-repeat="member in team.members"> {{member.fullName}}</li>
 
       </ul>
     </ion-content>

@@ -34,7 +34,6 @@
         }
 
     })
-
     .state('twitt', {
       url: '/twitt',
           templateUrl: 'app/twitts/twitt.html',

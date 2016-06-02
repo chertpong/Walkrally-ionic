@@ -13,7 +13,7 @@
     var maximumMember ='';
   var teamId='';
       var server= "http://52.163.91.205";
-      var path = "/api/teams";
+      var path = "/api/teams?dto=true";
 
       $http.get(server+path)
         .then(function (response) {
@@ -38,7 +38,7 @@
 
       $http.post(server+path)
         .then(function (response) {
-          console.log(response);
+          console.log('join team response:'+response);
           $state.go('teamDetail',{teamId:teamId});
 
         }).catch(function (err) {
@@ -52,7 +52,7 @@
     var socket = io.connect('http://52.163.91.205/teams');
     socket.on('created', function (response) {
       $scope.$apply(function(){
-        console.log(response);
+        console.log('socket create response:'+response);
         $scope.teams.push(response);
    //       $scope.currentMember =response.data.currentMember;
    //     $scope.maximumMember =response.data.maximumMember;
@@ -62,33 +62,31 @@
 
 
 
-    //socket.on('joined', function (response) {
-    //  $scope.$apply(function(){
-    //    console.log(response);
-    // a = _.find(results,function(rw){ return rw.id == 2 });
-    //if(Storage.getTeamId(teamId)==response.data.teamId){
-    // $scpoe.currentMember = response.data.userId.length
-    //
-    // }
-    //
-    //    console.log($scope.teams);
-    //  })
-    //});
-    //หาทีมที่ถูก ่มีคนออก ที่อยู่ในlist ทั้งหมด
-    //  currentmember  ++
+    socket.on('joined', function (response) {
+
+      console.log(response);
+      $scope.teams.forEach(function(team,index){
+        if(team._id=== response.teamId){
+          $scope.$apply(function(){
+            console.log($scope.teams);
+            $scope.teams[index].currentMember++;
+          });
+        }
+      });
+    });
 
 
-
-
-
-    //socket.on('quit', function (response) {
-    //  $scope.$apply(function(){
-    //    console.log(response);
-    //    if($stateParams.quitTeamId==response)
-    //$scpoe.currentMember = response.data.userId.length
-    //    console.log($scope.teams);
-    //  })
-    //});
+    socket.on('quit', function (response) {
+      console.log(response);
+      $scope.teams.forEach(function(team,index){
+        if(team._id=== response.teamId){
+          $scope.$apply(function(){
+            console.log($scope.teams);
+            $scope.teams[index].currentMember--;
+          });
+        }
+      });
+    });
 
     //หาทีมที่ถูกquit มีคนออก ที่อยู่ในlist ทั้งหมด
     //  currentmember --

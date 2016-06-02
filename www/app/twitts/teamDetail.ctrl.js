@@ -23,7 +23,7 @@
     if($stateParams.teamId){
 
       var server= "http://52.163.91.205";
-      var path = '/api/teams/'+$stateParams.teamId;
+      var path = '/api/teams/'+$stateParams.teamId+'?dto=true';
 
       $http.get(server+path)
         .then(function (response) {
@@ -47,6 +47,7 @@
       $http.post(server+path)
         .then(function (response) {
           console.log(response);
+
           $state.go('twitts',{quitTeamId:teamId});
 
         }).catch(function (err) {
@@ -57,50 +58,13 @@
 
     }
 
+    $scope.startgame = function(){
 
-    //var socket = io.connect('http://52.163.91.205/teams');
-    //socket.on('joined', function (response) {
-    //  $scope.$apply(function(){
-    //    console.log(response);
-    //
-    //  })
-    //});
-    //
-    //socket.on('quit', function (response) {
-    //  $scope.$apply(function(){
-    //    console.log(response);
-    //
-    //  })
-    //});
+      $state.go('mapgame');
+    }
 
 
-    //var server= "http://52.163.91.205";
-    //var path = "/api/teams";
-    //
-    //
-    //$http.get(server+path)
-    //  .then(function (response) {
-    //    console.log(response.data);
-    //    $scope.teams= response.data
-    //
-    //  }).catch(function (err) {
-    //  console.log(err);
-    //  $scope.error = true;
-    //
-    //});
 
-    //
-    //var socket = io.connect('http://52.163.91.205/teams');
-    //socket.on('created', function (response) {
-    //  console.log(response);
-    //
-    //});
-
-    // $http get team list
-
-    // create ->  socket on
-    // update team list   ->  list (get + create)
-    // เช้คcurrent team , ถ้ามีอยู๋เเล้ว สร้างเพิม่ไม่ได้
 
   }
 

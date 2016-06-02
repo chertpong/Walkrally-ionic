@@ -34,8 +34,8 @@
           <i class="icon ion-person-stalker custom-icon"></i>
           TEAM  {{team.name}}
           <br>
-          {{team.memberIds.length}}/3
-          <button class="button button-outline button-positive pull-right" ng-disabled="team.memberIds.length ==3 ||team.memberIds.length >3" ng-click="joinTeam(team._id)">Join</button>
+          {{team.currentMember}}/3
+          <button class="button button-outline button-positive pull-right" ng-disabled="team.currentMember ==3 ||team.currentMember >3" ng-click="joinTeam(team._id)">Join</button>
         </a>
       </div>
 
