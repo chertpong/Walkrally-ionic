@@ -1,0 +1,42 @@
+/*
+ *  Team List Style
+ */
+
+/*
+ *  Button Join
+ */
+
+.button.button-positive.button-outline {
+  border-color: #c23838;
+  background: transparent;
+  color: #c23838;
+
+}
+
+.button.button-positive.button-outline.active, .button.button-positive.button-outline.activated {
+  background-color: #c23838;
+  box-shadow: none;
+  color: #fff; }
+
+
+.padding-Button{
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+
+.button-outline.button-outline {
+  top: -10px;
+}
+/*
+ *  Card
+ */
+
+.custom-icon {
+  color : #c23838;
+}
+
+.custom-text{
+  color: #000;
+}
+
