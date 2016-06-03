@@ -32,6 +32,30 @@
         $scope.error = true;
       });
     }
+
+    //
+    //function setTemplateUrlModal(index){
+    // if (index=='detail'){
+    //   var TemplateUrl =  'app/mapbegin/mapViewDetail.html';
+    // }else{
+    //   var TempleteUrl= 'app/mapbegin/mapViewMoreDetail.html';
+    // }
+
+      $ionicModal.fromTemplateUrl('app/mapbegin/mapViewDetail.html', {
+        scope: $scope,
+        animation: 'fade-in'
+      }).then(function (modal) {
+        $scope.modal1 = modal;
+      });
+
+      $ionicModal.fromTemplateUrl('app/mapbegin/mapViewMoreDetail.html', {
+        scope: $scope,
+        animation: 'fade-in'
+      }).then(function (modal) {
+        $scope.modal2 = modal;
+      });
+
+
     function setMarkers(){
       $scope.places.forEach(function(place){
         var geolocation = new qq.maps.LatLng(place.location.lat, place.location.lng);
@@ -39,18 +63,26 @@
           position: geolocation,
           map: $rootScope.map
         });
-        $ionicModal.fromTemplateUrl('app/mapbegin/mapViewDetail.html', {
-          scope: $scope,
-          animation: 'slide-in-up'
-        }).then(function (modal) {
-          $scope.modal = modal;
-        });
-        qq.maps.event.addListener(marker, 'click', function () {
-          $scope.modal.show();
+        qq.maps.event.addListener(marker, 'click', function (index) {
+
+          $scope.modal1.show();
           $scope.place = place;
+
         });
       });
     }
+
+    $scope.openModal = function(){
+      $scope.modal2.show();
+    };
+
+
+
+      $scope.closeModal = function(index) {
+      if (index == 1) $scope.oModal1.hide();
+      else $scope.oModal2.hide();
+    };
+
     $scope.linkToBeginMap = function(){
       console.log('sucess111');
       $state.go('mapbegin');
