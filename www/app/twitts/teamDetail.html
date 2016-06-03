@@ -1,34 +1,45 @@
 <ion-header-bar class="bar-red ">
-  <h1 class="title">Walk Rally Application</h1>
   <div class="buttons">
     <button class="button-head icon ion-home"></button>
   </div>
+  <h1 class="title">WalkRally</h1>
+
 </ion-header-bar>
+
+<div class="bar bar-subheader bar-red2 ">
+  <h1 class="title">T E A M &nbsp; D E T A I L </h1>
+</div>
 
 
 <ion-view title="Team Detail ">
 
   <ion-content>
-<br>
-      <h1> team detail</h1>
-      </div>
+
+    <div class="list3 ">
       <div class="card">
         <div class="item item-text-wrap">
           <a href="#" class="item item-icon-left">
-            <i class="icon ion-person-stalker"></i>
-            <h2>{{team.name}}</h2>
-{{team.members.length}}/3
+            <i class="icon ion-person-stalker custom-icon"></i>
+            <!-- <h1 class="title2">Team name</h1> -->
+            <h1 class="title2">{{team.name}}</h1>
+            <h2>{{team.memberIds.length}}</h2>
 
-            <button class="button button-outline button-positive pull-right" ng-click="startgame()">START</button>
-            <button class="button button-outline button-positive pull-right" ng-click="quitTeam(teamId)">Quit</button>
           </a>
-        </div>
+
+          </div>
+
+          <div class="item item-divider padding-top2">
+            <button class="button button-outline button-positive pull-right button-test " ng-click="quitTeam(teamId)">QUIT</button>
+            <button class="button button-outline button-positive pull-right " ng-click="startgame()">START</button>
+          </div>
+
       </div>
 
-      <ul class="list">
+      <ul class="list4">
 
         <li class="item"  ng-repeat="member in team.members"> {{member.fullName}}</li>
 
       </ul>
+      </div>
     </ion-content>
   </ion-view>
