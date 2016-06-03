@@ -11,6 +11,8 @@
       token: 'token',
       userSettings: 'user-settings',
       teamId: 'teamId',
+      language:'language',
+      places: [],
       twitts: 'twitts'
     };
     return {
@@ -29,9 +31,33 @@
       getTwitt: getTwitt,
       getTwitts: getTwitts,
       setTwitts: setTwitts,
+      //
+      getLanguage: getLanguage,
+      setLanguage: setLanguage,
+      //
+      getPlaces: getPlaces,
+      setPlaces: setPlaces,
       // global
       clear: clear
     };
+
+    function getPlaces(){
+      return _StorageUtils.get(keys.places);
+    }
+
+    function setPlaces(places){
+      return _StorageUtils.set(keys.places, places);
+    }
+
+
+    function getLanguage(){
+      return _StorageUtils.get(keys.language);
+    }
+
+    function setLanguage(language){
+      return _StorageUtils.set(keys.language, language);
+    }
+
 
     function getTeamId(){
       return _StorageUtils.get(keys.teamId);

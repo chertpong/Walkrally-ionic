@@ -52,7 +52,7 @@
       .state('rank', {
         url: '/rank',
         templateUrl: 'app/rank/rank.html',
-        controller: 'LoginCtrl'
+        controller: 'rankCtrl'
       })
 
       .state('mapbegin', {
@@ -64,7 +64,7 @@
       .state('mapgame', {
         url: '/mapgame',
         templateUrl: 'app/mapgame/mapgame.html',
-        controller: 'LoginCtrl'
+        controller: 'mapGameCtrl'
       })
 
     .state('app.settings', {
@@ -126,6 +126,7 @@
   };
 
   function runBlock($rootScope){
+    $rootScope.map = null;
     $rootScope.safeApply = function(fn){
       var phase = this.$root ? this.$root.$$phase : this.$$phase;
       if(phase === '$apply' || phase === '$digest'){

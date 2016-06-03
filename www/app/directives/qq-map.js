@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   angular.module('app')
-    .directive("qqMap", function () {
+    .directive("qqMap", function ($rootScope) {
       return {
         restrict: "E",
         replace: true,
@@ -19,15 +19,14 @@
         link: function (scope, element, attrs) {
           var mapContainer = document.getElementById('qqMap');
 
-          var map;
-          map = new qq.maps.Map(mapContainer,{
+          $rootScope.map = new qq.maps.Map(mapContainer,{
             center: new qq.maps.LatLng(39.914850, 116.403765),
             zoom: 13,
             draggable: scope.draggable,
             scrollwheel: true,
             disableDoubleClickZoom: false
           });
-          map.zoomTo(scope.zoom);
+          $rootScope.map.zoomTo(scope.zoom);
           var center;
           // Get the user's current location
           navigator.geolocation.getCurrentPosition(
@@ -39,13 +38,13 @@
               else {
                 // There is no location set
                 center = new qq.maps.LatLng(position.coords.latitude,position.coords.longitude);
-                var marker = new qq.maps.Marker({
-                  position: center,
-                  map: map
-                });
+                //var marker = new qq.maps.Marker({
+                //  position: center,
+                //  map: $rootScope.map
+                //});
               }
 
-              map.panTo(center);
+              $rootScope.map.panTo(center);
             },
             function failCallback(err){
               console.error(err);

@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('TeamDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state){
+  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup){
 
     var data = {}, fn = {};
     var name='';
@@ -58,9 +58,47 @@
 
     }
 
-    $scope.startgame = function(){
 
-      $state.go('mapgame');
+
+
+    $scope.startgame = function(){
+      $scope.data = {};
+
+      var language = $ionicPopup.show({
+        templateUrl:'app/twitts/chooseLanguagePopup.html',
+        title: 'Choose language',
+        scope: $scope,
+        buttons:
+          [ { text: 'Cancel', type: 'button-default',
+            onTap: function(e) {
+            // e.preventDefault() will stop the popup from closing when tapped.
+            return null;
+          }
+
+          }
+            ,{
+            text: '<b>Start</b>',
+            type: 'button-positive',
+            onTap: function(e) {
+              if (!$scope.data.language) {
+                //don't allow the user to close unless he enters wifi password
+                e.preventDefault();
+              } else {
+                return $scope.data.language;
+              }
+            }
+          }]
+
+      });
+
+               language.then(function(res) {
+                 console.log(res);
+                if(res){
+                     Storage.setLanguage(res).then(function(){
+                    $state.go('mapgame');
+                     });}
+                   });
+
     }
 
 
