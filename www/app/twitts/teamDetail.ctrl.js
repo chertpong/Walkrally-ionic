@@ -76,7 +76,7 @@
           }}
             ,{
             text: '<b>Start</b>',
-            type: 'button-positive',
+            type: 'button',
             onTap: function(e) {
               if (!$scope.data.language) {
                 //don't allow the user to close unless he enters wifi password

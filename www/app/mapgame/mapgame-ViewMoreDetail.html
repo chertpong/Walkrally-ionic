@@ -1,16 +1,34 @@
 <ion-modal-view>
-  <ion-header-bar>
+  <ion-header-bar class="bar-red ">
     <h1 class="title">View More Detail </h1>
   </ion-header-bar>
   <ion-content>
-    Place: {{place.name}}<br>
-    PLace Description: {{place.descriptions[0].content}}<br>
-    Place location: {{place.location.lat}},{{place.location.lng}}
 
-    <br>
-    <button class="button button-positive" ng-click="modalGameViewMoreDetail.hide()">
-      Back
-    </button>
+    </br>
+    <h3 class="text-center">Place Name {{place.name}}</h3>
+      <div class="list-inset" style="padding-left: 30px;">
+        <h4><b>Place: {{place.name}}</b></h4>
+        Place location: {{place.location.lat}},{{place.location.lng}}
+      </div>
+
+    <div class="card">
+      <div class="item item-body">
+        < img class="left-image" src="delorean.jpg">
+        < img class="right-image" src="delorean.jpg">
+
+        <p class="text-styles">
+          Description
+          </br>
+          {{place.descriptions[0].content}}
+        </p >
+      </div>
+    </div>
+
+
+    <div class="padding">
+      <button type="submit" class="button button-block" ng-click="modalGameViewMoreDetail.hide()>B A C K</button>
+    </div>
+
 
   </ion-content>
 </ion-modal-view>

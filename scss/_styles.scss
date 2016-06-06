@@ -70,10 +70,9 @@ $bar-color : #543a3d;
   border-color: transparent;
   background-color: $bar-color; }
 
-.title{
-  font-size: 20px;
-  text-align: center; }
-
-element.style {
+.bar .title.title-left {
+  text-align:center;
   left: 0px;
 }
+
+
