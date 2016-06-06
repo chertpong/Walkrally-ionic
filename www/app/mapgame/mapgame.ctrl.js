@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('mapGameCtrl', mapGameCtrl);
 
-  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, $ionicModal,$log){
+  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
@@ -11,20 +11,15 @@
     $scope.location={};
     var language;
 
-
-
     Storage.getLanguage().then(function(l){
        language = l;
-
     });
 
-    var server= "http://52.163.91.205";
-    var path = "/api/places";
+    var path = C.backendUrl+"/api/places";
     loadMap();
-    var latlngs=[];
 
     function loadMap(){
-      $http.get(server+path)
+      $http.get(path)
         .then(function (response) {
           $scope.places = response.data;
           $log.debug('[+]','places are loaded',response.data.length);
@@ -198,18 +193,10 @@
             setMarkers();
           });
         }).catch(function (err) {
-        console.log(err);
+        $log.debug('[!] Error: ',err);
         $scope.error = true;
       });
     }
-
-    //
-    //function setTemplateUrlModal(index){
-    // if (index=='detail'){
-    //   var TemplateUrl =  'app/mapbegin/mapViewDetail.html';
-    // }else{
-    //   var TempleteUrl= 'app/mapbegin/mapViewMoreDetail.html';
-    // }
 
     $ionicModal.fromTemplateUrl('app/mapgame/mapgame-ViewDetail.html', {
       scope: $scope,
@@ -253,7 +240,7 @@
 
           $scope.modalGameViewDetail.show();
           $scope.place = place;
-
+          // Mock
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
               //return d.language == "th"
               return d.language == language
@@ -298,23 +285,11 @@
         });
       });
     }
-    $scope.getCurrent= function(){
-
-    var onSuccess = function(position) {
-      alert('Latitude: '          + position.coords.latitude          + '\n' +
-        'Longitude: '         + position.coords.longitude         + '\n'
-      );
+    $scope.getCurrent= function() {
+      GeolocationPlugin.getCurrentPosition().then(function(position){
+        $log.debug('html current position',position);
+      });
     };
-
-    function onError(error) {
-      alert('code: '    + error.code    + '\n' +
-        'message: ' + error.message + '\n');
-    }
-
-    navigator.geolocation.getCurrentPosition(onSuccess, onError);
-      console.log(position.coords.latitude);
-    };
-
 
     $scope.getCompare= function(){
       var BETWEEN_DEGREE = 15;
@@ -368,7 +343,7 @@
         var power2 = Math.pow((gps2.longitude * longitudeDistance2) - (gps1.longitude * longitudeDistance1), 2);
 
         return Math.sqrt(power1 + power2);
-      };
+      }
 
       /**
        * define gps1 and gps2 location
@@ -377,14 +352,13 @@
        * 18.788687,"lng":98.985918
        */
       var gps1;
-
-      navigator.geolocation.getCurrentPosition(function(position){
-       gps1 = new GPS(position.coords.latitude,position.coords.longitude);
-      });
-
       var gps2 = new GPS(30.657663, 104.058755);
 
-      alert(findDistance(gps1, gps2) + ' meter');
+      GeolocationPlugin.getCurrentPosition().then(function(position){
+        $log.debug('position',position);
+       gps1 = new GPS(position.coords.latitude,position.coords.longitude);
+        alert(findDistance(gps1, gps2) + ' meter');
+      });
     };
 
 
@@ -407,7 +381,7 @@
 
 
 
-  };
+  }
 
 })();
 
