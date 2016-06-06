@@ -47,7 +47,13 @@
 
       });
 
-    }
+    };
+
+    //getTeamId().then(function(){
+    //
+    //
+    //});
+
 
     var socket = io.connect('http://52.163.91.205/teams');
     socket.on('created', function (response) {

@@ -73,9 +73,7 @@
             onTap: function(e) {
             // e.preventDefault() will stop the popup from closing when tapped.
             return null;
-          }
-
-          }
+          }}
             ,{
             text: '<b>Start</b>',
             type: 'button-positive',
@@ -90,7 +88,6 @@
           }]
 
       });
-
                language.then(function(res) {
                  console.log(res);
                 if(res){
