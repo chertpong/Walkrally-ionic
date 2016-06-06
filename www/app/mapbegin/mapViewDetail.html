@@ -1,18 +1,36 @@
 <ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">View Detail </h1>
+  <ion-header-bar class="bar-red ">
+    <h1 class="title">View Detail</h1>
   </ion-header-bar>
+
   <ion-content>
-    <h2>Place {{place.name}}</h2>
 
-<br>
-    <button class="button button-positive" ng-click="modal.hide()">
-         Back
-       </button>
+    </br>
+    <h3 class="text-center">Place Name {{place.name}}</h3>
 
-       <button class="button button-positive" ng-click="openModal()">
-         More-detail
-       </button>
+    <div class="card">
+
+      <div class="item item-body">
+        < img src="img/Login2.png" alt="Logo">
+
+        <p class="text-styles">
+          <b>Place Name {{place.name}}</b>
+          </br>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p >
+
+
+      </div>
+
+
+    </div>
+
+    <div class="padding">
+      <button type="submit" class="button button-block">N A V I G A T E</button>
+      <button type="submit" class="button button-block" style="margin-top: -5px">M O R E &nbsp; D E T A I L</button>
+      <button type="submit" class="button button-block" style="margin-top: -5px">B A C K</button>
+    </div>
+
 
   </ion-content>
 </ion-modal-view>
