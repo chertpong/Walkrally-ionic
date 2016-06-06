@@ -67,6 +67,12 @@
         controller: 'mapGameCtrl'
       })
 
+      .state('logout', {
+        url: '/logout',
+        controller: 'LogoutCtrl'
+      })
+
+
     .state('app.settings', {
       url: '/settings',
       views: {

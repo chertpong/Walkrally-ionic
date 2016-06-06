@@ -19,6 +19,11 @@ $scope.createTeam = function() {
   $http.post(server + path, {name: $scope.data.teamName })
     .then(function (response) {
       console.log(response.data);
+
+      Storage.setTeamId(response.data._id).then(function(){
+       console.log(success);
+      });
+
       $state.go('teamDetail',{teamId:response.data._id});
 
 

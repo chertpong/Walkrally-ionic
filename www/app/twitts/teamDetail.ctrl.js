@@ -20,6 +20,10 @@
     //$scope.currentMember = $stateParams.currentMember;
     //$scope.maximumMember = $stateParams.maximumMember;
 
+
+
+
+
     if($stateParams.teamId){
 
       var server= "http://52.163.91.205";
@@ -48,7 +52,7 @@
         .then(function (response) {
           console.log(response);
 
-          $state.go('twitts',{quitTeamId:teamId});
+          $state.go('twitts');
 
         }).catch(function (err) {
         console.log(err);

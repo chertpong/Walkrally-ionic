@@ -11,7 +11,7 @@
     <div class="card">
 
       <div class="item item-body">
-        < img src="img/Login2.png" alt="Logo">
+     <!--   < img src="img/Login2.png" alt="Logo"> -->
 
         <p class="text-styles">
           <b>Place Name {{place.name}}</b>
@@ -28,14 +28,16 @@
     <div class="padding">
       <button type="submit" class="button button-block">N A V I G A T E</button>
       <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="openModalGameViewMoreDetail()">M O R E &nbsp; D E T A I L</button>
-      <div class="row">
-        <div class="col-50">
-          <br type="submit" class="button button-block" style="margin-top: -10px "ng-click="modalGameViewDetail.hide()">B A C K<br> T O M A P</button>
-        </div>
-        <div class="col-50 col-offset-5">
-          <button type="submit" class="button button-block" style="margin-top: -10px" ng-click="openModalListQuestion()">S T A R T<br>G A M E</button>
-        </div>
+
+      <div class="row " style="padding: 0px; margin-top: -15px">
+
+        <button type="submit" class="button button-block" style="margin-right: 2px" ng-click="modalGameViewDetail.hide()">B A C K</button>
+
+        <button type="submit" class="button button-block" style="margin-left: 2px" ng-click="openModalListQuestion()">Q U E S T I O N</button>
+
       </div>
+
+
     </div>
 
 

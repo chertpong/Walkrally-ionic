@@ -9,6 +9,15 @@
     $scope.fn = fn;
     $scope.teams= [];
 
+
+    Storage.getTeamId().then(function(teamId){
+      if(teamId){
+        $state.go('teamDetail');
+      }else{
+
+
+
+
     var currentMember ='';
     var maximumMember ='';
   var teamId='';
@@ -25,6 +34,10 @@
         $scope.error = true;
 
     });
+
+      }
+
+    }).catch();
 
     $scope.joinTeam = function(teamId){
 
@@ -48,12 +61,6 @@
       });
 
     };
-
-    //getTeamId().then(function(){
-    //
-    //
-    //});
-
 
     var socket = io.connect('http://52.163.91.205/teams');
     socket.on('created', function (response) {
@@ -107,27 +114,6 @@
     //  })
     //});
 
-    // $http get team list
-
-    // create ->  socket on
-                    // update team list   ->  list (get + create)
-    // เช้คcurrent team , ถ้ามีอยู๋เเล้ว สร้างเพิม่ไม่ได้
-
-
-    // join ->
-        // get team , response data
-                    //"currentMemeber": Number, ++
-                    // post data with new currentmember
-                    //    update team list
-
-    // quit ->
-       // get team
-                     //"currentMemeber": Number, --
-                     // post data with new currentmember
-                     //    update team list
-    //delete team
-                      // get team , delete
-                      //    update team list
 
     $scope.linktoCreateTeam = function(){
 

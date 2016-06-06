@@ -28,7 +28,13 @@
           .then(function (response) {
             console.log(response.data.token);
             Storage.setUserToken(response.data.token).then(function(){
-              $state.go('twitts');
+
+              //if(response.data.teamId){
+              //  $state.go('teamDetail');
+              //}else{
+                $state.go('twitts');
+             // }
+
             });
 
           }).catch(function (err) {
