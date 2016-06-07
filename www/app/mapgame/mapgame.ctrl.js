@@ -96,7 +96,20 @@
             }, {
               content:'places test 2 简述',
               language:'cn'
-            }],location:{lat:30.651624,lng:104.186103},
+            }], type: 'Landmark',
+
+              contact:
+              {name:'Doi Suthep',
+                phoneNumber:'054-1111',
+                address:'Muang Chiang Mai',
+                website:'http://culture.mome.co/watchaiphrakiat/',
+                openTime:'2:00',
+                closeTime:'21:00',
+                workingDay:'Daily',
+                description:'Description place 3'},
+              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg',
+
+            location:{lat:30.651624,lng:104.186103},
                         questions:[
                         {descriptions:[{content:'question2',
                                       language:'en'},
@@ -148,8 +161,22 @@
             }, {
               content:'places test 3 简述',
               language:'cn'
-            }],location:{lat:30.653036,lng:104.190699},
-                                questions:[
+
+            }], type: 'Shop',
+
+              contact:
+              {name:'Wat Phra Singh',
+                phoneNumber:'054-356414',
+                address:'3313 Kai ko apartment, Suthep, Muang Chiang Mai',
+                website:'http://culture.mome.co/watchaiphrakiat/',
+                openTime:'5:00',
+                closeTime:'20:00',
+                workingDay:'Daily',
+                description:'Description place 2'},
+              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg',
+
+            location:{lat:30.653036,lng:104.190699},
+                                   questions:[
                                           {descriptions:[{content:'question3',
                                                           language:'en'},
                                                          {content:'问题3',
