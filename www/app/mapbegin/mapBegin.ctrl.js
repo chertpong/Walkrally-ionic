@@ -58,8 +58,8 @@
 
     function setMarkers(){
       $scope.places.forEach(function(place){
-        var geolocation = new qq.maps.LatLng(place.location.lat, place.location.lng);
-        var marker = new qq.maps.Marker({
+        var geolocation = new BMap.Point(place.location.lng,place.location.lat);
+        var marker = new BMap.Marker({
           position: geolocation,
           map: $rootScope.map
         });

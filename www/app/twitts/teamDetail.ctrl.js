@@ -118,6 +118,30 @@
           });}
       });
     };
+
+    var socket = io.connect(C.backendUrl + '/teams');
+    socket.on('joined', function (response) {
+      console.log(response);
+          $scope.$apply(function(){
+            console.log($scope.team);
+            $scope.team.push(response.memberName);
+          });
+
+
+    });
+
+    socket.on('quit', function (response) {
+      console.log(response);
+          $scope.$apply(function(){
+            console.log($scope.team);
+            $scope.team.push(response.memberName);
+          });
+    });
+
+
+
+
+
     // Watch for error
     $scope.$watch('error',function(newValue){
       if(newValue){
