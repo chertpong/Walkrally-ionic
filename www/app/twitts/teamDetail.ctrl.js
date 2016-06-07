@@ -119,8 +119,8 @@
       if($scope.team._id === response.teamId){
         $log.debug('joined socket response: ',response);
         $scope.$apply(function(){
-          $scope.team.members.push({_id: response.memberName, fullName:response.memberId});
-          $log.debug($scope.team.members);
+          $scope.team.members.push({_id: response.memberId, fullName:response.memberName});
+          $log.debug('team after socket join: ',$scope.team.members);
         });
       }
     });
@@ -132,7 +132,7 @@
           $scope.team.members = $scope.team.members.filter(function(m){
             return m._id !== response.userId;
           });
-          $log.debug($scope.team.members);
+          $log.debug('$scope.team after quit',$scope.team.members);
         });
       }
     });
