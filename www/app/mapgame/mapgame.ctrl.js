@@ -17,6 +17,49 @@
 
     var path = C.backendUrl+"/api/places";
     loadMap();
+    //routeDirection();
+
+    //function routeDirection(){
+    //  var center = new qq.maps.LatLng(30.650749363079974, 104.18018643853007);
+    //  var map = new qq.maps.Map(document.getElementById("container"), {
+    //    center: center
+    //  });
+    //  //设置获取驾车线路方案的服务
+    //
+    //  var drivingService = new qq.maps.DrivingService({
+    //    map: map,
+    //    panel: document.getElementById('infoDiv')
+    //  //  position:center
+    //    //展现结果
+    //  });
+    //  //设置搜索地点信息、驾车方案等属性
+    //  function search() {
+    //    var start = new qq.maps.LatLng(30.645774, 104.049999);
+    //    var end = new qq.maps.LatLng(30.646153, 104.049769);
+    //    var policy = "LEAST_TIME";
+    //    //设置驾车方案
+    //    drivingService.setPolicy(qq.maps.DrivingPolicy[policy]);
+    //    //设置驾车的区域范围
+    //    drivingService.setLocation("成都");
+    //    //设置回调函数
+    //    drivingService.setComplete(function(result) {
+    //      if (result.type == qq.maps.ServiceResultType.MULTI_DESTINATION) {
+    //        //alert("起终点不唯一");
+    //        var d = result.detail;
+    //        drivingService.search(d.start[0], d.end[0]);
+    //      }
+    //    });
+    //    //设置检索失败回调函数
+    //    drivingService.setError(function(data) {
+    //      alert(data);
+    //    });
+    //    //设置驾驶路线的起点和终点
+    //    drivingService.search(start,end);
+    //  }
+    //  window.onload = search;
+    //
+    //}
+
 
     function loadMap(){
       $http.get(path)
@@ -191,6 +234,7 @@
 
           Storage.setPlaces($scope.places).then(function(){
             setMarkers();
+
           });
         }).catch(function (err) {
         $log.debug('[!] Error: ',err);
@@ -278,6 +322,7 @@
         });
       });
     }
+
     $scope.getCurrent= function() {
       GeolocationPlugin.getCurrentPosition().then(function(position){
         $log.debug('html current position',position);
@@ -363,6 +408,10 @@
 
     };
 
+
+
+
+
     $scope.openModalGameViewMoreDetail = function(){
       $scope.modalGameViewMoreDetail.show();
     };
@@ -374,25 +423,27 @@
 
     };
 
-    $scope.postAnswer = function(){
+    $scope.postAnswer = function(answerId){
       var server= "http://52.163.91.205";
-      var path = "/auth/local";
+      var path = '/api/questions/'+answerId+'/answer';
 
-      var data ={ email: credentials.email, password: credentials.password}
+      Storage.getTeamId().then(function(response){
+
+        var data = {teamId: response, choiceId:answerId}
+      });
 
       $http.post(server+path,data)
         .then(function (response) {
-          console.log(response.data.token);
-          Storage.setUserToken(response.data.token).then(function(){
-            $state.go('twitts');
-          });
+          console.log(response);
+          alert('your answer are '+ response.correct);
+          if(response){modalQuestion.hide()}
 
         }).catch(function (err) {
         console.log(err);
         $scope.error = true;
-
       });
-        if(response){ $scope.modalQuestion.hide();}
+
+
     }
 
 
