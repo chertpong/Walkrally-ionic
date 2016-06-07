@@ -1,6 +1,6 @@
 <ion-header-bar class="bar-red ">
   <div class="buttons">
-    <button class="button-head icon ion-home" ng-click="linkToBeginMap()"></button>
+    <button class="button-head icon ion-home" ng-click="linkToMapBegin()"></button>
   </div>
   <h1 class="title">WalkRally</h1>
   <div>
@@ -9,7 +9,7 @@
 
 </ion-header-bar>
 
-<ion-view title="Regis">
+<ion-view title="Register">
   <ion-content>
 
     <div class="auth-welcome" style="padding-top: 30px">
@@ -18,7 +18,7 @@
     </div>
 
 
-  <form ng-submit="fn.login(data.credentials)" class="col col-100">
+  <form ng-submit="fn.register(data.user)" class="col col-100">
     <div class="padding">
       <label class="item item-input item-floating-label">
         <span class="input-label">First Name*</span>
