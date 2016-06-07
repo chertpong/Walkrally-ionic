@@ -130,7 +130,7 @@
         $log.debug('quit socket response:',response);
         $scope.$apply(function(){
           $scope.team.members = $scope.team.members.filter(function(m){
-            return m._id === response.userId;
+            return m._id !== response.userId;
           });
           $log.debug($scope.team.members);
         });
