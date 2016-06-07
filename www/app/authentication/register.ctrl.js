@@ -44,9 +44,9 @@
         $log.debug('user is not logged in yet');
       });
 
-    fn.login = function (credentials) {
+    fn.register = function (user) {
       var path = C.backendUrl + "/api/users";
-      $http.post(path, data.user)
+      $http.post(path, user)
         .then(function (response) {
           $log.debug('register response:', response);
           $log.debug('registered user:', response.data.user.email);
