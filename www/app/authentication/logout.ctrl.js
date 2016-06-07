@@ -7,13 +7,23 @@
     .controller('LogoutCtrl', LogoutCtrl);
 
   function LogoutCtrl($state, $scope, $ionicHistory, Storage, $log){
-      Storage
-        .clear()
-        .then(function() {
-          $log.debug('logout');
-          $ionicHistory.clearHistory();
-          $ionicHistory.clearCache();
-          $state.go('login');
+    // TODO: fix blank logout
+    $log.debug('logout');
+    Storage
+      .clear()
+      .then(function() {
+        $log.debug('logout success');
+        $ionicHistory.clearHistory();
+        $ionicHistory.nextViewOptions({
+          disableBack: true,
+          historyRoot: true
+        });
+        $ionicHistory.clearCache();
+        $state.go('login');
+      })
+      .catch(function(err) {
+        $log.debug('logout error: ' + err);
+        $state.go('login');
       });
   }
 })();

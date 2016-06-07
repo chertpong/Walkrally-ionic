@@ -27,19 +27,20 @@
       $http.post(path, data.credentials)
         .then(function (response) {
           $log.debug('login response:', response);
+          $log.debug('login user:', response.data.user.email);
           Storage
             .setUserToken(response.data.token)
             .then(function () {
-              $log.debug('save token');
+              $log.debug('save token id: ',response.data.token);
               return Storage.setUser(response.data.user);
             })
             .then(function() {
-              if (response.data.teams) {
+              if (response.data.teams[0]) {
                 Storage
                   .setTeamId(response.data.teams[0]._id)
                   .then(function() {
                     $log.debug('save team id: ', response.data.teams[0]._id);
-                    $state.go('teamDetail', {teamId: response.data.teams[0]._id});    
+                    $state.go('teamDetail', {teamId: response.data.teams[0]._id});
                   });
               } else {
                 $state.go('twitts');
