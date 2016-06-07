@@ -18,7 +18,7 @@
     $scope.alert = function(){
       return $ionicPopup.alert({
         title: 'Error!',
-        template: $scope.errorMessage
+        template: '<div style="background-color:red">'+$scope.errorMessage+'</div>'
       });
     };
     // Check if already logged in
@@ -38,7 +38,7 @@
               $log.debug('user doesn\'t has any team yet, redirect to lobby');
               $state.go('twitts');
             });
-  
+
         }
         else{
           $log.debug('user is not logged in yet');
