@@ -6,11 +6,6 @@
   function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log){
 
     var data = {}, fn = {};
-    var name='';
-    var currentMember ='';
-    var maximumMember ='';
-    var team =[];
-    var teamId= '';
     $scope.error = false;
     $scope.errorMessage = '';
 
@@ -25,7 +20,7 @@
 
     $log.debug('teamDetail',':','$stateParams',':',$stateParams);
 
-    var loadTeamList = function(path) {
+    var loadTeamDetail = function(path) {
       $http
         .get(path)
         .then(function (response) {
@@ -33,7 +28,7 @@
           $scope.team = response.data;
         })
         .catch(function (err) {
-          console.log(err);
+          $log.debug('load team detail error',err);
           $scope.error = true;
           $scope.errorMessage = err.data.message;
         });
@@ -43,7 +38,7 @@
     if($stateParams.teamId){
       getTeamPath = C.backendUrl + '/api/teams/'+$stateParams.teamId+'?dto=true';
       $scope.teamId = $stateParams.teamId;
-      loadTeamList(getTeamPath);
+      loadTeamDetail(getTeamPath);
     }
     else {
       Storage
@@ -52,7 +47,7 @@
           if(teamId){
             getTeamPath = C.backendUrl + '/api/teams/' + teamId + '?dto=true';
             $scope.teamId = teamId;
-            loadTeamList(getTeamPath);
+            loadTeamDetail(getTeamPath);
           }
           else{
             $scope.error = true;
@@ -83,7 +78,7 @@
 
 
 
-    $scope.startgame = function(){
+    $scope.startGame = function(){
       $scope.data = {};
 
       var language = $ionicPopup.show({
@@ -121,26 +116,42 @@
 
     var socket = io.connect(C.backendUrl + '/teams');
     socket.on('joined', function (response) {
-      console.log(response);
-          $scope.$apply(function(){
-            console.log($scope.team);
-            $scope.team.push(response.memberName);
-          });
-
-
+      if($scope.team._id === response.teamId){
+        $log.debug('joined socket response: ',response);
+        $scope.$apply(function(){
+          $scope.team.members.push({_id: response.memberName, fullName:response.memberId});
+          $log.debug($scope.team.members);
+        });
+      }
     });
 
     socket.on('quit', function (response) {
-      console.log(response);
-          $scope.$apply(function(){
-            console.log($scope.team);
-            $scope.team.push(response.memberName);
+      if($scope.team._id === response.teamId){
+        $log.debug('quit socket response:',response);
+        $scope.$apply(function(){
+          $scope.team.members = $scope.team.members.filter(function(m){
+            return m._id === response.userId;
           });
+          $log.debug($scope.team.members);
+        });
+      }
     });
 
-
-
-
+    socket.on('deleted', function (response) {
+      $log.debug('deleted socket response:',response);
+      if($scope.team._id === response._id){
+        Storage
+          .setTeamId(undefined)
+          .then(function(){
+            $state.go('twitts');
+          })
+          .catch(function(err){
+            $log.debug('socket deleted team err:',err);
+            $scope.error = true;
+            $scope.errorMessage = err.message;
+          });
+      }
+    });
 
     // Watch for error
     $scope.$watch('error',function(newValue){
