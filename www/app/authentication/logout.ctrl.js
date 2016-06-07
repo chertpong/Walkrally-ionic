@@ -12,24 +12,12 @@
 
 
      // console.log();
-      Storage.clear().then(function(){
+      Storage.clear().then(function() {
         $ionicHistory.clearHistory();
         $ionicHistory.clearCache();
-        //$state.go('login');
 
-        Storage.getUser().then(function(user){
-          if(user){
-            $state.go('twitts');
-          } else {
-            $state.go('login');
-          }
-        });
-      }).catch(function (err) {
-      console.log(err);
-      $scope.error = true;
+        $state.go('login');
 
-    });
-
-
+      });
   }
 })();

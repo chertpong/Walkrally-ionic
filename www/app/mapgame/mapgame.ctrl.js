@@ -242,31 +242,31 @@
           $scope.place = place;
           // Mock
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
-              //return d.language == "th"
-              return d.language == language
+              return d.language == "th"
+              //return d.language == language
           }
           );
           $scope.place.questions[0].descriptions = $scope.place.questions[0].descriptions.filter(function(q){
-            //return q.language == "th"
-            return q.language == language
+            return q.language == "th"
+            //return q.language == language
 
           });
 
           $scope.place.questions[0].choices[0].description = $scope.place.questions[0].choices[0].description.filter(function(a1){
-           // return a1.language == "th"
-            return a1.language == language
+            return a1.language == "th"
+            //return a1.language == language
           });
           $scope.place.questions[0].choices[1].description = $scope.place.questions[0].choices[1].description.filter(function(a2){
-           // return a2.language == "th"
-            return a2.language == language
+           return a2.language == "th"
+            //return a2.language == language
           });
           $scope.place.questions[0].choices[2].description = $scope.place.questions[0].choices[2].description.filter(function(a3){
-            //return a3.language == "th"
-            return a3.language == language
+            return a3.language == "th"
+           // return a3.language == language
           });
           $scope.place.questions[0].choices[3].description = $scope.place.questions[0].choices[3].description.filter(function(a4){
-           // return a4.language == "th"
-            return a4.language == language
+            return a4.language == "th"
+            //return a4.language == language
           });
 
           console.log($scope.place.descriptions);
@@ -275,13 +275,6 @@
           console.log($scope.place.questions[0].choices[1].description);
           console.log($scope.place.questions[0].choices[2].description);
           console.log($scope.place.questions[0].choices[3].description);
-          //var language;
-          //$scope.placeDescription;
-          //$scope.placeQuestion;    place.questions[0].descriptions[0].content
-          //$scope.placeAnswer1;     place.questions[0].choices[0].description[0].content
-          //$scope.placeAnswer2;
-          //$scope.placeAnswer3;
-          //$scope.placeAnswer4;
         });
       });
     }
@@ -291,7 +284,7 @@
       });
     };
 
-    $scope.getCompare= function(){
+    $scope.getCompare= function(place){
       var BETWEEN_DEGREE = 15;
       var THOUSAND_METER = 1000;
 
@@ -341,7 +334,6 @@
         var power1 = Math.pow((gps2.latitude * latitudeDistance2) - (gps1.latitude * latitudeDistance1), 2);
         // (Y2 * b2 - Y1 * b1) ^ 2
         var power2 = Math.pow((gps2.longitude * longitudeDistance2) - (gps1.longitude * longitudeDistance1), 2);
-
         return Math.sqrt(power1 + power2);
       }
 
@@ -350,29 +342,32 @@
        * lat:30.653036,lng:104.190699
        * {lat:30.648658,lng:104.186639}
        * 18.788687,"lng":98.985918
+       * dining hall 5 30.656254, 104.191239
+       * current location 30.650701, 104.180157 ,,,,,latitude: 30.650749363079974longitude: 104.18018643853007
+       * test 3 , 30.653036,104.190699
+       * lo.lat,lo.lng
        */
       var gps1;
-      var gps2 = new GPS(30.657663, 104.058755);
+      var gps2 = new GPS(place.location.lat,place.location.lng);
 
-      GeolocationPlugin.getCurrentPosition().then(function(position){
-        $log.debug('position',position);
-       gps1 = new GPS(position.coords.latitude,position.coords.longitude);
-        alert(findDistance(gps1, gps2) + ' meter');
+      GeolocationPlugin.getCurrentPosition().then(function(position) {
+        $log.debug('position', position);
+        gps1 = new GPS(position.coords.latitude, position.coords.longitude);
+         if (findDistance(gps1, gps2) < 600){
+
+            $scope.modalListQuestion.show();
+         } else{
+        alert('Far !!! ' + findDistance(gps1, gps2) + ' meter');
+      }
       });
+
     };
-
-
-    function compareTwoPosition(){
-
-    }
 
     $scope.openModalGameViewMoreDetail = function(){
       $scope.modalGameViewMoreDetail.show();
     };
     $scope.openModalListQuestion = function(){
       $scope.modalListQuestion.show();
-
-
     };
     $scope.openModalQuestion = function(){
       $scope.modalQuestion.show();
@@ -397,9 +392,7 @@
         $scope.error = true;
 
       });
-if(response){ $scope.modalQuestion.hide();}
-
-
+        if(response){ $scope.modalQuestion.hide();}
     }
 
 

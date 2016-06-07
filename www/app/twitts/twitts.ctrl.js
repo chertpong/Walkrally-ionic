@@ -9,18 +9,14 @@
     $scope.fn = fn;
     $scope.teams= [];
 
-
-    Storage.getTeamId().then(function(teamId){
-      if(teamId){
-        $state.go('teamDetail');
-      }else{
-
-
-
+    //Storage.getTeamId().then(function(teamId){
+    //  if(teamId){
+    //    $state.go('teamDetail');
+    //  }else{}}).catch();
 
     var currentMember ='';
     var maximumMember ='';
-  var teamId='';
+    var teamId='';
       var server= "http://52.163.91.205";
       var path = "/api/teams?dto=true";
 
@@ -35,31 +31,21 @@
 
     });
 
-      }
-
-    }).catch();
-
     $scope.joinTeam = function(teamId){
-
-
       Storage.setTeamId(teamId).then(function(){
        console.log(teamId)
       });
 
       var server= "http://52.163.91.205";
       var path = '/api/teams/'+teamId+'/join';
-
       $http.post(server+path)
         .then(function (response) {
           console.log('join team response:'+response);
           $state.go('teamDetail',{teamId:teamId});
-
         }).catch(function (err) {
         console.log(err);
         $scope.error = true;
-
       });
-
     };
 
     var socket = io.connect('http://52.163.91.205/teams');
@@ -67,16 +53,13 @@
       $scope.$apply(function(){
         console.log('socket create response:'+response);
         $scope.teams.push(response);
-   //       $scope.currentMember =response.data.currentMember;
+   //     $scope.currentMember =response.data.currentMember;
    //     $scope.maximumMember =response.data.maximumMember;
         console.log($scope.teams);
       })
     });
 
-
-
     socket.on('joined', function (response) {
-
       console.log(response);
       $scope.teams.forEach(function(team,index){
         if(team._id=== response.teamId){
@@ -87,7 +70,6 @@
         }
       });
     });
-
 
     socket.on('quit', function (response) {
       console.log(response);
@@ -100,30 +82,16 @@
         }
       });
     });
-
-    //หาทีมที่ถูกquit มีคนออก ที่อยู่ในlist ทั้งหมด
-    //  currentmember --
-
-
-    //
-    //socket.on('deleted', function (response) {
-    //  $scope.$apply(function(){
-    //    console.log(response);
-    //    $scope.teams.push(response);
-    //    console.log($scope.teams);
-    //  })
-    //});
-
+    socket.on('deleted', function (response) {
+      $scope.$apply(function(){
+        console.log(response);
+        $scope.teams.push(response);
+        console.log($scope.teams);
+      })
+    });
 
     $scope.linktoCreateTeam = function(){
-
       $state.go('twitt');
     }
-
-
   }
-
-
-
-
 })();
