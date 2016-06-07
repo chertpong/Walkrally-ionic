@@ -91,6 +91,30 @@
     $scope.linkToLogin = function(){
       console.log('sucess');
       $state.go('login');
-    }
+    };
+    
+    
+    /*   $scope.data = {};
+    $scope.data.showSearch = false;
+
+    $timeout( function() {
+
+      $scope.data.items = [
+        { price: '$4.99', text: 'Landmark' },
+        { price: '$2.99', text: 'Food' },
+        { price: '$3.99', text: 'Culture' },
+        { price: '$4.99', text: 'Shop' },
+        { price: '$2.99', text: 'Etc.' },
+    
+      ];
+
+      $ionicScrollDelegate.scrollTo(0, 44, false);
+      $scope.data.showSearch = true;
+
+    }, 2000);
+
+    $scope.clearSearch = function() {
+      $scope.data.searchQuery = '';
+    };*/
   }
 })();
