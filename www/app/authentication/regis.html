@@ -1,0 +1,85 @@
+<ion-header-bar class="bar-red ">
+  <div class="buttons">
+    <button class="button-head icon ion-home" ng-click="linkToBeginMap()"></button>
+  </div>
+  <h1 class="title">WalkRally</h1>
+  <div>
+    <i class="icon ion-home" style="color: #543a3d"></i>
+  </div>
+
+</ion-header-bar>
+
+<ion-view title="Regis">
+  <ion-content>
+
+    <div class="auth-welcome" style="padding-top: 30px">
+      <h2>Register</h2>
+      <h5>Create account.</h5>
+    </div>
+
+
+  <form ng-submit="fn.login(data.credentials)" class="col col-100">
+    <div class="padding">
+      <label class="item item-input item-floating-label">
+        <span class="input-label">First Name*</span>
+        <input type="text" placeholder="First name" ng-model="data.credentials.firstName">
+      </label>
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Last Name*</span>
+        <input type="text" placeholder="Last name" ng-model="data.credentials.lastName">
+      </label>
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Nationality</span>
+        <input type="text" placeholder="Nationality" ng-model="data.credentials.nationality">
+      </label>
+
+      <label class="item item-input item-select">
+        <div class= "input-label" style="color: #c23838"><b>
+          Gender
+        </b></div>
+        <select>
+          <option> Female </option>
+          <option> Male </option>
+          <option> No specify </option>
+        </select>
+
+      </label>
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Email</span>
+        <input type="email" placeholder="Email" ng-model="data.credentials.email">
+      </label>
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Password</span>
+        <input type="password" placeholder="Password" ng-model="data.credentials.password">
+      </label>
+
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Confirm Password</span>
+        <input type="password" placeholder="Confirm Password" ng-model="data.credentials.confirmpassword">
+      </label>
+
+
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Phone Number</span>
+        <input type="tel" placeholder="Phone Number" ng-model="data.credentials.phoneNumber">
+      </label>
+
+      <div class="item">
+        <button class="button icon-left ion-ios7-camera" ng-click="uploadPicture()"> Upload picture </button>
+      </div>
+
+    </div>
+    <div class="padding">
+      <button type="submit" class="button button-block" ng-disabled="!data.credentials.email">R E G I S T E R</button>
+    </div>
+
+  </form>
+
+  </ion-content>
+
+</ion-view>
