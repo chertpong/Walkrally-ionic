@@ -21,7 +21,32 @@
         template: $scope.errorMessage
       });
     };
-
+    // Check if already logged in
+    Storage
+      .getUserToken()
+      .then(function(token){
+        if(token){
+          $log.debug('user is logged in');
+          Storage
+            .getTeamId()
+            .then(function(teamId){
+              $log.debug('user already has a team');
+              $log.debug('redirect to teamDetail : teamId = ',teamId);
+              $state.go('teamDetail', {teamId: teamId});
+            })
+            .catch(function(err){
+              $log.debug('user doesn\'t has any team yet, redirect to lobby');
+              $state.go('twitts');
+            });
+  
+        }
+        else{
+          $log.debug('user is not logged in yet');
+        }
+      })
+      .catch(function(err){
+        $log.debug('user is not logged in yet');
+      });
     fn.login = function (credentials) {
       var path = C.backendUrl + "/auth/local";
       $http.post(path, data.credentials)

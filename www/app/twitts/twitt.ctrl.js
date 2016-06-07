@@ -3,48 +3,44 @@
   angular.module('app')
     .controller('CreateTeamCtrl', CreateTeamCtrl);
 
-  function CreateTeamCtrl($scope, $stateParams, Storage, $http, $state){
+  function CreateTeamCtrl($scope, $stateParams, Storage, $http, $state, C, $log, $ionicPopup){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
 
-    //Storage.getUserToken().then(function(twitt){
-    //  data.twitt = twitt;
-    //});
-
-$scope.createTeam = function() {
-  var server = "http://52.163.91.205";
-  var path = "/api/teams";
-
-  $http.post(server + path, {name: $scope.data.teamName })
-    .then(function (response) {
-      console.log(response.data);
-
-      Storage.setTeamId(response.data._id).then(function(){
-       console.log(success);
+    $scope.alert = function(){
+      return $ionicPopup.alert({
+        title: 'Error!',
+        template: $scope.errorMessage
       });
+    };
 
-      $state.go('teamDetail',{teamId:response.data._id});
+    $scope.createTeam = function() {
+      var path = C.backendUrl + '/api/teams';
 
+      $http.post(path, {name: $scope.data.teamName })
+        .then(function (response) {
+          $log.debug(response.data);
 
+          Storage.setTeamId(response.data._id).then(function(){
+            $log.debug('Save team id: ',response.data._id);
+          });
+          $state.go('teamDetail',{teamId:response.data._id});
+        })
+        .catch(function (err) {
+          $log.debug('create team err:',err);
+          $scope.error = true;
+          $scope.errorMessage = err.data.message;
+        });
+    };
 
-
-    }).catch(function (err) {
-    console.log(err);
-    console.log($scope.data.teamName);
-    console.log(token);
-    $scope.error = true;
-
-  });
-
-
-
-}
-
-
-
+    // Watch for error
+    $scope.$watch('error',function(newValue){
+      if(newValue){
+        $scope.alert().then(function(res) {
+          $scope.error = false;
+        });
+      }
+    });
   }
-
-
-
 })();

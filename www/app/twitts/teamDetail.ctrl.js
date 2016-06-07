@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('TeamDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup){
+  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log){
 
     var data = {}, fn = {};
     var name='';
@@ -11,56 +11,74 @@
     var maximumMember ='';
     var team =[];
     var teamId= '';
+    $scope.error = false;
+    $scope.errorMessage = '';
+
     $scope.fn = fn;
-    // เรียก team id
-
-    console.log($stateParams);
-
-    //$scope.name = $stateParams.name;
-    //$scope.currentMember = $stateParams.currentMember;
-    //$scope.maximumMember = $stateParams.maximumMember;
-
-
-
-
-
-    if($stateParams.teamId){
-
-      var server= "http://52.163.91.205";
-      var path = '/api/teams/'+$stateParams.teamId+'?dto=true';
-
-      $http.get(server+path)
-        .then(function (response) {
-          console.log(response.data);
-          $scope.teamId =$stateParams.teamId;
-          $scope.team = response.data;
-        console.log( $scope.team);
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
-
-
+    // Setup alert popup
+    $scope.alert = function(){
+      return $ionicPopup.alert({
+        title: 'Error!',
+        template: $scope.errorMessage
       });
+    };
+
+    $log.debug('teamDetail',':','$stateParams',':',$stateParams);
+
+    var loadTeamList = function(path) {
+      $http
+        .get(path)
+        .then(function (response) {
+          $log.debug('team detail response: ',response.data);
+          $scope.team = response.data;
+        })
+        .catch(function (err) {
+          console.log(err);
+          $scope.error = true;
+          $scope.errorMessage = err.data.message;
+        });
+    };
+
+    var getTeamPath = '';
+    if($stateParams.teamId){
+      getTeamPath = C.backendUrl + '/api/teams/'+$stateParams.teamId+'?dto=true';
+      $scope.teamId = $stateParams.teamId;
+      loadTeamList(getTeamPath);
+    }
+    else {
+      Storage
+        .getTeamId()
+        .then(function(teamId){
+          if(teamId){
+            getTeamPath = C.backendUrl + '/api/teams/' + teamId + '?dto=true';
+            $scope.teamId = teamId;
+            loadTeamList(getTeamPath);
+          }
+          else{
+            $scope.error = true;
+            $scope.errorMessage = "Error! No team id found, please join team again";
+            $state.go('twitts');
+          }
+        })
     }
 
     $scope.quitTeam = function(teamId){
+      var path = C.backendUrl + '/api/teams/'+teamId+'/quit';
 
-      var server= "http://52.163.91.205";
-      var path = '/api/teams/'+teamId+'/quit';
-
-      $http.post(server+path)
+      $http.post(path)
         .then(function (response) {
-          console.log(response);
-
+          $log.debug('quit team response:',response);
+          return Storage.setTeamId(undefined);
+        })
+        .then(function(){
           $state.go('twitts');
-
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
-
-      });
-
-    }
+        })
+        .catch(function (err) {
+          $log.debug('quit team err:',err);
+          $scope.error = true;
+          $scope.errorMessage = err.data.message;
+        });
+    };
 
 
 
@@ -75,9 +93,9 @@
         buttons:
           [ { text: 'Cancel', type: 'button-default',
             onTap: function(e) {
-            // e.preventDefault() will stop the popup from closing when tapped.
-            return null;
-          }}
+              // e.preventDefault() will stop the popup from closing when tapped.
+              return null;
+            }}
             ,{
             text: '<b>Start</b>',
             type: 'button',
@@ -92,21 +110,21 @@
           }]
 
       });
-               language.then(function(res) {
-                 console.log(res);
-                if(res){
-                     Storage.setLanguage(res).then(function(){
-                    $state.go('mapgame');
-                     });}
-                   });
-
-    }
-
-
-
-
+      language.then(function(res) {
+        console.log(res);
+        if(res){
+          Storage.setLanguage(res).then(function(){
+            $state.go('mapgame');
+          });}
+      });
+    };
+    // Watch for error
+    $scope.$watch('error',function(newValue){
+      if(newValue){
+        $scope.alert().then(function(res) {
+          $scope.error = false;
+        });
+      }
+    });
   }
-
-
-
 })();

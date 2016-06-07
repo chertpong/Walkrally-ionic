@@ -3,58 +3,75 @@
   angular.module('app')
     .controller('TeamListCtrl', TeamListCtrl);
 
-  function TeamListCtrl($scope,$http, Storage, Backend, $state, $stateParams){
+  function TeamListCtrl($scope,$http, Storage, Backend, $state, $stateParams, C, $log, $ionicPopup){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
     $scope.teams= [];
+    $scope.error = false;
+    $scope.errorMessage = '';
 
-    //Storage.getTeamId().then(function(teamId){
-    //  if(teamId){
-    //    $state.go('teamDetail');
-    //  }else{}}).catch();
-
-    var currentMember ='';
-    var maximumMember ='';
-    var teamId='';
-      var server= "http://52.163.91.205";
-      var path = "/api/teams?dto=true";
-
-      $http.get(server+path)
-        .then(function (response) {
-          console.log(response.data);
-          $scope.teams= response.data
-
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
-
-    });
-
-    $scope.joinTeam = function(teamId){
-      Storage.setTeamId(teamId).then(function(){
-       console.log(teamId)
-      });
-
-      var server= "http://52.163.91.205";
-      var path = '/api/teams/'+teamId+'/join';
-      $http.post(server+path)
-        .then(function (response) {
-          console.log('join team response:'+response);
-          $state.go('teamDetail',{teamId:teamId});
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
+    $scope.alert = function(){
+      return $ionicPopup.alert({
+        title: 'Error!',
+        template: $scope.errorMessage
       });
     };
 
-    var socket = io.connect('http://52.163.91.205/teams');
+    Storage
+      .getTeamId()
+      .then(function(teamId){
+        if(teamId) {
+          $log.debug('lobby: user already have a team');
+          $log.debug('redirect to teamDetail : ',' teamId = ',teamId);
+          $state.go('teamDetail', {teamId: teamId});
+        }
+      });
+    var currentMember ='';
+    var maximumMember ='';
+    var teamId='';
+    var path = C.backendUrl + "/api/teams?dto=true";
+
+    $http
+      .get(path)
+      .then(function (response) {
+        $log.debug('team loaded ',response.data.length);
+        $scope.teams= response.data;
+      })
+      .catch(function (err) {
+        $log.debug('load team err:',err);
+        $scope.error = true;
+        $scope.errorMessage = err.data.message;
+    });
+
+    $scope.joinTeam = function(teamId){
+      var path = C.backendUrl + '/api/teams/'+teamId+'/join';
+      $http.post(path)
+        .then(function (response) {
+          $log.debug('join team success');
+          $log.debug('join team response:',response);
+
+          Storage.getUserToken().then(function(token){ $log.debug('token',token);});
+          Storage.getUser().then(function(user){ $log.debug('user',user);});
+          Storage.setTeamId(teamId).then(function(){
+            $log.debug('join:',teamId);
+          });
+          $state.go('teamDetail',{teamId:teamId});
+        })
+        .catch(function (err) {
+          $log.debug('join team err:',err);
+          $scope.error = true;
+          $scope.errorMessage = err.data.message;
+        });
+    };
+
+    var socket = io.connect(C.backendUrl + '/teams');
     socket.on('created', function (response) {
       $scope.$apply(function(){
         console.log('socket create response:'+response);
         $scope.teams.push(response);
-   //     $scope.currentMember =response.data.currentMember;
-   //     $scope.maximumMember =response.data.maximumMember;
+        //     $scope.currentMember =response.data.currentMember;
+        //     $scope.maximumMember =response.data.maximumMember;
         console.log($scope.teams);
       })
     });
@@ -92,6 +109,15 @@
 
     $scope.linktoCreateTeam = function(){
       $state.go('twitt');
-    }
+    };
+
+    // Watch for error
+    $scope.$watch('error',function(newValue){
+      if(newValue){
+        $scope.alert().then(function(res) {
+          $scope.error = false;
+        });
+      }
+    });
   }
 })();

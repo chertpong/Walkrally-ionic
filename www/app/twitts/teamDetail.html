@@ -40,7 +40,10 @@
 
       <ul class="list4">
 
-        <li class="item"  ng-repeat="member in team.members"> {{member.fullName}}</li>
+        <li
+          class="item"
+          ng-repeat="member in team.members"
+          ng-style="team.leaderId === member._id && {'background-color': '#FFC107'} || {}" > {{member.fullName}}</li>
 
       </ul>
       </div>
