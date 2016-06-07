@@ -1,7 +1,7 @@
 
   <ion-header-bar class="bar-red ">
     <div class="buttons">
-      <button class="button-head icon ion-home"></button>
+      <button class="button-head icon ion-home" ui-sref="logout"></button>
     </div>
     <h1 class="title" >Time Count 15:00</h1>
     <div>
@@ -19,6 +19,9 @@
       >
       </qq-map>
     </div>
+    <button ng-click="getCompare()"> compare location </button>
+    <button ng-click="getCurrent()">your current  </button>
+
 
     <div class="tabs tabs-icon-top tabs-color">
       <a class="tab-item col-50" href="/#/gamemap">

@@ -45,14 +45,14 @@
         scope: $scope,
         animation: 'fade-in'
       }).then(function (modal) {
-        $scope.modal1 = modal;
+        $scope.modalViewDetail = modal;
       });
 
       $ionicModal.fromTemplateUrl('app/mapbegin/mapViewMoreDetail.html', {
         scope: $scope,
         animation: 'fade-in'
       }).then(function (modal) {
-        $scope.modal2 = modal;
+        $scope.modalViewMoreDetial = modal;
       });
 
 
@@ -65,7 +65,7 @@
         });
         qq.maps.event.addListener(marker, 'click', function (index) {
 
-          $scope.modal1.show();
+          $scope.modalViewDetail.show();
           $scope.place = place;
 
         });
@@ -73,15 +73,13 @@
     }
 
     $scope.openModal = function(){
-      $scope.modal2.show();
+      $scope.modalViewMoreDetial.show();
     };
 
-
-
-      $scope.closeModal = function(index) {
-      if (index == 1) $scope.oModal1.hide();
-      else $scope.oModal2.hide();
-    };
+    //  $scope.closeModal = function(index) {
+    //  if (index == 1) $scope.oModal1.hide();
+    //  else $scope.oModal2.hide();
+    //};
 
     $scope.linkToBeginMap = function(){
       console.log('sucess111');

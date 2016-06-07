@@ -13,20 +13,20 @@
 
     <div class="card">
       <div class="item item-body">
-        < img class="left-image" src="delorean.jpg">
-        < img class="right-image" src="delorean.jpg">
+    <!--    < img class="left-image" src="delorean.jpg">
+        < img class="right-image" src="delorean.jpg">  -->
 
         <p class="text-styles">
-          Description of place can input here
+          Description
           </br>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+          {{place.descriptions[0].content}}
         </p >
       </div>
     </div>
 
 
     <div class="padding">
-      <button type="submit" class="button button-block">B A C K</button>
+      <button type="submit" class="button button-block" ng-click="modalViewMoreDetial.hide()">B A C K</button>
     </div>
 
 

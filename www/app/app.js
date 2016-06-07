@@ -10,43 +10,48 @@
     $httpProvider.interceptors.push('tokenInterceptor');
 
     $stateProvider
-    .state('loading', {
-      url: '/loading',
-      template: '<ion-spinner style="text-align: center; margin-top: 50%;"></ion-spinner>',
-      controller: 'LoadingCtrl'
-    })
-    .state('login', {
-      url: '/login',
-      templateUrl: 'app/authentication/login.html',
-      controller: 'LoginCtrl'
-    })
-    .state('app', {
-      url: '/app',
-      abstract: true,
-      templateUrl: 'app/layout/layout.html',
-      controller: 'LayoutCtrl'
-    })
-    .state('twitts', {
-      url: '/twitts',
-          templateUrl: 'app/twitts/twitts.html',
-          controller: 'TeamListCtrl',
-      params:{quitTeamId:null
+      .state('loading', {
+        url: '/loading',
+        template: '<ion-spinner style="text-align: center; margin-top: 50%;"></ion-spinner>',
+        controller: 'LoadingCtrl'
+      })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/authentication/login.html',
+        controller: 'LoginCtrl'
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'app/authentication/register.html',
+        controller: 'RegisterCtrl'
+      })
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        templateUrl: 'app/layout/layout.html',
+        controller: 'LayoutCtrl'
+      })
+      .state('twitts', {
+        url: '/twitts',
+        templateUrl: 'app/twitts/twitts.html',
+        controller: 'TeamListCtrl',
+        params:{quitTeamId:null
         }
 
-    })
-    .state('twitt', {
-      url: '/twitt',
-          templateUrl: 'app/twitts/twitt.html',
-          controller: 'CreateTeamCtrl'
-    })
+      })
+      .state('twitt', {
+        url: '/twitt',
+        templateUrl: 'app/twitts/twitt.html',
+        controller: 'CreateTeamCtrl'
+      })
       .state('teamDetail', {
         url: '/teamDetail',
-            templateUrl: 'app/twitts/teamDetail.html',
-            controller: 'TeamDetailCtrl',
-            params:{name: null,
-              currentMember:null,
-              maximumMember:null,
-              teamId:null}
+        templateUrl: 'app/twitts/teamDetail.html',
+        controller: 'TeamDetailCtrl',
+        params:{name: null,
+          currentMember:null,
+          maximumMember:null,
+          teamId:null}
       })
 
       .state('rank', {
@@ -67,20 +72,26 @@
         controller: 'mapGameCtrl'
       })
 
-    .state('app.settings', {
-      url: '/settings',
-      views: {
-        'menuContent': {
-          templateUrl: 'app/settings/settings.html',
-          controller: 'SettingsCtrl',
-          resolve: {
-            resolvedSettings: function(Storage){
-              return Storage.getUserSettings();
+      .state('logout', {
+        url: '/logout',
+        controller: 'LogoutCtrl'
+      })
+
+
+      .state('app.settings', {
+        url: '/settings',
+        views: {
+          'menuContent': {
+            templateUrl: 'app/settings/settings.html',
+            controller: 'SettingsCtrl',
+            resolve: {
+              resolvedSettings: function(Storage){
+                return Storage.getUserSettings();
+              }
             }
           }
         }
-      }
-    });
+      });
 
     $urlRouterProvider.otherwise('/loading');
 

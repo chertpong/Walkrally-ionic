@@ -16,17 +16,15 @@
             <h5>Select the question</h5>
           </div>
           <br>
-          <a class="item" href=" ">Question 1</a >
-          <a class="item" href="#">Question 2</a >
-          <a class="item" href="#">Question 3</a >
-          <a class="item" href="#">Question 4</a >
+          <a class="item" ng-click="openModalQuestion()">{{place.questions[0].descriptions[0].content}}</a >
+
 
 
         </div>
 
         <div class="padding">
-          <button type="submit" class="button button-block">A N S W E R</button>
-          <button type="submit" class="button button-block" style="margin-top: -5px">B A C K</button>
+
+          <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="modalListQuestion.hide()">B A C K</button>
         </div>
 
 

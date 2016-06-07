@@ -13,23 +13,23 @@
 
           <div class="Question">
             <div class="item item-text-wrap">
-              <h2 style="color: #c23838;"> Question 1 HERE ????? !!! </h2>
+              <h2 style="color: #c23838;"> {{place.questions[0].descriptions[0].content}} </h2>
             </div>
           </div>
 
             <ion>
               </br>
-              <ion-radio ng-model="choice" ng-value="'A'">Choose A</ion-radio>
-              <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio>
-              <ion-radio ng-model="choice" ng-value="'C'">Choose C</ion-radio>
-              <ion-radio ng-model="choice" ng-value="'D'">Choose D</ion-radio>
+              <ion-radio ng-model="choice" ng-value="'A'">Choose A: {{place.questions[0].choices[0].description[0].content}}</ion-radio>
+              <ion-radio ng-model="choice" ng-value="'B'">Choose B: {{place.questions[0].choices[1].description[0].content}}</ion-radio>
+              <ion-radio ng-model="choice" ng-value="'C'">Choose C: {{place.questions[0].choices[2].description[0].content}}</ion-radio>
+              <ion-radio ng-model="choice" ng-value="'D'">Choose D: {{place.questions[0].choices[3].description[0].content}}</ion-radio>
             </ion>
 
       </div>
 
       <div class="padding">
-        <button type="submit" class="button button-block">A N S W E R</button>
-        <button type="submit" class="button button-block" style="margin-top: -5px">B A C K</button>
+        <button type="submit" class="button button-block" ng-click="modalQuestion.hide()">A N S W E R</button>
+        <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="modalQuestion.hide()">B A C K</button>
       </div>
 
 
