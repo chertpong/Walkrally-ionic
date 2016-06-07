@@ -30,6 +30,7 @@
           Storage
             .setUserToken(response.data.token)
             .then(function () {
+              $log.debug('save token');
               return Storage.setUser(response.data.user);
             })
             .then(function() {
@@ -37,6 +38,7 @@
                 Storage
                   .setTeamId(response.data.teams[0]._id)
                   .then(function() {
+                    $log.debug('save team id: ', response.data.teams[0]._id);
                     $state.go('teamDetail', {teamId: response.data.teams[0]._id});    
                   });
               } else {
@@ -51,7 +53,8 @@
         });
     };
 
-    $scope.linkToBeginMap = function () {
+    $scope.linkToMapBegin = function () {
+      $log.debug('go to be');
       $state.go('mapbegin');
     };
 

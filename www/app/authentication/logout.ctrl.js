@@ -6,18 +6,14 @@
   angular.module('app')
     .controller('LogoutCtrl', LogoutCtrl);
 
-  function LogoutCtrl($state, $scope, $ionicHistory, Storage){
-   // var fn = {};
-   // $scope.fn = fn;
-
-
-     // console.log();
-      Storage.clear().then(function() {
-        $ionicHistory.clearHistory();
-        $ionicHistory.clearCache();
-
-        $state.go('login');
-
+  function LogoutCtrl($state, $scope, $ionicHistory, Storage, $log){
+      Storage
+        .clear()
+        .then(function() {
+          $log.debug('logout');
+          $ionicHistory.clearHistory();
+          $ionicHistory.clearCache();
+          $state.go('login');
       });
   }
 })();
