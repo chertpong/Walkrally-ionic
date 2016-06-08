@@ -143,7 +143,6 @@
         Storage
           .setTeamId(undefined)
           .then(function(){
-            //TODO : lobby is not reloaded after redirect
             $state.go('twitts',{}, { reload: true });
           })
           .catch(function(err){
