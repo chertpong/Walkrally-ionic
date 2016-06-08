@@ -143,7 +143,8 @@
         Storage
           .setTeamId(undefined)
           .then(function(){
-            $state.go('twitts');
+            //TODO : lobby is not reloaded after redirect
+            $state.go('twitts',{}, { reload: true });
           })
           .catch(function(err){
             $log.debug('socket deleted team err:',err);

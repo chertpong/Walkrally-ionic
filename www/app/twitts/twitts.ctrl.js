@@ -27,8 +27,6 @@
           $state.go('teamDetail', {teamId: teamId});
         }
       });
-    var currentMember ='';
-    var maximumMember ='';
     var teamId='';
     var path = C.backendUrl + "/api/teams?dto=true";
 
