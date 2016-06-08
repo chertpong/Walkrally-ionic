@@ -17,49 +17,6 @@
 
     var path = C.backendUrl+"/api/places";
     loadMap();
-    //routeDirection();
-
-    //function routeDirection(){
-    //  var center = new qq.maps.LatLng(30.650749363079974, 104.18018643853007);
-    //  var map = new qq.maps.Map(document.getElementById("container"), {
-    //    center: center
-    //  });
-    //  //设置获取驾车线路方案的服务
-    //
-    //  var drivingService = new qq.maps.DrivingService({
-    //    map: map,
-    //    panel: document.getElementById('infoDiv')
-    //  //  position:center
-    //    //展现结果
-    //  });
-    //  //设置搜索地点信息、驾车方案等属性
-    //  function search() {
-    //    var start = new qq.maps.LatLng(30.645774, 104.049999);
-    //    var end = new qq.maps.LatLng(30.646153, 104.049769);
-    //    var policy = "LEAST_TIME";
-    //    //设置驾车方案
-    //    drivingService.setPolicy(qq.maps.DrivingPolicy[policy]);
-    //    //设置驾车的区域范围
-    //    drivingService.setLocation("成都");
-    //    //设置回调函数
-    //    drivingService.setComplete(function(result) {
-    //      if (result.type == qq.maps.ServiceResultType.MULTI_DESTINATION) {
-    //        //alert("起终点不唯一");
-    //        var d = result.detail;
-    //        drivingService.search(d.start[0], d.end[0]);
-    //      }
-    //    });
-    //    //设置检索失败回调函数
-    //    drivingService.setError(function(data) {
-    //      alert(data);
-    //    });
-    //    //设置驾驶路线的起点和终点
-    //    drivingService.search(start,end);
-    //  }
-    //  window.onload = search;
-    //
-    //}
-
 
     function loadMap(){
       $http.get(path)
@@ -139,7 +96,17 @@
             }, {
               content:'places test 2 简述',
               language:'cn'
-            }],location:{lat:30.651624,lng:104.186103},
+            }],type:'shopping',location:{lat:30.651624,lng:104.186103},
+            contact:
+            {name:'Wat Phra Singh',
+              phoneNumber:'054-356414',
+              address:'3313 Kai ko apartment, Suthep, Muang Chiang Mai',
+              website:'http://culture.mome.co/watchaiphrakiat/',
+              openTime:'5:00',
+              closeTime:'20:00',
+              workingDay:'Daily',
+              description:'Description place 2'},
+              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg,location:{lat:30.651624,lng:104.186103}',
                         questions:[
                         {descriptions:[{content:'question2',
                                       language:'en'},
@@ -191,7 +158,18 @@
             }, {
               content:'places test 3 简述',
               language:'cn'
-            }],location:{lat:30.653036,lng:104.190699},
+            }],type:'Culture',
+              contact:
+              {name:'Doi Suthep',
+                phoneNumber:'054-1111',
+                address:'Muang Chiang Mai',
+                website:'http://culture.mome.co/watchaiphrakiat/',
+                openTime:'2:00',
+                closeTime:'21:00',
+                workingDay:'Daily',
+                description:'Description place 3'},
+              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg',
+            location:{lat:30.653036,lng:104.190699},
                                 questions:[
                                           {descriptions:[{content:'question3',
                                                           language:'en'},
@@ -274,42 +252,41 @@
 
 
     function setMarkers(){
-      $scope.places.forEach(function(place){
-        var geolocation = new qq.maps.LatLng(place.location.lat, place.location.lng);
-        var marker = new qq.maps.Marker({
-          position: geolocation,
-          map: $rootScope.map
-        });
-        qq.maps.event.addListener(marker, 'click', function (index) {
 
+      $scope.places.forEach(function(place){
+        var geolocation = new BMap.Point(place.location.lng,place.location.lat);
+        var marker = new BMap.Marker(geolocation);
+        $rootScope.map.addOverlay(marker);
+
+        marker.addEventListener('click',function (index) {
           $scope.modalGameViewDetail.show();
           $scope.place = place;
           // Mock
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
-              return d.language == "th"
+              return d.language == "th";
               //return d.language == language
           }
           );
           $scope.place.questions[0].descriptions = $scope.place.questions[0].descriptions.filter(function(q){
-            return q.language == "th"
+            return q.language == "th";
             //return q.language == language
 
           });
 
           $scope.place.questions[0].choices[0].description = $scope.place.questions[0].choices[0].description.filter(function(a1){
-            return a1.language == "th"
+            return a1.language == "th";
             //return a1.language == language
           });
           $scope.place.questions[0].choices[1].description = $scope.place.questions[0].choices[1].description.filter(function(a2){
-           return a2.language == "th"
+           return a2.language == "th";
             //return a2.language == language
           });
           $scope.place.questions[0].choices[2].description = $scope.place.questions[0].choices[2].description.filter(function(a3){
-            return a3.language == "th"
+            return a3.language == "th";
            // return a3.language == language
           });
           $scope.place.questions[0].choices[3].description = $scope.place.questions[0].choices[3].description.filter(function(a4){
-            return a4.language == "th"
+            return a4.language == "th";
             //return a4.language == language
           });
 
