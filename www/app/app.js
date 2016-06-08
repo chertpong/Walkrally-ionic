@@ -35,9 +35,8 @@
         url: '/twitts',
         templateUrl: 'app/twitts/twitts.html',
         controller: 'TeamListCtrl',
-        params:{quitTeamId:null
-        }
-
+        params:{ quitTeamId: null },
+        cache: false
       })
       .state('twitt', {
         url: '/twitt',

@@ -25,19 +25,21 @@
           var geolocation = new BMap.Geolocation();
           geolocation.getCurrentPosition(function(position){
             if(this.getStatus()==BMAP_STATUS_SUCCESS){
+             // console.log('position.point:',position.point.lat,position.point.lng);
               var currentPosition = new BMap.Marker(position.point);
               $rootScope.map.addOverlay(currentPosition);
-
+              currentPosition.addEventListener('click',function(){
+               alert(" your current location");
+              });
               setTimeout(function(){
-                map.setZoom(11);
-              }, 1000);
+                $rootScope.map.setZoom(15);
+              }, 2000);
               $rootScope.map.panTo(position.point);
               $rootScope.map.enableScrollWheelZoom(true);
-              alert('your current' + position.point.lng +','+ position.point.lat);
+             // alert('your current' + position.point.lng +','+ position.point.lat);
             }else{
               alert('failed' + this.getStatus());
             }
-
           },{enableHighAccuracy: true});
 
           //$rootScope.map = new qq.maps.Map(mapContainer,{

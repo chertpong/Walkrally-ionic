@@ -148,7 +148,7 @@
         Storage
           .setTeamId(undefined)
           .then(function(){
-            $state.go('twitts');
+            $state.go('twitts',{}, { reload: true });
           })
           .catch(function(err){
             $log.debug('socket deleted team err:',err);
