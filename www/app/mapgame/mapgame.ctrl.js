@@ -69,10 +69,22 @@
     });
 
     function setMarkers(){
-     // var myIcon = new 	BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300,157));
-      $scope.places.forEach(function(place){
+        var Icon;
+        $scope.places.forEach(function(place){
         var geolocation = new BMap.Point(place.location.lng,place.location.lat);
-        var marker = new BMap.Marker(geolocation);
+
+        if (place.type == "Landmark") {
+          Icon = new 	BMap.Icon("img/1land.png", new BMap.Size(300,170));
+        } else if (place.type == "Culture") {
+          Icon = new 	BMap.Icon("img/2cul.png", new BMap.Size(300,170));
+        }else if (place.type == "Shopping") {
+          Icon = new 	BMap.Icon("img/3shop.png", new BMap.Size(300,170));
+        }else if (place.type == "Restautant") {
+          Icon = new 	BMap.Icon("img/4res.png", new BMap.Size(300,170));
+        } else {
+          Icon = new BMap.Icon("img/5other.png", new BMap.Size(300,170));
+        }
+        var marker = new BMap.Marker(geolocation, {icon: Icon});
 
         $rootScope.map.addOverlay(marker);
         marker.addEventListener('click',function (index) {
