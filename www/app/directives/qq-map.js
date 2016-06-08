@@ -17,20 +17,29 @@
           draggable: "="
         },
         link: function (scope, element, attrs) {
-
           $rootScope.map = new BMap.Map('bMap');
-          var point = new BMap.Point(116.403765,39.914850);
-          $rootScope.map.centerAndZoom(point,12);
-
+          var geolocationControl = new BMap.GeolocationControl();
+          //geolocationControl.addEventListener("locationSuccess", function(e){
+          //});
+          //geolocationControl.addEventListener("locationError",function(e){
+          //  // 定位失败事件
+          //  alert(e.message,"error place");
+          //});
+          $rootScope.map.addControl(geolocationControl);
+          var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL});
+          $rootScope.map.addControl(top_right_navigation);
           var geolocation = new BMap.Geolocation();
           geolocation.getCurrentPosition(function(position){
             if(this.getStatus()==BMAP_STATUS_SUCCESS){
-             // console.log('position.point:',position.point.lat,position.point.lng);
-              var currentPosition = new BMap.Marker(position.point);
-              $rootScope.map.addOverlay(currentPosition);
-              currentPosition.addEventListener('click',function(){
-               alert(" your current location");
-              });
+             // console.log('position.point:',position.point.lat,position.point.lng);  r.point.lng+','+r.point.lat
+              var point = new BMap.Point(position.point.lng,position.point.lat);
+              $rootScope.map.centerAndZoom(point,12);
+             //
+             // var currentPosition = new BMap.Marker(position.point);
+             // $rootScope.map.addOverlay(currentPosition);
+             // currentPosition.addEventListener('click',function(){
+             //  alert(" your current location");
+             // });
               setTimeout(function(){
                 $rootScope.map.setZoom(15);
               }, 2000);
@@ -41,6 +50,8 @@
               alert('failed' + this.getStatus());
             }
           },{enableHighAccuracy: true});
+
+
 
           //$rootScope.map = new qq.maps.Map(mapContainer,{
           //  center: new qq.maps.LatLng(39.914850, 116.403765),
