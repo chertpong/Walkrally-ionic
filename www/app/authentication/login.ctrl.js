@@ -18,7 +18,12 @@
     $scope.alert = function(){
       return $ionicPopup.alert({
         title: 'Error!',
-        template: '<div style="background-color:red">'+$scope.errorMessage+'</div>'
+        template: $scope.errorMessage,
+        buttons:
+          [{
+            text: 'OK',
+            type: 'button',
+          }]
       });
     };
     // Check if already logged in
