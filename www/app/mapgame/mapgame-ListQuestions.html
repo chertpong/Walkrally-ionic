@@ -1,13 +1,10 @@
 <ion-modal-view>
+  <ion-header-bar class="bar-red ">
+    <h1 class="title">List Question</h1>
+  </ion-header-bar>
 
   <ion-content>
-    <h2>Place {{place.name}}</h2>
 
-      <ion-header-bar class="bar-red ">
-        <h1 class="title">List Question</h1>
-      </ion-header-bar>
-
-      <ion-content>
 
         <div class="list-inset">
 
@@ -18,8 +15,6 @@
           <br>
           <a class="item" ng-click="openModalQuestion()">{{place.questions[0].descriptions[0].content}}</a >
 
-
-
         </div>
 
         <div class="padding">
@@ -28,7 +23,6 @@
         </div>
 
 
-      </ion-content>
 
   </ion-content>
 </ion-modal-view>

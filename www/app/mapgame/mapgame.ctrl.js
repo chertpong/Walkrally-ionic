@@ -9,6 +9,7 @@
     $scope.data = data;
     $scope.places=[];
     $scope.location={};
+
     var language;
 
     Storage.getLanguage().then(function(l){
@@ -24,12 +25,14 @@
           $scope.places = response.data;
 
           $log.debug('[+]','places are loaded',response.data.length);
-          console.log($scope.places);
+
+          //console.log($scope.places);
           //TODO : remove after add fake location
 
           Storage.setPlaces($scope.places).then(function(){
            // setRoute();
             setMarkers();
+
           });
         }).catch(function (err) {
         $log.debug('[!] Error: ',err);
@@ -69,51 +72,57 @@
     });
 
     function setMarkers(){
+      $rootScope.map.clearOverlays();
+      $rootScope.map.enableScrollWheelZoom(true);
         var Icon;
         $scope.places.forEach(function(place){
         var geolocation = new BMap.Point(place.location.lng,place.location.lat);
 
-        if (place.type == "Landmark") {
-          Icon = new 	BMap.Icon("img/1land.png", new BMap.Size(300,170));
-        } else if (place.type == "Culture") {
-          Icon = new 	BMap.Icon("img/2cul.png", new BMap.Size(300,170));
-        }else if (place.type == "Shopping") {
-          Icon = new 	BMap.Icon("img/3shop.png", new BMap.Size(300,170));
-        }else if (place.type == "Restautant") {
-          Icon = new 	BMap.Icon("img/4res.png", new BMap.Size(300,170));
-        } else {
-          Icon = new BMap.Icon("img/5other.png", new BMap.Size(300,170));
-        }
-        var marker = new BMap.Marker(geolocation, {icon: Icon});
+          if (place.type == "Landmark") {
+            Icon = new BMap.Icon("img/1land.png", new BMap.Size(40,54));
 
+          } else if (place.type == "Culture") {
+            Icon = new BMap.Icon("img/2cul.png", new BMap.Size(40,54));
+
+          }else if (place.type == "Shopping") {
+            Icon = new BMap.Icon("img/3shop.png", new BMap.Size(40,54));
+
+          }else if (place.type == "Restautant") {
+            Icon = new BMap.Icon("img/4res.png", new BMap.Size(40,54));
+
+          } else {
+            Icon = new BMap.Icon("img/5other.png", new BMap.Size(40,54));
+          }
+
+        var marker = new BMap.Marker(geolocation, {icon: Icon});
         $rootScope.map.addOverlay(marker);
         marker.addEventListener('click',function (index) {
           $scope.modalGameViewDetail.show();
           $scope.place = place;
           // Mock
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
-              return d.language == "th";
-              //return d.language == language
+             // return d.language == "th";
+             return d.language == language
           });
           $scope.place.questions[0].descriptions = $scope.place.questions[0].descriptions.filter(function(q){
-            return q.language == "th";
-            //return q.language == language
+           // return q.language == "th";
+            return q.language == language
           });
           $scope.place.questions[0].choices[0].description = $scope.place.questions[0].choices[0].description.filter(function(a1){
-            return a1.language == "th";
-            //return a1.language == language
+           // return a1.language == "th";
+            return a1.language == language
           });
           $scope.place.questions[0].choices[1].description = $scope.place.questions[0].choices[1].description.filter(function(a2){
-           return a2.language == "th";
-            //return a2.language == language
+          // return a2.language == "th";
+            return a2.language == language
           });
           $scope.place.questions[0].choices[2].description = $scope.place.questions[0].choices[2].description.filter(function(a3){
-            return a3.language == "th";
-           // return a3.language == language
+           // return a3.language == "th";
+            return a3.language == language
           });
           $scope.place.questions[0].choices[3].description = $scope.place.questions[0].choices[3].description.filter(function(a4){
-            return a4.language == "th";
-            //return a4.language == language
+            //return a4.language == "th";
+            return a4.language == language
           });
           console.log($scope.place.descriptions);
           console.log($scope.place.questions[0].descriptions);
@@ -132,24 +141,16 @@
                 $log.debug('place',$scope.places[i]);
        var start = new BMap.Point($scope.places[i-1].location.lng,$scope.places[i-1].location.lat);
        var  end = new BMap.Point($scope.places[i].location.lng,$scope.places[i].location.lat);
-       var  walking = new BMap.WalkingRoute($rootScope.map, {renderOptions:{map: $rootScope.map, autoViewport: true}});
+       var  walking = new BMap.WalkingRoute($rootScope.map);
         walking.search(start,end);
-        //walking.setSearchCompleteCallback(function(res){
-        //  console.log(res);
-        //});
+        walking.setSearchCompleteCallback(function(){
+          var pts = walking.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+          var polyline = new BMap.Polyline(pts);
+          $rootScope.map.addOverlay(polyline);
+        });
       }
-      //starts.forEach(function(start){
-      //  ends.forEach(function(end){
-      //    walking.search(start,end);
-      //  });
-      //});
-    }
 
-    $scope.getCurrent= function() {
-      Geolocation.getCurrentPosition().then(function(position){
-        $log.debug('html current position',position);
-      });
-    };
+    }
 
     $scope.getCompare= function(place){
       var geolocation = new BMap.Geolocation();
@@ -192,38 +193,75 @@
 
     };
 
-    $scope.postAnswer = function(answerId){
-      var server= "http://52.163.91.205";
-      var path = '/api/questions/'+answerId+'/answer';
+    //$scope.checkQuestion = function(questionId){
+    //get
+    //
+    //  return true;
+    //
+    //  return false;
+    //};
+
+    $scope.postAnswer = function(answer){
+
+      //Storage.getQuestionIds().then(function(questionIs){
+      //  if(questionIs==null){
+      //    Storage.setQuestionIds($scope.place.questions[0]._id).then(function(){
+      //      // setRoute();
+      //      setMarkers();
+      //
+      //    });
+      //
+      //  }eles
+      //
+      //});
+
+
+      var path = C.backendUrl + '/api/questions/'+$scope.place.questions[0]._id+'/answer';
+
+      console.log(answer);
+      if($scope.answer == "0"){
+        answer = $scope.place.questions[0].choices[0]._id;
+      }else if($scope.answer == "1"){
+        answer= $scope.place.questions[0].choices[1]._id;
+      }else if($scope.answer == "2"){
+        answer= $scope.place.questions[0].choices[2]._id;
+      }else{
+        answer=$scope.place.questions[0].choices[3]._id;
+      }
 
       Storage.getTeamId().then(function(response){
-        var data = {teamId: response, choiceId:answerId};
+        var data = {teamId: response, choiceId:answer};
 
         console.log(data);
-        $http.post(server+path,data)
+        $http.post(path,data)
           .then(function (response) {
             console.log(response);
-            alert('your answer are '+ response.correct);
-            if(response){
 
-              modalQuestion.hide();}
+            response.data.correctAnswer.description = response.data.correctAnswer.description.filter(function(solution){
+              return solution.language == "en";
+             // return solution.language == language
+            });
 
+            if(response.data.message == "correct"){
+              var alertAnswer1 = $ionicPopup.alert({
+                title: 'alert',
+                template: '<b>'+'You are'+ response.data.message + '</b>'
+              });
+              $scope.modalQuestion.hide();
+            } else{
+              var alertAnswer2 = $ionicPopup.alert({
+                title: 'alert',
+                template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content
+              });
+               $scope.modalQuestion.hide();
+                  }
           }).catch(function (err) {
           console.log(err);
           $scope.error = true;
-        });
-
+                 });
       });
-
-
-
-
     }
-
-
-
   }
-
 })();
 
 

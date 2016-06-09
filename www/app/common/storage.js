@@ -13,6 +13,7 @@
       teamId: 'teamId',
       language:'language',
       places: [],
+      questionIds: [],
       twitts: 'twitts'
     };
     return {
@@ -37,6 +38,9 @@
       //
       getPlaces: getPlaces,
       setPlaces: setPlaces,
+      //
+      getQuestionIds: getQuestionIds,
+      setQuestionIds: setQuestionIds,
       // global
       clear: clear
     };
@@ -49,6 +53,14 @@
       return _StorageUtils.set(keys.places, places);
     }
 
+
+    function getQuestionIds(){
+      return _StorageUtils.get(keys.questionIds);
+    }
+
+    function setQuestionIds(questionIds){
+      return _StorageUtils.set(keys.questionIds, questionIds);
+    }
 
     function getLanguage(){
       return _StorageUtils.get(keys.language);

@@ -4,38 +4,28 @@
   </ion-header-bar>
 
   <ion-content>
-
     </br>
     <h3 class="text-center">{{place.name}}</h3>
 
     <div class="card">
+        <div class="item item-body">
+        <img src="{{place.thumbnail}}" alt="{{place.name}}" style="width:100%">
 
-      <div class="item item-body">
-     <!--   < img src="img/Login2.png" alt="Logo"> -->
-
-        <p class="text-styles">
-          <b>{{place.name}}</b>
-          </br>
-          {{place.descriptions[0].content}}
-
-        </p >
-
-
-      </div>
-
-
+          <p class="text-styles">
+            <b>{{place.name}}</b>
+            </br>
+            {{place.descriptions[0].content}}
+          </p >
+        </div>
     </div>
 
     <div class="padding">
-      <button type="submit" class="button button-block">N A V I G A T E</button>
-      <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="openModalGameViewMoreDetail()">M O R E &nbsp; D E T A I L</button>
+        <button type="submit" class="button button-block" disabled >N A V I G A T E</button>
+        <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="openModalGameViewMoreDetail()">M O R E &nbsp; D E T A I L</button>
 
       <div class="row " style="padding: 0px; margin-top: -15px">
-
         <button type="submit" class="button button-block" style="margin-right: 2px" ng-click="modalGameViewDetail.hide()">B A C K</button>
-
         <button type="submit" class="button button-block" style="margin-left: 2px" ng-click="getCompare(place)">Q U E S T I O N</button>
-
       </div>
     </div>
 

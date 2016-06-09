@@ -6,18 +6,12 @@
   <div class="buttons">
     <button class="button-head icon ion-log-out text-right" ui-sref="logout"></button>
   </div>
-
 </ion-header-bar>
-
 <div class="bar bar-subheader bar-red2 ">
   <h1 class="title">T E A M &nbsp; D E T A I L </h1>
 </div>
-
-
 <ion-view title="Team Detail ">
-
   <ion-content>
-
     <div class="list3 ">
       <div class="card">
         <div class="item item-text-wrap">
@@ -26,28 +20,28 @@
             <!-- <h1 class="title2">Team name</h1> -->
             <h1 class="title2">{{team.name}}</h1>
             <h2>{{team.memberIds.length}}</h2>
-
           </a>
-
           </div>
-
           <div class="item item-divider padding-top2">
             <button class="button button-outline button-positive pull-right button-test " ng-click="quitTeam(teamId)">QUIT</button>
-            <button class="button button-outline button-positive pull-right " ng-click="startGame()">START</button>
+            <button class="button button-outline button-positive pull-right " ng-click="startGame()">
+              {{startButtonText}}
+            </button>
           </div>
-
       </div>
-
       <ul class="list4">
-
         <li
           class="item"
           ng-repeat="member in team.members"
-          ng-class="{'stylesLeader' : team.leaderId === member._id }" >
+          ng-class="{'stylesLeader' : team.leaderId === member._id }"
+        >
           <span ng-hide="team.leaderId !== member._id"><i class="icon ion-star" style="color:#FFF">&nbsp</i></span>
           {{member.fullName}}
+          <span
+            style="width: 10px;height: 10px;display: block;margin-left: 100px"
+            ng-style="isReady(member._id) && {'background-color':'blue'} || {'background-color':'red'}">
+          </span>
         </li>
-
       </ul>
       </div>
     </ion-content>
