@@ -4,22 +4,30 @@
   </ion-header-bar>
   <ion-content>
 
-    </br>
-    <h3 class="text-center">Place Name {{place.name}}</h3>
+    <br>
+    <h3 class="text-center">{{place.name}}</h3>
     <div class="list-inset" style="padding-left: 30px;">
       <h4><b>Place: {{place.name}}</b></h4>
+      Place type: {{place.type}}<br>
       Place location: {{place.location.lat}},{{place.location.lng}}
     </div>
 
     <div class="card">
       <div class="item item-body">
-    <!--    < img class="left-image" src="delorean.jpg">
-        < img class="right-image" src="delorean.jpg">  -->
-
+    <!-- < img class="left-image" src="delorean.jpg">
+     < img class="right-image" src="delorean.jpg">  -->
         <p class="text-styles">
-          Description
-          </br>
-          {{place.descriptions[0].content}}
+         <b> Contact</b>
+          <br>
+
+        <h4><b> Phone number: {{place.contact.phoneNumber}}</b></h4>
+        <h4><b> Address: {{place.contact.address}}</b></h4>
+        <h4><b> Website: {{place.contact.website}}</b></h4>
+        <h4><b> Open Time {{place.contact.openTime}}</b></h4>
+        <h4><b> Close Time: {{place.contact.closeTime}}</b></h4>
+        <h4><b> Working Day: {{place.contact.workingDay}}</b></h4>
+        <h4><b> Description: {{place.contact.description}}</b></h4>
+
         </p >
       </div>
     </div>
