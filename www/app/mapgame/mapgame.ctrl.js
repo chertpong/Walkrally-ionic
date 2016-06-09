@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('mapGameCtrl', mapGameCtrl);
 
-  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin){
+  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin,$ionicPopup){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
@@ -22,202 +22,19 @@
       $http.get(path)
         .then(function (response) {
           $scope.places = response.data;
+
           $log.debug('[+]','places are loaded',response.data.length);
+          console.log($scope.places);
           //TODO : remove after add fake location
-          $scope.places.push({name:'test1', descriptions: [
-            {
-              content:'places test 1 description',
-              language:'en'
-            }, {
-              content:'places test 1 คำอธิบาย',
-              language:'th'
-            }, {
-              content:'places test 1 简述',
-              language:'cn'
-            }],type:'Culture',
-            contact:
-            {name:'พระครูกิตติชัย โมฬี',
-              phoneNumber:'053-417248',
-              address:'90 Ratcha Damnoen Rd. Phra Sing, Muang Chiang Mai',
-          website:'http://culture.mome.co/watchaiphrakiat/',
-          openTime:'8:00',
-          closeTime:'17:00',
-          workingDay:'Daily',
-          description:''},
-            thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg',
-
-                                  location:{lat:30.648658,lng:104.186639},
-                            questions:[
-                              {descriptions:[{content:'question1',
-                                              language:'en'},
-                                              {content:'คำถาม1',
-                                                language:'th'},
-                                              {content:'问题1',
-                                                language:'cn'}],
-                                score:30,
-                                choices:[{correct:true,
-                              description:[{content:'answer1',
-                                              language:'en'},
-                                              {content:'คำตอบ1',
-                                                language:'th'},
-                                              {content:'答案1',
-                                                language:'cn'}]
-                                },{correct:false,
-                                description:[{content:'answer2',
-                                                  language:'en'},
-                                                  {content:'คำตอบ2',
-                                                    language:'th'},
-                                                  {content:'答案2',
-                                                    language:'cn'}]
-                                },{correct:false,
-                                description:[{content:'answer3',
-                                                  language:'en'},
-                                                  {content:'คำตอบ3',
-                                                    language:'th'},
-                                                  {content:'答案3',
-                                                    language:'cn'}]
-                                },{correct:false,
-                              description:[{content:'answer4',
-                                                  language:'en'},
-                                                {content:'คำตอบ4',
-                                                  language:'th'},
-                                                {content:'答案4',
-                                                  language:'cn'}]
-                                }]
-                              }]
-          });
-          $scope.places.push({name:'test2',descriptions: [
-            {
-              content:'places test 2 description',
-              language:'en'
-            }, {
-              content:'places test 2 คำอธิบาย',
-              language:'th'
-            }, {
-              content:'places test 2 简述',
-              language:'cn'
-            }],type:'shopping',location:{lat:30.651624,lng:104.186103},
-            contact:
-            {name:'Wat Phra Singh',
-              phoneNumber:'054-356414',
-              address:'3313 Kai ko apartment, Suthep, Muang Chiang Mai',
-              website:'http://culture.mome.co/watchaiphrakiat/',
-              openTime:'5:00',
-              closeTime:'20:00',
-              workingDay:'Daily',
-              description:'Description place 2'},
-              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg,location:{lat:30.651624,lng:104.186103}',
-                        questions:[
-                        {descriptions:[{content:'question2',
-                                      language:'en'},
-                                        {content:'คำถาม2',
-                                          language:'th'},
-                                        {content:'问题2',
-                                          language:'cn'}],
-                score:30,
-                          choices:[{correct:true,
-                            description:[{content:'answer1',
-                              language:'en'},
-                              {content:'คำตอบ1',
-                                language:'th'},
-                              {content:'答案1',
-                                language:'cn'}]
-                          },{correct:false,
-                            description:[{content:'answer2',
-                              language:'en'},
-                              {content:'คำตอบ2',
-                                language:'th'},
-                              {content:'答案2',
-                                language:'cn'}]
-                          },{correct:false,
-                            description:[{content:'answer3',
-                              language:'en'},
-                              {content:'คำตอบ3',
-                                language:'th'},
-                              {content:'答案3',
-                                language:'cn'}]
-                          },{correct:false,
-                            description:[{content:'answer4',
-                              language:'en'},
-                              {content:'คำตอบ4',
-                                language:'th'},
-                              {content:'答案4',
-                                language:'cn'}]
-                }]
-              }]
-          });
-
-
-          $scope.places.push({name:'test3',descriptions: [
-            {
-              content:'places test 3 description',
-              language:'en'
-            }, {
-              content:'places test 3 คำอธิบาย',
-              language:'th'
-            }, {
-              content:'places test 3 简述',
-              language:'cn'
-            }],type:'Culture',
-              contact:
-              {name:'Doi Suthep',
-                phoneNumber:'054-1111',
-                address:'Muang Chiang Mai',
-                website:'http://culture.mome.co/watchaiphrakiat/',
-                openTime:'2:00',
-                closeTime:'21:00',
-                workingDay:'Daily',
-                description:'Description place 3'},
-              thumbnail:'https://lh3.googleusercontent.com/-Q21_-T2xRrU/Vr19_0yWTWI/AAAAAAAAADw/_Zrkx4tgX8k/s650-Ic42/T209.jpg',
-            location:{lat:30.653036,lng:104.190699},
-                                questions:[
-                                          {descriptions:[{content:'question3',
-                                                          language:'en'},
-                                                         {content:'问题3',
-                                                          language:'cn'},
-                                                          {content:'คำถาม3',
-                                                          language:'th'}],
-                                            score:30,
-                                            choices:[{correct:true,
-                                              description:[{content:'answer1',
-                                                language:'en'},
-                                                {content:'คำตอบ1',
-                                                  language:'th'},
-                                                {content:'答案1',
-                                                  language:'cn'}]
-                                            },{correct:false,
-                                              description:[{content:'answer2',
-                                                language:'en'},
-                                                {content:'คำตอบ2',
-                                                  language:'th'},
-                                                {content:'答案2',
-                                                  language:'cn'}]
-                                            },{correct:false,
-                                              description:[{content:'answer3',
-                                                language:'en'},
-                                                {content:'คำตอบ3',
-                                                  language:'th'},
-                                                {content:'答案3',
-                                                  language:'cn'}]
-                                            },{correct:false,
-                                              description:[{content:'answer4',
-                                                language:'en'},
-                                                {content:'คำตอบ4',
-                                                  language:'th'},
-                                                {content:'答案4',
-                                                  language:'cn'}]
-                                            }]
-                                          }]
-                              });
 
           Storage.setPlaces($scope.places).then(function(){
+           // setRoute();
             setMarkers();
-
           });
         }).catch(function (err) {
         $log.debug('[!] Error: ',err);
         $scope.error = true;
-      });
+        });
     }
 
     $ionicModal.fromTemplateUrl('app/mapgame/mapgame-ViewDetail.html', {
@@ -243,6 +60,7 @@
     }).then(function (modal) {
       $scope.modalListQuestion = modal;
     });
+
     $ionicModal.fromTemplateUrl('app/mapgame/mapgame-Question.html', {
       scope: $scope,
       animation: 'slide-in-right'
@@ -250,14 +68,25 @@
       $scope.modalQuestion = modal;
     });
 
-
     function setMarkers(){
-
-      $scope.places.forEach(function(place){
+        var Icon;
+        $scope.places.forEach(function(place){
         var geolocation = new BMap.Point(place.location.lng,place.location.lat);
-        var marker = new BMap.Marker(geolocation);
-        $rootScope.map.addOverlay(marker);
 
+        if (place.type == "Landmark") {
+          Icon = new 	BMap.Icon("img/1land.png", new BMap.Size(300,170));
+        } else if (place.type == "Culture") {
+          Icon = new 	BMap.Icon("img/2cul.png", new BMap.Size(300,170));
+        }else if (place.type == "Shopping") {
+          Icon = new 	BMap.Icon("img/3shop.png", new BMap.Size(300,170));
+        }else if (place.type == "Restautant") {
+          Icon = new 	BMap.Icon("img/4res.png", new BMap.Size(300,170));
+        } else {
+          Icon = new BMap.Icon("img/5other.png", new BMap.Size(300,170));
+        }
+        var marker = new BMap.Marker(geolocation, {icon: Icon});
+
+        $rootScope.map.addOverlay(marker);
         marker.addEventListener('click',function (index) {
           $scope.modalGameViewDetail.show();
           $scope.place = place;
@@ -265,14 +94,11 @@
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
               return d.language == "th";
               //return d.language == language
-          }
-          );
+          });
           $scope.place.questions[0].descriptions = $scope.place.questions[0].descriptions.filter(function(q){
             return q.language == "th";
             //return q.language == language
-
           });
-
           $scope.place.questions[0].choices[0].description = $scope.place.questions[0].choices[0].description.filter(function(a1){
             return a1.language == "th";
             //return a1.language == language
@@ -289,7 +115,6 @@
             return a4.language == "th";
             //return a4.language == language
           });
-
           console.log($scope.place.descriptions);
           console.log($scope.place.questions[0].descriptions);
           console.log($scope.place.questions[0].choices[0].description);
@@ -300,94 +125,61 @@
       });
     }
 
+    function setRoute(){
+      for (var i=1;i < $scope.places.length;i++){
+                $log.debug('i value =',i);
+                $log.debug('place',$scope.places[i-1]);
+                $log.debug('place',$scope.places[i]);
+       var start = new BMap.Point($scope.places[i-1].location.lng,$scope.places[i-1].location.lat);
+       var  end = new BMap.Point($scope.places[i].location.lng,$scope.places[i].location.lat);
+       var  walking = new BMap.WalkingRoute($rootScope.map, {renderOptions:{map: $rootScope.map, autoViewport: true}});
+        walking.search(start,end);
+        //walking.setSearchCompleteCallback(function(res){
+        //  console.log(res);
+        //});
+      }
+      //starts.forEach(function(start){
+      //  ends.forEach(function(end){
+      //    walking.search(start,end);
+      //  });
+      //});
+    }
+
     $scope.getCurrent= function() {
-      GeolocationPlugin.getCurrentPosition().then(function(position){
+      Geolocation.getCurrentPosition().then(function(position){
         $log.debug('html current position',position);
       });
     };
 
     $scope.getCompare= function(place){
-      var BETWEEN_DEGREE = 15;
-      var THOUSAND_METER = 1000;
+      var geolocation = new BMap.Geolocation();
+      geolocation.getCurrentPosition(function(position){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
 
-      /**
-       * define surface distance per 1 degree change
-       */
-      var SURFACE_DISTANCE_PER_ONE_DEGREE = [
-        { latitude : 110.574, longitude : 111.320 }, //0  degree
-        { latitude : 110.649, longitude : 107.551 }, //15 degree
-        { latitude : 110.852, longitude : 96.486 },  //30 degree
-        { latitude : 111.132, longitude : 78.847 },  //45 degree
-        { latitude : 111.412, longitude : 55.800 },  //60 degree
-        { latitude : 111.618, longitude : 28.902 },  //75 degree
-        { latitude : 111.694, longitude : 0.000 }    //90 degree
-      ];
+          var gps1 = new BMap.Point(position.point.lng,position.point.lat);
+          console.log('current.point:',gps1);
 
-      /**
-       * define class GPS for keep latitude and longitude
-       */
-      var GPS = function(lat, lnt){
-        this.latitude = lat || 0;
-        this.longitude = lnt || 0;
-      };
+          var gps2 = new BMap.Point(place.location.lng,place.location.lat);
+          console.log('gps2.point:', gps2);
 
-      function getSurfaceDistance(gps){
-        console.log(gps.latitude);
-        return SURFACE_DISTANCE_PER_ONE_DEGREE[parseInt(gps.latitude / BETWEEN_DEGREE)]; //depend on latitude
-      }
+          var distance = ($rootScope.map.getDistance(gps1,gps2)).toFixed(2);
+          $log.debug(distance);
 
-      function getLatitudeDistance(gps){
-        return getSurfaceDistance(gps).latitude * THOUSAND_METER;
-      }
+          if (distance > 100){
+                      $scope.modalListQuestion.show();
+                    } else{
+            var alertPopup = $ionicPopup.alert({
+              title: 'alert',
+              template: "you're too far"
+            });
+            alertPopup.then(function(res) {
+              console.log('too far from your destination');
+            });
+                    }
 
-      function getLongitudeDistance(gps){
-        return getSurfaceDistance(gps).longitude * THOUSAND_METER;
-      }
-
-      function findDistance(gps1, gps2){
-
-        var latitudeDistance1 = getLatitudeDistance(gps1); //a1
-        var latitudeDistance2 = getLatitudeDistance(gps2); //a2
-
-        var longitudeDistance1 = getLongitudeDistance(gps1); //b1
-        var longitudeDistance2 = getLongitudeDistance(gps2); //b2
-
-        // (X2 * a2 - X1 * a1) ^ 2
-        var power1 = Math.pow((gps2.latitude * latitudeDistance2) - (gps1.latitude * latitudeDistance1), 2);
-        // (Y2 * b2 - Y1 * b1) ^ 2
-        var power2 = Math.pow((gps2.longitude * longitudeDistance2) - (gps1.longitude * longitudeDistance1), 2);
-        return Math.sqrt(power1 + power2);
-      }
-
-      /**
-       * define gps1 and gps2 location
-       * lat:30.653036,lng:104.190699
-       * {lat:30.648658,lng:104.186639}
-       * 18.788687,"lng":98.985918
-       * dining hall 5 30.656254, 104.191239
-       * current location 30.650701, 104.180157 ,,,,,latitude: 30.650749363079974longitude: 104.18018643853007
-       * test 3 , 30.653036,104.190699
-       * lo.lat,lo.lng
-       */
-      var gps1;
-      var gps2 = new GPS(place.location.lat,place.location.lng);
-
-      GeolocationPlugin.getCurrentPosition().then(function(position) {
-        $log.debug('position', position);
-        gps1 = new GPS(position.coords.latitude, position.coords.longitude);
-         if (findDistance(gps1, gps2) < 600){
-
-            $scope.modalListQuestion.show();
-         } else{
-        alert('Far !!! ' + findDistance(gps1, gps2) + ' meter');
-      }
-      });
-
+        }else{alert('failed' + this.getStatus());}
+      },{enableHighAccuracy: true});
     };
-
-
-
-
 
     $scope.openModalGameViewMoreDetail = function(){
       $scope.modalGameViewMoreDetail.show();
@@ -405,20 +197,25 @@
       var path = '/api/questions/'+answerId+'/answer';
 
       Storage.getTeamId().then(function(response){
+        var data = {teamId: response, choiceId:answerId};
 
-        var data = {teamId: response, choiceId:answerId}
+        console.log(data);
+        $http.post(server+path,data)
+          .then(function (response) {
+            console.log(response);
+            alert('your answer are '+ response.correct);
+            if(response){
+
+              modalQuestion.hide();}
+
+          }).catch(function (err) {
+          console.log(err);
+          $scope.error = true;
+        });
+
       });
 
-      $http.post(server+path,data)
-        .then(function (response) {
-          console.log(response);
-          alert('your answer are '+ response.correct);
-          if(response){modalQuestion.hide()}
 
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
-      });
 
 
     }

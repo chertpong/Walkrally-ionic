@@ -15,10 +15,10 @@
     var latlngs=[];
 
     function loadMap(){
-      $http.get(server+path)
-        .then(function (response) {
-          $scope.places = response.data;
-          $log.debug('[+]','places are loaded',response.data.length);
+      //$http.get(server+path)
+      //  .then(function (response) {
+      //    $scope.places = response.data;
+      //    $log.debug('[+]','places are loaded',response.data.length);
           //TODO : remove after add fake location
           $scope.places.push({name:'test1', descriptions: [
             {
@@ -208,10 +208,10 @@
           Storage.setPlaces($scope.places).then(function(){
             setMarkers();
           });
-        }).catch(function (err) {
-        console.log(err);
-        $scope.error = true;
-      });
+      //  }).catch(function (err) {
+      //  console.log(err);
+      //  $scope.error = true;
+      //});
     }
 
     //
@@ -240,7 +240,7 @@
 
 
     function setMarkers(){
-      //console.log($scope.places);
+      console.log($scope.places);
       $scope.places.forEach(function(place){
         var position = new BMap.Point(place.location.lng,place.location.lat);
         var marker = new BMap.Marker(position);
