@@ -9,7 +9,6 @@
     $scope.data = data;
     $scope.places=[];
     $scope.location={};
-
     var language;
 
     Storage.getLanguage().then(function(l){
@@ -23,10 +22,7 @@
       $http.get(path)
         .then(function (response) {
           $scope.places = response.data;
-
           $log.debug('[+]','places are loaded',response.data.length);
-
-          //console.log($scope.places);
           //TODO : remove after add fake location
 
           Storage.setPlaces($scope.places).then(function(){
@@ -63,13 +59,13 @@
     }).then(function (modal) {
       $scope.modalListQuestion = modal;
     });
-
     $ionicModal.fromTemplateUrl('app/mapgame/mapgame-Question.html', {
       scope: $scope,
       animation: 'slide-in-right'
     }).then(function (modal) {
       $scope.modalQuestion = modal;
     });
+
 
     function setMarkers(){
       $rootScope.map.clearOverlays();
