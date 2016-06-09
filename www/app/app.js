@@ -75,7 +75,8 @@
 
       .state('logout', {
         url: '/logout',
-        controller: 'LogoutCtrl'
+        controller: 'LogoutCtrl',
+        cache: false
       })
 
 
