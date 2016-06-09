@@ -2,35 +2,25 @@
   <ion-header-bar class="bar-red ">
     <h1 class="title">View Detail</h1>
   </ion-header-bar>
-
   <ion-content>
-
     </br>
-    <h3 class="text-center">Place Name {{place.name}}</h3>
 
+    <h3 class="text-center">{{place.name}}</h3>
     <div class="card">
-
       <div class="item item-body">
-        < img src="img/Login2.png" alt="Logo">
-
-        <p class="text-styles">
-          <b>Place Name {{place.name}}</b>
-          </br>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        </p >
-
-
+            <img src="{{place.thumbnail}}" alt="{{place.name}}" style="width:100%">
+            <p class="text-styles">
+              <b>{{place.name}}</b>
+              </br>
+              {{place.descriptions[0].content}}
+            </p >
       </div>
-
-
     </div>
 
     <div class="padding">
-
       <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="openModalMoreDetail()">M O R E &nbsp; D E T A I L</button>
       <button type="submit" class="button button-block" style="margin-top: -5px" ng-click="modalViewDetail.hide()">B A C K</button>
     </div>
-
 
   </ion-content>
 </ion-modal-view>

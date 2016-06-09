@@ -14,7 +14,12 @@
     $scope.alert = function(){
       return $ionicPopup.alert({
         title: 'Error!',
-        template: $scope.errorMessage
+        template: $scope.errorMessage,
+        buttons:
+          [{
+            text: 'OK',
+            type: 'button',
+          }]//
       });
     };
 
