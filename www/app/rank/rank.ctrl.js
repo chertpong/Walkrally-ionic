@@ -34,8 +34,11 @@
     rankingSocket.on('updated', function (response) {
       $log.debug('socket ranking response:',response);
       $scope.rank = $scope.rank.map(function(team) {
-        if(team._id.toString() === response.teamId.toString())
-          return team.score = response.score;
+        if(team._id.toString() === response.teamId.toString()){
+          team.score = response.score;
+          return team;
+        }
+          
         else
           return team;
       });
