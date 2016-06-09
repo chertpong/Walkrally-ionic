@@ -27,7 +27,7 @@
 
           //console.log($scope.places);
           //TODO : remove after add fake location
-         
+
 
           Storage.setPlaces($scope.places).then(function(){
            // setRoute();
@@ -265,7 +265,7 @@
             } else{
               var alertAnswer2 = $ionicPopup.alert({
                 title: 'alert',
-                template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content,
+                template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is '+ response.data.correctAnswer.description[0].content,
                 buttons:
                   [{
                     text: 'OK',

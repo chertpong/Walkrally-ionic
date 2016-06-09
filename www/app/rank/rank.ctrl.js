@@ -3,42 +3,48 @@
   angular.module('app')
     .controller('rankCtrl', rankCtrl);
 
-  function rankCtrl($scope, $state, Storage, $http,C){
+  function rankCtrl($scope, $state, Storage, $http, C, $log, $timeout){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
+    $scope.rank = [];
 
-      var path = C.backendUrl + '/api/teams/rank';
-      $http
-        .get(path)
-        .then(function (response) {
-          console.log(response);
-          $scope.teamsScore = response.data;
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
+    $log.debug('start loading rank');
+
+    var path = C.backendUrl + '/api/teams/rank';
+    $http
+      .get(path)
+      .then(function (response) {
+        $log.debug('loaded rank: ',response.data.length);
+        $scope.rank = response.data;
+      })
+      .catch(function (err) {
+        $log.debug(err);
+      });
 
     $scope.ranking = function (){
-      $scope.teamsScore.score.sort(function(a,b){return a-b});
-      $scope.teamsScore.forEach(function(team){
-        $scope.teamScore= team;
-      });
-    }
+      $timeout(function(){
+        $scope.rank.sort(function(a, b){
+          return a.score - b.score;
+        });
+      },0);
+    };
 
-    var Rankingsocket = io.connect(C.backendUrl + '/ranking');
-    Rankingsocket.on('updated', function (response) {
-      $scope.$apply(function(){
-        console.log('socket ranking response:'+response);
-        $scope.teamsScore.push(response);
-        //     $scope.score =response.data.currentMember;
-        console.log($scope.teams);
-      })
+    var rankingSocket = io.connect(C.backendUrl + '/ranking');
+    rankingSocket.on('updated', function (response) {
+      $log.debug('socket ranking response:',response);
+      $scope.rank = $scope.rank.map(function(team) {
+        if(team._id.toString() === response.teamId.toString())
+          return team.score = response.score;
+        else
+          return team;
+      });
     });
 
-
-
-
+    // Watch rank
+    $scope.$watch('rank',function(newValue, oldValue){
+      if(newValue)
+        $scope.ranking();
+    });
   }
-
 })();
