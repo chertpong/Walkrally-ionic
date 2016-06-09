@@ -41,7 +41,8 @@
       .state('twitt', {
         url: '/twitt',
         templateUrl: 'app/twitts/twitt.html',
-        controller: 'CreateTeamCtrl'
+        controller: 'CreateTeamCtrl',
+        cache: false
       })
       .state('teamDetail', {
         url: '/teamDetail',
@@ -50,7 +51,8 @@
         params:{name: null,
           currentMember:null,
           maximumMember:null,
-          teamId:null}
+          teamId:null},
+        cache: false
       })
 
       .state('rank', {
