@@ -57,31 +57,38 @@
 
 
     function setMarkers(){
+      $rootScope.map.clearOverlays();
       var Icon;
-
       $scope.places.forEach(function(place){
-        //console.log(place);
-        $rootScope.map.enableScrollWheelZoom(true);
         var geolocation = new BMap.Point(place.location.lng,place.location.lat);
+
         if (place.type == "Landmark") {
-          Icon = new BMap.Icon("img/1land.png", new BMap.Size(300,170));
+          Icon = new BMap.Icon("img/1land.png", new BMap.Size(40,54));
+
         } else if (place.type == "Culture") {
-          Icon = new BMap.Icon("img/2cul.png", new BMap.Size(300,170));
+          Icon = new BMap.Icon("img/2cul.png", new BMap.Size(40,54));
+
         }else if (place.type == "Shopping") {
-          Icon = new BMap.Icon("img/3shop.png", new BMap.Size(300,170));
+          Icon = new BMap.Icon("img/3shop.png", new BMap.Size(40,54));
+
         }else if (place.type == "Restautant") {
-          Icon = new BMap.Icon("img/4res.png", new BMap.Size(300,170));
+          Icon = new BMap.Icon("img/4res.png", new BMap.Size(40,54));
+
         } else {
-          Icon = new BMap.Icon("img/5other.png", new BMap.Size(300,170));
+          Icon = new BMap.Icon("img/5other.png", new BMap.Size(40,54));
         }
+
         var marker = new BMap.Marker(geolocation, {icon: Icon});
         $rootScope.map.addOverlay(marker);
+        console.log('marker',place.type,':',place.name);
+
         marker.addEventListener('click',function(){
           $scope.modalViewDetail.show();
           $scope.place = place;
         });
       });
     }
+
     $scope.openModalDetail = function(){
       $scope.modalViewDetail.show();
     };

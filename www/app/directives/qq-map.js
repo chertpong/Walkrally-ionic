@@ -17,7 +17,7 @@
           draggable: "="
         },
         link: function (scope, element, attrs) {
-          $rootScope.map = new BMap.Map('bMap');
+          $rootScope.map = new BMap.Map('bMap',{enableMapClick:false});
           var geolocationControl = new BMap.GeolocationControl();
           //geolocationControl.addEventListener("locationSuccess", function(e){
           //});
