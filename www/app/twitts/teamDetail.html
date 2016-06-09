@@ -33,7 +33,9 @@
 
           <div class="item item-divider padding-top2">
             <button class="button button-outline button-positive pull-right button-test " ng-click="quitTeam(teamId)">QUIT</button>
-            <button class="button button-outline button-positive pull-right " ng-click="startGame()">START</button>
+            <button class="button button-outline button-positive pull-right " ng-click="startGame()">
+              {{startButtonText}}
+            </button>
           </div>
 
       </div>
@@ -43,7 +45,13 @@
         <li
           class="item"
           ng-repeat="member in team.members"
-          ng-style="team.leaderId === member._id && {'background-color': '#FFC107'} || {}" > {{member.fullName}}</li>
+          ng-style="team.leaderId === member._id && {'background-color': '#FFC107'} || {}" >
+          {{member.fullName}}
+          <span
+            style="width: 10px;height: 10px;display: block"
+            ng-style="isReady(member._id) && {'background-color':'blue'} || {'background-color':'red'}">
+          </span>
+        </li>
 
       </ul>
       </div>

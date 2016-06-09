@@ -20,6 +20,13 @@
 
     $log.debug('teamDetail',':','$stateParams',':',$stateParams);
 
+    $scope.isReady = function(id){
+      $log.debug('isReady',id);
+      return $scope.team.readyMemberIds.some(function(readyMemberId){
+        return readyMemberId === id;
+      });
+    };
+
     var loadTeamDetail = function(path) {
       $http
         .get(path)
@@ -56,6 +63,12 @@
           }
         })
     }
+    Storage
+      .getUser()
+      .then(function(user){
+        $scope.isStartPressed = $scope.isReady(user._id);
+        $log.debug('User is',$scope.isStartPressed ? 'READY':'START')
+      });
 
     $scope.quitTeam = function(teamId){
       var path = C.backendUrl + '/api/teams/'+teamId+'/quit';
@@ -75,47 +88,123 @@
         });
     };
 
-
-
-
-    $scope.startGame = function(){
-      $scope.data = {};
-
-      var language = $ionicPopup.show({
-        templateUrl:'app/twitts/chooseLanguagePopup.html',
-        title: 'Choose language',
-        scope: $scope,
-        buttons:
-          [ { text: 'Cancel', type: 'button-default',
-            onTap: function(e) {
-              // e.preventDefault() will stop the popup from closing when tapped.
-              return null;
-            }}
-            ,{
-            text: '<b>Start</b>',
-            type: 'button',
-            onTap: function(e) {
-              if (!$scope.data.language) {
-                //don't allow the user to close unless he enters wifi password
-                e.preventDefault();
-              } else {
-                return $scope.data.language;
-              }
-            }
-          }]
-
-      });
-      language.then(function(res) {
-        console.log(res);
-        if(res){
-          Storage.setLanguage(res).then(function(){
-            $state.go('mapgame');
-          });}
+    var notReady = function(memberId){
+      $scope.$apply(function(){
+        $scope.team.readyMemberIds = $scope.team.readyMemberIds.filter(function(readyMemberId){
+          return memberId !== readyMemberId;
+        });
+        $log.debug('team.readyMemberIds after socket "notReady": ',$scope.team.readyMemberIds);
       });
     };
 
-    var socket = io.connect(C.backendUrl + '/teams');
-    socket.on('joined', function (response) {
+    var ready = function(memberId){
+      $log.debug('ready socket response: ',response);
+      $scope.$apply(function(){
+        $scope.team.readyMemberIds.push(memberId);
+        $log.debug('team.readyMemberIds after socket "ready": ',$scope.team.readyMemberIds);
+      });
+    };
+
+    $scope.isStartPressed = false;
+    $scope.startButtonText = $scope.isStartPressed ? 'READY' : 'START';
+    var sendStartGameReadyRequest = function(){
+      $scope.isStartPressed = true;
+      Storage
+        .getTeamId()
+        .then(function(teamId){
+          $http
+            .get(C.backendUrl+'/api/teams/' + teamId + '/ready-state?ready=true')
+            .then(function(response){
+              $log.debug("set state to ready successful");
+            })
+            .catch(function(err){
+              $scope.isStartPressed = false;
+              $log.debug('sendStartGameReadyRequest err:',err);
+              $scope.error = true;
+              $scope.errorMessage = err.message;
+            });
+        });
+    };
+    var sendStartGameNotReadyRequest = function(){
+      Storage
+        .getTeamId()
+        .then(function(teamId){
+          $http
+            .get(C.backendUrl+'/api/teams/' + teamId + '/ready-state?ready=false')
+            .then(function(response){
+              $log.debug("set state to not ready successful");
+              $scope.isStartPressed = false;
+            })
+            .catch(function(err){
+              $log.debug('sendStartGameNotReadyRequest err:',err);
+              $scope.error = true;
+              $scope.errorMessage = err.message;
+            });
+        });
+    };
+
+    $scope.startGame = function(){
+      $scope.data = {};
+      if($scope.isStartPressed){
+        sendStartGameNotReadyRequest();
+      }
+      else{
+        var language = $ionicPopup.show({
+          templateUrl:'app/twitts/chooseLanguagePopup.html',
+          title: 'Choose language',
+          scope: $scope,
+          buttons:
+            [
+              {
+                text: 'Cancel',
+                type: 'button-default',
+                onTap: function(e) {
+                  // e.preventDefault() will stop the popup from closing when tapped.
+                  $log.debug('languagePopup','cancel is selected');
+                  return null;
+                }
+              }
+              ,
+              {
+                text: '<b>Start</b>',
+                type: 'button',
+                onTap: function(e) {
+                  // If user is not select any language, then don't do anything
+                  if (!$scope.data.language) {
+                    e.preventDefault();
+                  } else {
+                    $log.debug('select language:', $scope.data.language);
+                    return $scope.data.language;
+                  }
+                }
+              }
+            ]
+
+        });
+        language
+          .then(function(lang) {
+            if(lang){ //if lang is not null
+              Storage
+                .setLanguage(lang)
+                .then(function(){
+                  $log.debug('save language:',lang);
+                  if($scope.isStartPressed)
+                    sendStartGameNotReadyRequest();
+                  else
+                    sendStartGameReadyRequest();
+                });
+            }
+          })
+          .catch(function(err){
+            $log.debug('select language err:',err);
+            $scope.error = true;
+            $scope.errorMessage = err.message;
+          });
+      }
+    };
+
+    var teamSocket = io.connect(C.backendUrl + '/teams');
+    teamSocket.on('joined', function (response) {
       if($scope.team._id === response.teamId){
         $log.debug('joined socket response: ',response);
         $scope.$apply(function(){
@@ -125,7 +214,7 @@
       }
     });
 
-    socket.on('quit', function (response) {
+    teamSocket.on('quit', function (response) {
       if($scope.team._id === response.teamId){
         $log.debug('quit socket response:',response);
         $scope.$apply(function(){
@@ -137,7 +226,7 @@
       }
     });
 
-    socket.on('deleted', function (response) {
+    teamSocket.on('deleted', function (response) {
       $log.debug('deleted socket response:',response);
       if($scope.team._id === response._id){
         Storage
@@ -150,6 +239,25 @@
             $scope.error = true;
             $scope.errorMessage = err.message;
           });
+      }
+    });
+
+    var startGameSocket = io.connect(C.backendUrl + '/startGame');
+    teamSocket.on('ready', function (response) {
+      if($scope.team._id === response.teamId){
+        ready(response.memberId);
+      }
+    });
+    teamSocket.on('go', function (response) {
+      if($scope.team._id === response.teamId){
+        $log.debug('"go" socket response: ',response);
+        $state.go('mapgame');
+      }
+    });
+    teamSocket.on('notReady', function (response) {
+      if($scope.team._id === response.teamId){
+        $log.debug('notReady socket response: ',response);
+        notReady(response.memberId);
       }
     });
 
