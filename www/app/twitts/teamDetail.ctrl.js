@@ -3,11 +3,25 @@
   angular.module('app')
     .controller('TeamDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log){
+  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log, $timeout){
 
     var data = {}, fn = {};
     $scope.error = false;
     $scope.errorMessage = '';
+    $scope.isStartPressed = false;
+    $scope.startButtonText = 'START';
+    $scope.team = {
+      _id: '',
+      leaderId: '',
+      name: '',
+      readyMemberIds: [],
+      route: [],
+      memberIds: [],
+      answers: [],
+      score: 0,
+      coin: 0,
+      members: []
+    };
 
     $scope.fn = fn;
     // Setup alert popup
@@ -18,7 +32,7 @@
         buttons:
           [{
             text: 'OK',
-            type: 'button',
+            type: 'button'
           }]
       });
     };
@@ -26,7 +40,6 @@
     $log.debug('teamDetail',':','$stateParams',':',$stateParams);
 
     $scope.isReady = function(id){
-      $log.debug('isReady',id);
       return $scope.team.readyMemberIds.some(function(readyMemberId){
         return readyMemberId === id;
       });
@@ -38,6 +51,13 @@
         .then(function (response) {
           $log.debug('team detail response: ',response.data);
           $scope.team = response.data;
+          // Set state of start button
+          Storage
+            .getUser()
+            .then(function(user){
+              $scope.isStartPressed = $scope.isReady(user._id);
+              $log.debug('User is in state: ',$scope.isStartPressed ? 'READY':'START')
+            });
         })
         .catch(function (err) {
           $log.debug('load team detail error',err);
@@ -46,6 +66,7 @@
         });
     };
 
+    // Load team detail data
     var getTeamPath = '';
     if($stateParams.teamId){
       getTeamPath = C.backendUrl + '/api/teams/'+$stateParams.teamId+'?dto=true';
@@ -64,16 +85,12 @@
           else{
             $scope.error = true;
             $scope.errorMessage = "Error! No team id found, please join team again";
-            $state.go('twitts');
+            $timeout(function(){
+              $state.go('twitts');
+            },3000);
           }
         })
     }
-    Storage
-      .getUser()
-      .then(function(user){
-        $scope.isStartPressed = $scope.isReady(user._id);
-        $log.debug('User is',$scope.isStartPressed ? 'READY':'START')
-      });
 
     $scope.quitTeam = function(teamId){
       var path = C.backendUrl + '/api/teams/'+teamId+'/quit';
@@ -94,24 +111,21 @@
     };
 
     var notReady = function(memberId){
-      $scope.$apply(function(){
+      $timeout(function(){
         $scope.team.readyMemberIds = $scope.team.readyMemberIds.filter(function(readyMemberId){
-          return memberId !== readyMemberId;
+          return memberId.toString() !== readyMemberId.toString();
         });
         $log.debug('team.readyMemberIds after socket "notReady": ',$scope.team.readyMemberIds);
-      });
+      },0);
     };
 
     var ready = function(memberId){
-      $log.debug('ready socket response: ',response);
-      $scope.$apply(function(){
+      $timeout(function(){
         $scope.team.readyMemberIds.push(memberId);
         $log.debug('team.readyMemberIds after socket "ready": ',$scope.team.readyMemberIds);
-      });
+      },0);
     };
 
-    $scope.isStartPressed = false;
-    $scope.startButtonText = $scope.isStartPressed ? 'READY' : 'START';
     var sendStartGameReadyRequest = function(){
       $scope.isStartPressed = true;
       Storage
@@ -121,6 +135,9 @@
             .get(C.backendUrl+'/api/teams/' + teamId + '/ready-state?ready=true')
             .then(function(response){
               $log.debug("set state to ready successful");
+              Storage.getUser().then(function(user){
+                ready(user._id);
+              });
             })
             .catch(function(err){
               $scope.isStartPressed = false;
@@ -139,6 +156,9 @@
             .then(function(response){
               $log.debug("set state to not ready successful");
               $scope.isStartPressed = false;
+              Storage.getUser().then(function(user){
+                notReady(user._id);
+              });
             })
             .catch(function(err){
               $log.debug('sendStartGameNotReadyRequest err:',err);
@@ -208,6 +228,7 @@
       }
     };
 
+    // Socket
     var teamSocket = io.connect(C.backendUrl + '/teams');
     teamSocket.on('joined', function (response) {
       if($scope.team._id === response.teamId){
@@ -248,24 +269,29 @@
     });
 
     var startGameSocket = io.connect(C.backendUrl + '/startGame');
-    teamSocket.on('ready', function (response) {
+    startGameSocket.on('ready', function (response) {
       if($scope.team._id === response.teamId){
+        $log.debug('socket ready :',response);
         ready(response.memberId);
       }
     });
-    teamSocket.on('go', function (response) {
+    startGameSocket.on('go', function (response) {
       if($scope.team._id === response.teamId){
         $log.debug('"go" socket response: ',response);
         $state.go('mapgame');
       }
     });
-    teamSocket.on('notReady', function (response) {
+    startGameSocket.on('notReady', function (response) {
       if($scope.team._id === response.teamId){
         $log.debug('notReady socket response: ',response);
         notReady(response.memberId);
       }
     });
 
+    // Watch start button
+    $scope.$watch('isStartPressed',function(){
+      $scope.startButtonText = $scope.isStartPressed ? 'READY' : 'START';
+    });
     // Watch for error
     $scope.$watch('error',function(newValue){
       if(newValue){
