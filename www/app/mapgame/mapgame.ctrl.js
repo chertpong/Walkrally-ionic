@@ -98,28 +98,28 @@
           $scope.place = place;
           // Mock
           $scope.place.descriptions = $scope.place.descriptions.filter(function(d){
-            return d.language == "th";
-            // return d.language == language
+             // return d.language == "th";
+             return d.language == language
           });
           $scope.place.questions[0].descriptions = $scope.place.questions[0].descriptions.filter(function(q){
-            return q.language == "th";
-            // return q.language == language
+           // return q.language == "th";
+            return q.language == language
           });
           $scope.place.questions[0].choices[0].description = $scope.place.questions[0].choices[0].description.filter(function(a1){
-            return a1.language == "th";
-            // return a1.language == language
+           // return a1.language == "th";
+            return a1.language == language
           });
           $scope.place.questions[0].choices[1].description = $scope.place.questions[0].choices[1].description.filter(function(a2){
-            return a2.language == "th";
-            //  return a2.language == language
+          // return a2.language == "th";
+            return a2.language == language
           });
           $scope.place.questions[0].choices[2].description = $scope.place.questions[0].choices[2].description.filter(function(a3){
-            return a3.language == "th";
-            // return a3.language == language
+           // return a3.language == "th";
+            return a3.language == language
           });
           $scope.place.questions[0].choices[3].description = $scope.place.questions[0].choices[3].description.filter(function(a4){
-            return a4.language == "th";
-            // return a4.language == language
+            //return a4.language == "th";
+            return a4.language == language
           });
           console.log($scope.place.descriptions);
           console.log($scope.place.questions[0].descriptions);
@@ -245,7 +245,12 @@
               var alertAnswer1 = function(){
                 $ionicPopup.alert({
                   title: 'alert',
-                  template: '<b>'+'You are'+ response.data.message + '</b>'
+                  template: '<b>'+'You are'+ response.data.message + '</b>',
+                  buttons:
+                    [{
+                      text: 'OK',
+                      type: 'button'
+                    }]
                 });
               };
               alertAnswer1();
@@ -254,7 +259,12 @@
               var alertAnswer2 = function(){
                 $ionicPopup.alert({
                   title: 'alert',
-                  template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content
+                  template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content,
+                  buttons:
+                    [{
+                      text: 'OK',
+                      type: 'button'
+                    }]
                 });
               };
               alertAnswer2();

@@ -121,7 +121,9 @@
 
     var ready = function(memberId){
       $timeout(function(){
-        $scope.team.readyMemberIds.push(memberId);
+        $scope.team.readyMemberIds = $scope.team.readyMemberIds.filter(function(readyMemberId){
+          return memberId.toString() !== readyMemberId.toString();
+        }).push(memberId);
         $log.debug('team.readyMemberIds after socket "ready": ',$scope.team.readyMemberIds);
       },0);
     };
@@ -156,9 +158,6 @@
             .then(function(response){
               $log.debug("set state to not ready successful");
               $scope.isStartPressed = false;
-              Storage.getUser().then(function(user){
-                notReady(user._id);
-              });
             })
             .catch(function(err){
               $log.debug('sendStartGameNotReadyRequest err:',err);
@@ -213,10 +212,7 @@
                 .setLanguage(lang)
                 .then(function(){
                   $log.debug('save language:',lang);
-                  if($scope.isStartPressed)
-                    sendStartGameNotReadyRequest();
-                  else
-                    sendStartGameReadyRequest();
+                  sendStartGameReadyRequest();
                 });
             }
           })
