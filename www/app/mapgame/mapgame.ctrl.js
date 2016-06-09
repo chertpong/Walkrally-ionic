@@ -22,8 +22,12 @@
       $http.get(path)
         .then(function (response) {
           $scope.places = response.data;
+
           $log.debug('[+]','places are loaded',response.data.length);
+
+          //console.log($scope.places);
           //TODO : remove after add fake location
+         
 
           Storage.setPlaces($scope.places).then(function(){
            // setRoute();
@@ -250,13 +254,23 @@
             if(response.data.message == "correct"){
               var alertAnswer1 = $ionicPopup.alert({
                 title: 'alert',
-                template: '<b>'+'You are'+ response.data.message + '</b>'
+                template: '<b>'+'You are'+ response.data.message + '</b>',
+                buttons:
+                  [{
+                    text: 'OK',
+                    type: 'button'
+                  }]
               });
               $scope.modalQuestion.hide();
             } else{
               var alertAnswer2 = $ionicPopup.alert({
                 title: 'alert',
-                template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content
+                template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content,
+                buttons:
+                  [{
+                    text: 'OK',
+                    type: 'button'
+                  }]
               });
                $scope.modalQuestion.hide();
                   }

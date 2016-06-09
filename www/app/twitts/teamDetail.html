@@ -1,10 +1,10 @@
 <ion-header-bar class="bar-red ">
-  <div>
-    <i class="icon ion-home" style="color: #543a3d"></i>
+  <div class="buttons">
+    <button class="button-head icon ion-chevron-left text-left" ui-sref="logout"></button>
   </div>
   <h1 class="title">WalkRally</h1>
-  <div class="buttons">
-    <button class="button-head icon ion-log-out text-right" ui-sref="logout"></button>
+  <div>
+    <i class="icon ion-home text-right" style="color: #543a3d"></i>
   </div>
 </ion-header-bar>
 <div class="bar bar-subheader bar-red2 ">
@@ -24,7 +24,11 @@
           </div>
           <div class="item item-divider padding-top2">
             <button class="button button-outline button-positive pull-right button-test " ng-click="quitTeam(teamId)">QUIT</button>
-            <button class="button button-outline button-positive pull-right " ng-click="startGame()">
+            <button
+              class="button button-outline button-positive pull-right"
+              ng-click="startGame()"
+              ng-class="{'button-ready button-outline button-positive' : isReady(member._id) }"
+            >
               {{startButtonText}}
             </button>
           </div>
@@ -38,8 +42,9 @@
           <span ng-hide="team.leaderId !== member._id"><i class="icon ion-star" style="color:#FFF">&nbsp</i></span>
           {{member.fullName}}
           <span
-            style="width: 10px;height: 10px;display: block;margin-left: 100px"
-            ng-style="isReady(member._id) && {'background-color':'blue'} || {'background-color':'red'}">
+            class="pull-right"
+            style="width: 10px;height: 10px;display: block;margin-top: 8px;"
+            ng-style="isReady(member._id) && {'background-color':'#00b17a'} || {'background-color':'red'}">
           </span>
         </li>
       </ul>
