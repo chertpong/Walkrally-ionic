@@ -13,7 +13,7 @@
             <h5>Select the question</h5>
           </div>
           <br>
-          <a class="item" ng-click="openModalQuestion()">{{place.questions[0].descriptions[0].content}}</a >
+          <a class="item" ng-disabled="isDisabled" ng-click="checkQuestion(place.questions[0]._id)">{{place.questions[0].descriptions[0].content}}</a >
 
         </div>
 
