@@ -193,27 +193,36 @@
 
     };
 
-    //$scope.checkQuestion = function(questionId){
-    //get
-    //
-    //  return true;
-    //
-    //  return false;
-    //};
+    $scope.questionIds=[];
+
+    $scope.checkQuestion = function(questionId){
+    Storage.getQuestionIds.then(function(questionIds){
+      questionIds = questionIds.filter(function(qId){
+        return qId == questionId;
+      });
+      if(questionIds[0]== null){
+        return false;
+      }else{
+        return true;
+      }
+    }).catch(function (err) {
+        $log.debug('[!] Error: ',err);
+        return false;
+      });
+
+    };
 
     $scope.postAnswer = function(answer){
 
-      //Storage.getQuestionIds().then(function(questionIs){
-      //  if(questionIs==null){
-      //    Storage.setQuestionIds($scope.place.questions[0]._id).then(function(){
-      //      // setRoute();
-      //      setMarkers();
-      //
-      //    });
-      //
-      //  }eles
-      //
-      //});
+
+      Storage.getQuestionIds().then(function(questionIds){
+        if(questionIds==null){
+          Storage.setQuestionIds($scope.place.questions[0]._id).then(function(){
+          });
+        }else{
+          Storage.getQuestionIds().push($scope.place.questions[0]._id);
+        }
+      });
 
 
       var path = C.backendUrl + '/api/questions/'+$scope.place.questions[0]._id+'/answer';
