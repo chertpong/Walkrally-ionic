@@ -233,6 +233,7 @@
           $scope.team.members.push({_id: response.memberId, fullName:response.memberName});
           $log.debug('team after socket join: ',$scope.team.members);
         });
+        notReady(response.memberId);
       }
     });
 
