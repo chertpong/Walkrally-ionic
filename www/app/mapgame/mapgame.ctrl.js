@@ -214,7 +214,7 @@
           var distance = ($rootScope.map.getDistance(gps1,gps2)).toFixed(2);
           $log.debug(distance);
 
-          if (distance > 100){
+          if (distance > 10){
             $scope.modalListQuestion.show();
           } else{
             var alertPopup = $ionicPopup.alert({
@@ -255,8 +255,8 @@
             });
               response.data.choices[0].description = response.data.choices[0].description.filter(function(choice){
                 // TODO language select choice
-                return choice.language == "en";
-                //  return solution.language == language
+               // return choice.language == "en";
+                  return choice.language == language
               });
           }
           correctChoice = response.data.choices[0].description[0].content;
@@ -325,8 +325,8 @@
             if(response.data.correctAnswer){
               response.data.correctAnswer.description = response.data.correctAnswer.description.filter(function(solution){
                 // TODO language select choice
-                return solution.language == "en";
-                //  return solution.language == language
+               // return solution.language == "en";
+                  return solution.language == language
               });
             }
 
