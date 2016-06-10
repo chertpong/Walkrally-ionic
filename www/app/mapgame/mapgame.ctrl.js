@@ -3,18 +3,19 @@
   angular.module('app')
     .controller('mapGameCtrl', mapGameCtrl);
 
-  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin,$ionicPopup){
+  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin,$ionicPopup,
+                       counter, language){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
     $scope.places=[];
     $scope.location={};
-    var language;
     $scope.answer = '';
 
-    Storage.getLanguage().then(function(l){
-      language = l;
-    });
+    $scope.counter = {
+      timeObject : counter.timeObject,
+      counter: counter
+    };
 
     var path = C.backendUrl+"/api/places";
     loadMap();

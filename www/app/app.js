@@ -48,7 +48,8 @@
         url: '/teamDetail',
         templateUrl: 'app/twitts/teamDetail.html',
         controller: 'TeamDetailCtrl',
-        params:{name: null,
+        params:{
+          name: null,
           currentMember:null,
           maximumMember:null,
           teamId:null},
@@ -58,7 +59,11 @@
       .state('rank', {
         url: '/rank',
         templateUrl: 'app/rank/rank.html',
-        controller: 'rankCtrl'
+        controller: 'rankCtrl',
+        cache: false,
+        params: {
+          isEventFinish: false
+        }
       })
 
       .state('mapbegin', {
@@ -70,7 +75,27 @@
       .state('mapgame', {
         url: '/mapgame',
         templateUrl: 'app/mapgame/mapgame.html',
-        controller: 'mapGameCtrl'
+        controller: 'mapGameCtrl',
+        cache: false,
+        resolve: {
+          language: function(Storage){
+            return Storage.getLanguage().then(function(l){
+              return l;
+            });
+          },
+          counter: function($http, C, timeConverter, $state) {
+            return $http
+              .get(C.backendUrl+'/api/events/latest/1')
+              .then(function(response){
+                var now = new Date();
+                var totalTimeInSeconds = (new Date(response.data.finishTime).getTime() - now.getTime())/1000;
+                var callback = function(){
+                  $state.go('rank',{ isEventFinish:true,reload:true });
+                };
+                return timeConverter.getTimeCounter(timeConverter.secondsToObject(totalTimeInSeconds),1000,callback);
+              });
+          }
+        }
       })
 
       .state('logout', {
