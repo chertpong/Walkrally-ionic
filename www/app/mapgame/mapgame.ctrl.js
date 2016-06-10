@@ -214,11 +214,11 @@
           var distance = ($rootScope.map.getDistance(gps1,gps2)).toFixed(2);
           $log.debug(distance);
 
-          if (distance > 10){
+          if (distance <10 ){
             $scope.modalListQuestion.show();
           } else{
             var alertPopup = $ionicPopup.alert({
-              title: 'alert',
+              title: distance+" meter !",
               template: "you're too far"
             });
             alertPopup.then(function(res) {
