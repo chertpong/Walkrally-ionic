@@ -52,7 +52,17 @@
           name: null,
           currentMember:null,
           maximumMember:null,
-          teamId:null},
+          teamId:null
+        },
+        resolve: {
+          startTime: function($http, C){
+            return $http
+              .get(C.backendUrl+'/api/events/latest/1')
+              .then(function(response){
+                return new Date(response.data.startTime);
+              });
+          }
+        },
         cache: false
       })
 

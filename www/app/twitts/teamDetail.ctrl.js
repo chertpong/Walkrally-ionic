@@ -3,7 +3,7 @@
   angular.module('app')
     .controller('TeamDetailCtrl', TeamDetailCtrl);
 
-  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log, $timeout){
+  function TeamDetailCtrl($scope, $stateParams, Storage, $http, $state, $ionicPopup, C, $log, $timeout, startTime){
 
     var data = {}, fn = {};
     $scope.error = false;
@@ -67,6 +67,9 @@
           $log.debug('load team detail error',err);
           $scope.error = true;
           $scope.errorMessage = err.data.message;
+          if(err.status == 404){
+            $state.go('logout');
+          }
         });
     };
 
@@ -97,21 +100,27 @@
     }
 
     $scope.quitTeam = function(teamId){
-      var path = C.backendUrl + '/api/teams/'+teamId+'/quit';
+      $log.debug(teamId);
+      if(!teamId){
+        $state.go('twitts');
+      }
+      else{
+        var path = C.backendUrl + '/api/teams/'+teamId+'/quit';
 
-      $http.post(path)
-        .then(function (response) {
-          $log.debug('quit team response:',response);
-          return Storage.setTeamId(undefined);
-        })
-        .then(function(){
-          $state.go('twitts');
-        })
-        .catch(function (err) {
-          $log.debug('quit team err:',err);
-          $scope.error = true;
-          $scope.errorMessage = err.data.message;
-        });
+        $http.post(path)
+          .then(function (response) {
+            $log.debug('quit team response:',response);
+            return Storage.setTeamId(undefined);
+          })
+          .then(function(){
+            $state.go('twitts');
+          })
+          .catch(function (err) {
+            $log.debug('quit team err:',err);
+            $scope.error = true;
+            $scope.errorMessage = err.data.message;
+          });
+      }
     };
 
     var notReady = function(memberId){
@@ -172,58 +181,65 @@
 
     $scope.startGame = function(){
       $scope.data = {};
-      if($scope.isStartPressed){
-        sendStartGameNotReadyRequest();
+      if((new Date().getTime() - startTime.getTime()) < 0){
+        $log.debug('click start game before time:', (new Date().getTime() - startTime.getTime()));
+        $scope.error = true;
+        $scope.errorMessage = 'Please wait!<br>The start time is<br>'+startTime.toString();
       }
       else{
-        var language = $ionicPopup.show({
-          templateUrl:'app/twitts/chooseLanguagePopup.html',
-          title: 'Choose language',
-          scope: $scope,
-          buttons:
-            [
-              {
-                text: 'Cancel',
-                type: 'button-default',
-                onTap: function(e) {
-                  // e.preventDefault() will stop the popup from closing when tapped.
-                  $log.debug('languagePopup','cancel is selected');
-                  return null;
-                }
-              }
-              ,
-              {
-                text: '<b>Start</b>',
-                type: 'button',
-                onTap: function(e) {
-                  // If user is not select any language, then don't do anything
-                  if (!$scope.data.language) {
-                    e.preventDefault();
-                  } else {
-                    $log.debug('select language:', $scope.data.language);
-                    return $scope.data.language;
+        if($scope.isStartPressed){
+          sendStartGameNotReadyRequest();
+        }
+        else{
+          var language = $ionicPopup.show({
+            templateUrl:'app/twitts/chooseLanguagePopup.html',
+            title: 'Choose language',
+            scope: $scope,
+            buttons:
+              [
+                {
+                  text: 'Cancel',
+                  type: 'button-default',
+                  onTap: function(e) {
+                    // e.preventDefault() will stop the popup from closing when tapped.
+                    $log.debug('languagePopup','cancel is selected');
+                    return null;
                   }
                 }
-              }
-            ]
+                ,
+                {
+                  text: '<b>Start</b>',
+                  type: 'button',
+                  onTap: function(e) {
+                    // If user is not select any language, then don't do anything
+                    if (!$scope.data.language) {
+                      e.preventDefault();
+                    } else {
+                      $log.debug('select language:', $scope.data.language);
+                      return $scope.data.language;
+                    }
+                  }
+                }
+              ]
 
-        });
-        language
-          .then(function(lang) {
-            if(lang){ //if lang is not null
-              Storage
-                .setLanguage(lang)
-                .then(function(){
-                  $log.debug('save language:',lang);
-                  sendStartGameReadyRequest();
-                });
-            }
-          })
-          .catch(function(err){
-            $log.debug('select language err:',err);
-            $scope.error = true;
-            $scope.errorMessage = err.message;
           });
+          language
+            .then(function(lang) {
+              if(lang){ //if lang is not null
+                Storage
+                  .setLanguage(lang)
+                  .then(function(){
+                    $log.debug('save language:',lang);
+                    sendStartGameReadyRequest();
+                  });
+              }
+            })
+            .catch(function(err){
+              $log.debug('select language err:',err);
+              $scope.error = true;
+              $scope.errorMessage = err.message;
+            });
+        }
       }
     };
 
