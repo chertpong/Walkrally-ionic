@@ -17,12 +17,12 @@
         buttons:
           [{
             text: 'OK',
-            type: 'button',
+            type: 'button'
           }]
       });
     };
 
-    data.user = {
+    data.credentials = {
       firstName: '',
       lastName: '',
       nationality: '',
@@ -49,18 +49,32 @@
         $log.debug('user is not logged in yet');
       });
 
-    fn.register = function (user) {
+    fn.register = function (credentials) {
       var path = C.backendUrl + "/api/users";
-      $http.post(path, user)
+      $http.post(path, credentials)
         .then(function (response) {
           $log.debug('register response:', response);
-          $log.debug('registered user:', response.data.user.email);
+          $log.debug('registered user:', response.data.email);
           $state.go('login');
         })
         .catch(function (err) {
           $log.debug(err);
+          var errors = [];
+          if(err.data.error.errors){
+            for(var a in err.data.error.errors){
+              errors.push(err.data.error.errors[a]);
+            }
+            $scope.errorMessage = errors
+              .map(function(e){
+                return e.message;
+              })
+              .reduce(function(a,b){
+                $log.debug(a,b);
+                return a + '<br>' + b;
+              },'');
+          }
+          $log.debug('[!]',err.data.message);
           $scope.error = true;
-          $scope.errorMessage = err.data.message;
         });
     };
 

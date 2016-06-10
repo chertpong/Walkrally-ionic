@@ -46,10 +46,10 @@
           <div class= "input-label" style="color: #c23838"><b>
             Gender
           </b></div>
-          <select>
-            <option> Female </option>
-            <option> Male </option>
-            <option> No specify </option>
+          <select ng-model="data.credentials.gender">
+            <option value="female"> Female </option>
+            <option value="male"> Male </option>
+            <option value="not specify"> No specify </option>
           </select>
 
         </label>
@@ -72,7 +72,7 @@
 
       </div>
       <div class="padding">
-        <button type="submit" class="button button-block" ng-disabled="!data.credentials.email" ng-click="fn.register()">R E G I S T E R</button>
+        <button type="submit" class="button button-block" ng-disabled="!data.credentials.email" ng-click="fn.register(data.credentials)">R E G I S T E R</button>
       </div>
 
     </form>
