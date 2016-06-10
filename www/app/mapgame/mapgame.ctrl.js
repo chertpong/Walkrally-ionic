@@ -191,41 +191,46 @@
     };
 
     $scope.isDisabled = false;
-
     $scope.checkQuestion = function(questionId){
       $log.debug('check question id:',questionId);
 
-      Storage.getQuestionIds().then(function(questionIds){
-        $log.debug('load questionIds from storage:',questionIds);
+      var path = C.backendUrl + '/api/questions/'+questionId+'/answer';
+      Storage.getTeamId().then(function(response){
+        var data = {teamId: response, choiceId: "test"};
+        var alreadyAnsAleart = function(){
+          $ionicPopup.alert({
+            title: 'alert',
+            template: '<b>'+'Already answered !'+ '</b>',
+            buttons:
+              [{
+                text: 'OK',
+                type: 'button'
+              }]
+          });
+        };
 
-        if(questionIds){
-          var isInQuestionId = questionIds.some(function(qId){return qId == questionId;});
-          $log.debug('is answered',isInQuestionId);
-
-          if(isInQuestionId){
-            $scope.isDisabled = true;
-          }else {
+        $http.post(path,data)
+          .then(function (response) {
+            console.log(response);
             $scope.modalQuestion.show();
-          }
-        }else{
-          $scope.modalQuestion.show();
-        }
+          })
+            .catch(function (err) {
+              console.log(err);
+              if(err.data.message=="This question is already answered"){
+                $log.debug('not able to answer/already');
+                alreadyAnsAleart();
+                $scope.isDisabled = true;
+              }else {
+                $log.debug('able to answer');
+                $scope.modalQuestion.show();
+              }
+              $scope.isDisabled = false;
+              $scope.error = true;
+            });
       });
-
     };
 
     $scope.postAnswer = function(answer){
-
-      //Storage.getQuestionIds().then(function(questionIds){
-      //  $log.debug('get questionIds: ',questionIds);
-      //  if(!questionIds){
-      //    Storage.setQuestionIds([$scope.place.questions[0]._id]).then(function(){
-      //    });
-      //  }else{
-      //    Storage.setQuestionIds(questionIds.push($scope.place.questions[0]._id));
-      //
-      //  }
-      //});
 
       var path = C.backendUrl + '/api/questions/'+$scope.place.questions[0]._id+'/answer';
       Storage.getTeamId().then(function(response){
@@ -241,32 +246,35 @@
               // return solution.language == language
             });
 
+            var alertAnswer1 = function(){
+              $ionicPopup.alert({
+                title: 'alert',
+                template: '<b>'+'You are'+ response.data.message + '</b>',
+                buttons:
+                  [{
+                    text: 'OK',
+                    type: 'button'
+                  }]
+              });
+            };
+            var alertAnswer2 = function(){
+              $ionicPopup.alert({
+                title: '<b>'+response.data.message +'</b>',
+                template: '<br>'+'The correct answer is '+ response.data.correctAnswer.description[0].content,
+                buttons:
+                  [{
+                    text: 'OK',
+                    type: 'button'
+                  }]
+              });
+            };
+            $log.debug('response answer status',response.data.correct);
             if(response.data.correct){
-              var alertAnswer1 = function(){
-                $ionicPopup.alert({
-                  title: 'alert',
-                  template: '<b>'+'You are'+ response.data.message + '</b>',
-                  buttons:
-                    [{
-                      text: 'OK',
-                      type: 'button'
-                    }]
-                });
-              };
+
               alertAnswer1();
               $scope.modalQuestion.hide();
             } else{
-              var alertAnswer2 = function(){
-                $ionicPopup.alert({
-                  title: 'alert',
-                  template: '<b>'+response.data.message +'</b>'+'<br>'+'The correct answer is'+ response.data.correctAnswer.description[0].content,
-                  buttons:
-                    [{
-                      text: 'OK',
-                      type: 'button'
-                    }]
-                });
-              };
+
               alertAnswer2();
               $scope.modalQuestion.hide();
             }
