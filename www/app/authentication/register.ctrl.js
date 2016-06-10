@@ -22,7 +22,7 @@
       });
     };
 
-    data.user = {
+    data.credentials = {
       firstName: '',
       lastName: '',
       nationality: '',
@@ -49,12 +49,12 @@
         $log.debug('user is not logged in yet');
       });
 
-    fn.register = function (user) {
+    fn.register = function (credentials) {
       var path = C.backendUrl + "/api/users";
-      $http.post(path, user)
+      $http.post(path, credentials)
         .then(function (response) {
           $log.debug('register response:', response);
-          $log.debug('registered user:', response.data.user.email);
+          $log.debug('registered user:', response.data.email);
           $state.go('login');
         })
         .catch(function (err) {
