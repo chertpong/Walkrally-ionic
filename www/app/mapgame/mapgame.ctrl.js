@@ -85,7 +85,7 @@
         }else if (place.type == "Shopping") {
           Icon = new BMap.Icon("img/3shop.png", new BMap.Size(40,54));
 
-        }else if (place.type == "Restautant") {
+        }else if (place.type == "Restaurant") {
           Icon = new BMap.Icon("img/4res.png", new BMap.Size(40,54));
 
         } else {
