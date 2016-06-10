@@ -3,43 +3,36 @@
   angular.module('app')
     .controller('mapBeginCtrl', mapBeginCtrl);
 
-  function mapBeginCtrl($scope, $stateParams,C, Storage, $http, $state, $rootScope, $ionicModal,$log){
+  function mapBeginCtrl($scope, $stateParams,C, Storage, $http, $state, $rootScope, $ionicModal,$log, $filter, $ionicPopup){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
-    $scope.places=[];
-
+    $scope.places= [];
+    $scope.markers = [];
+    $scope.search = '';
     var path = C.backendUrl+"/api/places";
     loadMap();
 
-
     function loadMap(){
-      $http.get(path)
+      $http
+        .get(path)
         .then(function (response) {
           $scope.places = response.data;
           $log.debug('[+]','places are loaded',response.data.length);
-          //console.log($scope.places);
           //TODO : remove after add fake location
 
           Storage.setPlaces($scope.places).then(function(){
             // setRoute();
             setMarkers();
           });
-        }).catch(function (err) {
-        $log.debug('[!] Error: ',err);
-        $scope.error = true;
-      });
+        })
+        .catch(function (err) {
+          $log.debug('[!] Error: ',err);
+          $scope.error = true;
+        });
     }
 
-    //
-    //function setTemplateUrlModal(index){
-    // if (index=='detail'){
-    //   var TemplateUrl =  'app/mapbegin/mapViewDetail.html';
-    // }else{
-    //   var TempleteUrl= 'app/mapbegin/mapViewMoreDetail.html';
-    // }
-
-      $ionicModal.fromTemplateUrl('app/mapbegin/mapViewDetail.html', {
+    $ionicModal.fromTemplateUrl('app/mapbegin/mapViewDetail.html', {
       scope: $scope,
       backdropClickToClose: false,
       animation: 'fade-in'
@@ -47,13 +40,13 @@
       $scope.modalViewDetail = modal;
     });
 
-      $ionicModal.fromTemplateUrl('app/mapbegin/mapViewMoreDetail.html', {
-        scope: $scope,
-        backdropClickToClose: false,
-        animation: 'fade-in'
-      }).then(function (modal) {
-        $scope.modalViewMoreDetial = modal;
-      });
+    $ionicModal.fromTemplateUrl('app/mapbegin/mapViewMoreDetail.html', {
+      scope: $scope,
+      backdropClickToClose: false,
+      animation: 'fade-in'
+    }).then(function (modal) {
+      $scope.modalViewMoreDetial = modal;
+    });
 
 
     function setMarkers(){
@@ -71,7 +64,7 @@
         }else if (place.type == "Shopping") {
           Icon = new BMap.Icon("img/3shop.png", new BMap.Size(40,54));
 
-        }else if (place.type == "Restautant") {
+        }else if (place.type == "Restaurant") {
           Icon = new BMap.Icon("img/4res.png", new BMap.Size(40,54));
 
         } else {
@@ -86,8 +79,59 @@
           $scope.modalViewDetail.show();
           $scope.place = place;
         });
+        $scope.markers.push(marker);
       });
     }
+
+    $scope.showFilter = function(){
+      var categories = $ionicPopup.show({
+        templateUrl:'app/mapbegin/chooseCategories.html',
+        title: 'Choose category',
+        scope: $scope,
+        buttons:
+          [
+            {
+              text: 'Cancel',
+              type: 'button-default',
+              onTap: function(e) {
+                // e.preventDefault() will stop the popup from closing when tapped.
+                $log.debug('categoryPopup','cancel is selected');
+                return null;
+              }
+            }
+            ,
+            {
+              text: '<b>Select</b>',
+              type: 'button',
+              onTap: function(e) {
+                // If user is not select any category, then don't do anything
+                if (!$scope.search.type) {
+                  e.preventDefault();
+                } else {
+                  $log.debug('select category:', $scope.search.type);
+                  return $scope.search.type;
+                }
+              }
+            }
+          ]
+
+      });
+      categories
+        .then(function(category) {
+          if(category){ //if category is not null
+            $scope.filterMarkers(category);
+          }
+        })
+        .catch(function(err){
+          $log.debug('select category err:',err);
+          $scope.error = true;
+          $scope.errorMessage = err.message;
+        });
+    };
+
+    $scope.filterMarkers = function(keyword){
+      $filter($scope.markers,keyword);
+    };
 
     $scope.openModalDetail = function(){
       $scope.modalViewDetail.show();
@@ -96,11 +140,6 @@
     $scope.openModalMoreDetail = function(){
       $scope.modalViewMoreDetial.show();
     };
-
-    //  $scope.closeModal = function(index) {
-    //  if (index == 1) $scope.oModal1.hide();
-    //  else $scope.oModal2.hide();
-    //};
 
     $scope.linkToBeginMap = function(){
       console.log('reloadMap');
@@ -112,28 +151,5 @@
       $state.go('login');
     };
 
-
-    /*   $scope.data = {};
-    $scope.data.showSearch = false;
-
-    $timeout( function() {
-
-      $scope.data.items = [
-        { price: '$4.99', text: 'Landmark' },
-        { price: '$2.99', text: 'Food' },
-        { price: '$3.99', text: 'Culture' },
-        { price: '$4.99', text: 'Shop' },
-        { price: '$2.99', text: 'Etc.' },
-
-      ];
-
-      $ionicScrollDelegate.scrollTo(0, 44, false);
-      $scope.data.showSearch = true;
-
-    }, 2000);
-
-    $scope.clearSearch = function() {
-      $scope.data.searchQuery = '';
-    };*/
   }
 })();
