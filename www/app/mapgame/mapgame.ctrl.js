@@ -241,15 +241,18 @@
           .then(function (response) {
             console.log(response);
 
-            response.data.correctAnswer.description = response.data.correctAnswer.description.filter(function(solution){
-              return solution.language == "en";
-              // return solution.language == language
-            });
+            if(response.data.correctAnswer){
+              response.data.correctAnswer.description = response.data.correctAnswer.description.filter(function(solution){
+                // TODO language select choice
+                return solution.language == "en";
+                //  return solution.language == language
+              });
+            }
 
             var alertAnswer1 = function(){
-              $ionicPopup.alert({
+              return $ionicPopup.alert({
                 title: 'alert',
-                template: '<b>'+'You are'+ response.data.message + '</b>',
+                template: '<b>'+'You are '+ response.data.message + '</b>',
                 buttons:
                   [{
                     text: 'OK',
@@ -258,7 +261,7 @@
               });
             };
             var alertAnswer2 = function(){
-              $ionicPopup.alert({
+              return $ionicPopup.alert({
                 title: '<b>'+response.data.message +'</b>',
                 template: '<br>'+'The correct answer is '+ response.data.correctAnswer.description[0].content,
                 buttons:
@@ -269,12 +272,10 @@
               });
             };
             $log.debug('response answer status',response.data.correct);
-            if(response.data.correct){
-
+            if(response.data.correct.toString() == 'true'){
               alertAnswer1();
               $scope.modalQuestion.hide();
             } else{
-
               alertAnswer2();
               $scope.modalQuestion.hide();
             }
