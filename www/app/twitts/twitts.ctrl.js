@@ -105,7 +105,9 @@
     socket.on('deleted', function (response) {
       $scope.$apply(function(){
         console.log(response);
-        $scope.teams.push(response);
+        $scope.teams = $scope.teams.filter(function(team){
+          return team._id.toString() === response.teamId.toString();  
+        });
         console.log($scope.teams);
       })
     });
