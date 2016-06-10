@@ -40,9 +40,13 @@
     $log.debug('teamDetail',':','$stateParams',':',$stateParams);
 
     $scope.isReady = function(id){
-      return $scope.team.readyMemberIds.some(function(readyMemberId){
-        return readyMemberId === id;
-      });
+      if($scope.team.readyMemberIds.length > 0 && id != null && id != undefined){
+        return $scope.team.readyMemberIds.some(function(readyMemberId){
+          return readyMemberId.toString() === id.toString();
+        });
+      }
+      else
+        return false;
     };
 
     var loadTeamDetail = function(path) {
@@ -113,17 +117,19 @@
     var notReady = function(memberId){
       $timeout(function(){
         $scope.team.readyMemberIds = $scope.team.readyMemberIds.filter(function(readyMemberId){
-          return memberId.toString() !== readyMemberId.toString();
-        });
+            return memberId.toString() !== readyMemberId.toString();
+          }) || [];
         $log.debug('team.readyMemberIds after socket "notReady": ',$scope.team.readyMemberIds);
       },0);
     };
 
     var ready = function(memberId){
       $timeout(function(){
-        $scope.team.readyMemberIds = $scope.team.readyMemberIds.filter(function(readyMemberId){
+        $scope.team.readyMemberIds.filter(function(readyMemberId){
           return memberId.toString() !== readyMemberId.toString();
-        }).push(memberId);
+        });
+        $scope.team.readyMemberIds.push(memberId);
+        $log.debug('add memberId:',memberId,' and readyMembers is now', $scope.team.readyMemberIds);
         $log.debug('team.readyMemberIds after socket "ready": ',$scope.team.readyMemberIds);
       },0);
     };
@@ -137,9 +143,6 @@
             .get(C.backendUrl+'/api/teams/' + teamId + '/ready-state?ready=true')
             .then(function(response){
               $log.debug("set state to ready successful");
-              Storage.getUser().then(function(user){
-                ready(user._id);
-              });
             })
             .catch(function(err){
               $scope.isStartPressed = false;
