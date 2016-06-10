@@ -13,12 +13,7 @@ angular.module('app').factory('timeConverter',
       },
       getTimeCounter: function(timeObject,intervalPeriod, callback){
         var counter = $interval(function (index) {
-          if(timeObject.isFinished){
-            $timeout(function () {
-              callback();
-            }, 900);
-          }
-          if (index == (timeObject.totalSeconds) || index >= (timeObject.totalSeconds)) {
+          if (index == (timeObject.totalSeconds) || index >= (timeObject.totalSeconds) || timeObject.isFinished) {
             $interval.cancel(counter);
             $timeout(function () {
               callback();

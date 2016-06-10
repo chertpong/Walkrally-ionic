@@ -24,8 +24,10 @@
     $log.debug('start loading rank');
     if($state.params.isEventFinish){
       $scope.alertTitle = 'Time\'s Up!!';
-      $scope.alertMessage = 'The game is over';
-      $scope.alert().then(function(response) {
+      $scope.alertMessage = 'The game is over at' + '<br>' + $state.params.finishTime;
+      var popup = $scope.alert();
+      popup.then(function(response) {
+        popup.close();
         $log.debug($scope.alertMessage);
       });
     }

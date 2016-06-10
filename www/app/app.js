@@ -62,7 +62,8 @@
         controller: 'rankCtrl',
         cache: false,
         params: {
-          isEventFinish: false
+          isEventFinish: false,
+          finishTime: null
         }
       })
 
@@ -90,7 +91,7 @@
                 var now = new Date();
                 var totalTimeInSeconds = (new Date(response.data.finishTime).getTime() - now.getTime())/1000;
                 var callback = function(){
-                  $state.go('rank',{ isEventFinish:true,reload:true });
+                  $state.go('rank',{ isEventFinish:true, finishTime: new Date(response.data.finishTime) });
                 };
                 return timeConverter.getTimeCounter(timeConverter.secondsToObject(totalTimeInSeconds),1000,callback);
               });
