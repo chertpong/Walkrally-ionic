@@ -17,7 +17,7 @@
         buttons:
           [{
             text: 'OK',
-            type: 'button',
+            type: 'button'
           }]
       });
     };
@@ -59,8 +59,22 @@
         })
         .catch(function (err) {
           $log.debug(err);
+          var errors = [];
+          if(err.data.error.errors){
+            for(var a in err.data.error.errors){
+              errors.push(err.data.error.errors[a]);
+            }
+            $scope.errorMessage = errors
+              .map(function(e){
+                return e.message;
+              })
+              .reduce(function(a,b){
+                $log.debug(a,b);
+                return a + '<br>' + b;
+              },'');
+          }
+          $log.debug('[!]',err.data.message);
           $scope.error = true;
-          $scope.errorMessage = err.data.message;
         });
     };
 
