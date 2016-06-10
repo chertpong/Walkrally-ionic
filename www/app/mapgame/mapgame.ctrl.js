@@ -3,14 +3,14 @@
   angular.module('app')
     .controller('mapGameCtrl', mapGameCtrl);
 
-  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin,$ionicPopup){
+  function mapGameCtrl($scope, $state, Storage, $http, $rootScope, C, $ionicModal,$log, GeolocationPlugin,$ionicPopup,
+                       counter, language){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
     $scope.places=[];
     var allPlaces=[];
     $scope.location={};
-    var language;
     $scope.answer = '';
   //"Ming Tablet (明碑)","Tang Tablet (唐碑)","The Second Gate (二门)","Chu Shi Biao (出师表)","The Corrior of Generals (武将廊)","The Corridor of Officials (文臣廊)",
     //"Liu Bei Temple (汉昭烈庙)","Big Bell (大钟)","Large Drum (诸葛鼓)","Guan Yu (关羽)","Zhang Fei (张飞)","Zhuge Shang (诸葛尚)","Zhuge Zhan Statue (诸葛瞻像)",
@@ -21,9 +21,10 @@
       "575811291f20f8434ea2c5d3","5758050df6fe9eb1db05f7a2","5757f28a752e58cddf4fa9d7","5757e470752e58cddf4fa8e7","5757e6bb752e58cddf4fa947","5757e57e752e58cddf4fa8ff","575834f838e6cdfdf09bbaf0",
       "575835ca38e6cdfdf09bbb08","575815c91f20f8434ea2c603","575a7fcf510d456cd1788a92"];
 
-    Storage.getLanguage().then(function(l){
-      language = l;
-    });
+    $scope.counter = {
+      timeObject : counter.timeObject,
+      counter: counter
+    };
 
     var path = C.backendUrl+"/api/places";
     //loadMap();
@@ -120,7 +121,7 @@
         }else if (place.type == "Shopping") {
           Icon = new BMap.Icon("img/3shop.png", new BMap.Size(40,54));
 
-        }else if (place.type == "Restautant") {
+        }else if (place.type == "Restaurant") {
           Icon = new BMap.Icon("img/4res.png", new BMap.Size(40,54));
 
         } else {

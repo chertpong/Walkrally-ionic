@@ -3,14 +3,34 @@
   angular.module('app')
     .controller('rankCtrl', rankCtrl);
 
-  function rankCtrl($scope, $state, Storage, $http, C, $log, $timeout){
+  function rankCtrl($scope, $state, Storage, $http, C, $log, $timeout, $ionicPopup){
     var fn= {}, data = {};
     $scope.fn = fn;
     $scope.data = data;
     $scope.rank = [];
-
+    $scope.alertTitle = '';
+    $scope.alertMessage = '';
+    $scope.alert = function(){
+      return $ionicPopup.alert({
+        title: $scope.alertTitle,
+        template: $scope.alertMessage,
+        buttons:
+          [{
+            text: 'OK',
+            type: 'button'
+          }]
+      });
+    };
     $log.debug('start loading rank');
-
+    if($state.params.isEventFinish){
+      $scope.alertTitle = 'Time\'s Up!!';
+      $scope.alertMessage = 'The game is over at' + '<br>' + $state.params.finishTime;
+      var popup = $scope.alert();
+      popup.then(function(response) {
+        popup.close();
+        $log.debug($scope.alertMessage);
+      });
+    }
     var path = C.backendUrl + '/api/teams/rank';
     $http
       .get(path)
