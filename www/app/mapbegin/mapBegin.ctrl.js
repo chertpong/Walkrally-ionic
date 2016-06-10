@@ -3,13 +3,18 @@
   angular.module('app')
     .controller('mapBeginCtrl', mapBeginCtrl);
 
-  function mapBeginCtrl($scope, $stateParams,C, Storage, $http, $state, $rootScope, $ionicModal,$log, $filter, $ionicPopup){
+  function mapBeginCtrl($scope, $stateParams,C, Storage, $http, $state, $rootScope, $ionicModal,$log, $ionicPopup,
+  $timeout){
     var data = {}, fn = {};
     $scope.data = data;
     $scope.fn = fn;
     $scope.places= [];
     $scope.markers = [];
-    $scope.search = '';
+    $scope.tempMarkers = [];
+    $scope.search = {
+      type:'',
+      name:''
+    };
     var path = C.backendUrl+"/api/places";
     loadMap();
 
@@ -73,8 +78,6 @@
 
         var marker = new BMap.Marker(geolocation, {icon: Icon});
         $rootScope.map.addOverlay(marker);
-        console.log('marker',place.type,':',place.name);
-
         marker.addEventListener('click',function(){
           $scope.modalViewDetail.show();
           $scope.place = place;
@@ -82,6 +85,42 @@
         $scope.markers.push(marker);
       });
     }
+
+    $scope.filterMarkers = function(keyword){
+      $timeout(function(){
+        var temp = $scope.tempMarkers.concat($scope.markers);
+        $log.debug('filterMarkers','all',temp);
+        $scope.tempMarkers = temp.filter(function(marker){
+          if(marker)
+            if(marker.getIcon().imageUrl.toString() != keyword.type.toString()){
+              $rootScope.map.removeOverlay(marker);
+              return true;
+            }
+            else
+              return false;
+          else
+            return false;
+        });
+        $scope.markers = temp.filter(function(marker){
+          if(marker)
+            if(marker.getIcon().imageUrl.toString() === keyword.type.toString()){
+              $rootScope.map.addOverlay(marker);
+              return true;
+            }
+            else
+              return false;
+          else
+            return false;
+        });
+        if(keyword.type.toString() === 'all'){
+          temp.forEach(function(marker){
+            $rootScope.map.removeOverlay(marker);
+            $rootScope.map.addOverlay(marker);
+          });
+        }
+        $log.debug('markers after filterMarkers', $scope.markers.length);
+      },0);
+    };
 
     $scope.showFilter = function(){
       var categories = $ionicPopup.show({
@@ -98,8 +137,7 @@
                 $log.debug('categoryPopup','cancel is selected');
                 return null;
               }
-            }
-            ,
+            },
             {
               text: '<b>Select</b>',
               type: 'button',
@@ -119,7 +157,9 @@
       categories
         .then(function(category) {
           if(category){ //if category is not null
-            $scope.filterMarkers(category);
+            $log.debug('filter keyword:',category);
+            $scope.search.type = category;
+            $scope.filterMarkers($scope.search);
           }
         })
         .catch(function(err){
@@ -127,10 +167,6 @@
           $scope.error = true;
           $scope.errorMessage = err.message;
         });
-    };
-
-    $scope.filterMarkers = function(keyword){
-      $filter($scope.markers,keyword);
     };
 
     $scope.openModalDetail = function(){
