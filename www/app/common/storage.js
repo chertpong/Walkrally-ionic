@@ -5,7 +5,7 @@
     .factory('_StorageUtils', _StorageUtils) // private service, should not be used outside this file !!!
     .factory('_SQLiteUtils', _SQLiteUtils); // private service, should not be used outside this file !!!
 
-  function Storage(_StorageUtils){
+  function Storage(_StorageUtils,$log){
     var keys = {
       user: 'user',
       token: 'token',
@@ -59,6 +59,7 @@
     }
 
     function setQuestionIds(questionIds){
+      $log.debug('set question id',questionIds);
       return _StorageUtils.set(keys.questionIds, questionIds);
     }
 
