@@ -17,6 +17,7 @@
       .then(function (response) {
         $log.debug('loaded rank: ',response.data.length);
         $scope.rank = response.data;
+        $scope.ranking();
       })
       .catch(function (err) {
         $log.debug(err);
@@ -24,8 +25,8 @@
 
     $scope.ranking = function (){
       $timeout(function(){
-        $scope.rank.sort(function(a, b){
-          return a.score - b.score;
+        $scope.rank = $scope.rank.sort(function(a, b){
+          return b.score - a.score;
         });
       },0);
     };
@@ -35,19 +36,13 @@
       $log.debug('socket ranking response:',response);
       $scope.rank = $scope.rank.map(function(team) {
         if(team._id.toString() === response.teamId.toString()){
-          team.score = response.score;
+          team.score = parseInt(response.score,10);
           return team;
         }
-          
         else
           return team;
       });
-    });
-
-    // Watch rank
-    $scope.$watch('rank',function(newValue, oldValue){
-      if(newValue)
-        $scope.ranking();
+      $scope.ranking();
     });
   }
 })();
