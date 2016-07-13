@@ -213,8 +213,8 @@
 
           var distance = ($rootScope.map.getDistance(gps1,gps2)).toFixed(2);
           $log.debug(distance);
-
-          if (distance <10 ){
+//TODO change the proper distance
+          if (distance <35 ){
             $scope.modalListQuestion.show();
           } else{
             var alertPopup = $ionicPopup.alert({
